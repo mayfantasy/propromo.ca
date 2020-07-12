@@ -1201,6 +1201,11 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/shopify-buy@^2.10.1":
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/@types/shopify-buy/-/shopify-buy-2.10.1.tgz#95af040b72a0ebd1b670813ea3011b4621fce852"
+  integrity sha512-MajaLfHvg8rPKozf1DQc8T5AxT2q0X4dEsJ7EzAXt8ndP3JT8jqnFW/RPjQ6+sitimd5Ro2UOQ14GZ/lLsSuvw==
+
 "@types/styled-jsx@^2.2.8":
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/@types/styled-jsx/-/styled-jsx-2.2.8.tgz#b50d13d8a3c34036282d65194554cf186bab7234"
@@ -6522,6 +6527,11 @@ shell-quote@1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
+
+shopify-buy@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/shopify-buy/-/shopify-buy-2.11.0.tgz#0f7cb52741395e4ae778c336f32ddf3fe67c2f35"
+  integrity sha512-bGjS1b/VCPvCjazSstlKwgLtK1WBotWom06/12loja8yfo/cWkLuJsakBbQe1uEIDiOLhKaR0M0CAXZFheYDug==
 
 simple-swizzle@^0.2.2:
   version "0.2.2"
