@@ -1,26 +1,66 @@
-import { shopify } from 'request/shopify'
-import { useState, useEffect } from 'react'
-import { IData } from 'types/utils.types'
 import useSWR from 'swr'
-import { productFetcher } from 'fetchers'
+import Head from 'next/head'
 import { IFetchers } from 'types/fetchers.types'
+import { globalSettingsFetcher, homePageContentFetcher } from 'fetchers'
+import { IGlobalSettings, IHomePageContent } from 'types/monfent,types'
+import Layout from 'components/Layout/Layout'
+import { Alert } from 'antd'
 
-const Home = () => {
+interface IProps {
+  initialGlobalSettings: IGlobalSettings
+  initialPageContent: IHomePageContent
+}
+
+const HomePage = (props: IProps) => {
+  const { initialGlobalSettings, initialPageContent } = props
   /**
-   * ||==================
-   * || Load products
+   * ||===============================
+   * || Load Global Settings & Content
    */
-  const { data, error } = useSWR(IFetchers.product, productFetcher)
+  const { data: globalSettingsData, error: globalSettingsError } = useSWR<
+    IGlobalSettings
+  >(IFetchers.GlobalSettings, globalSettingsFetcher, {
+    initialData: initialGlobalSettings
+  })
+  const { data: pageContent, error: pageContentError } = useSWR<
+    IHomePageContent
+  >(IFetchers.HomePageContent, homePageContentFetcher, {
+    initialData: initialPageContent
+  })
 
   /**
-   * ||==================
+   * ||===============================
    * || Render
    */
   return (
-    <pre>
-      <small>{JSON.stringify(data, null, 2)}</small>
-    </pre>
+    <>
+      {'globalSettingsError' && (
+        <>
+          <Alert message="Can not load data" type="error" banner />
+          <br />
+        </>
+      )}
+      {globalSettingsData && (
+        <Layout globalSettings={globalSettingsData}>
+          1. Layout (<a href="http://demo.posthemes.com/pos_drama/en/">Theme</a>
+          )
+        </Layout>
+      )}
+
+      {/* <pre>{JSON.stringify(pageContent, null, 2)}</pre> */}
+    </>
   )
 }
 
-export default Home
+export const getStaticProps = async () => {
+  const globalSettings = await globalSettingsFetcher()
+  const pageContent = await homePageContentFetcher()
+
+  return {
+    props: {
+      globalSettings,
+      pageContent
+    }
+  }
+}
+export default HomePage

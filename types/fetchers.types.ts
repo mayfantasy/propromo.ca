@@ -1,3 +1,13 @@
 export enum IFetchers {
-  product = 'product'
+  /**
+   * ||====================
+   * || Shopify Fetcher IDs
+   */
+  ShopifyProduct = 'ShopifyProduct',
+  /**
+   * ||====================
+   * || Monfent Fetcher IDs
+   */
+  GlobalSettings = 'GlobalSettings',
+  HomePageContent = 'HomePageContent'
 }

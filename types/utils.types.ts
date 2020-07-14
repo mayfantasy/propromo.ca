@@ -3,3 +3,7 @@ export interface IData<T> {
   data: T | null
   error: string | null
 }
+
+export interface IMonfentData<T> {
+  result: T
+}
