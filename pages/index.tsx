@@ -4,7 +4,8 @@ import { IFetchers } from 'types/fetchers.types'
 import { globalSettingsFetcher, homePageContentFetcher } from 'fetchers'
 import { IGlobalSettings, IHomePageContent } from 'types/monfent,types'
 import Layout from 'components/Layout/Layout'
-import { Alert } from 'antd'
+import { Alert, Spin } from 'antd'
+import PageLoading from 'components/PageLoading'
 
 interface IProps {
   initialGlobalSettings: IGlobalSettings
@@ -32,24 +33,37 @@ const HomePage = (props: IProps) => {
    * ||===============================
    * || Render
    */
-  return (
-    <>
-      {'globalSettingsError' && (
-        <>
-          <Alert message="Can not load data" type="error" banner />
-          <br />
-        </>
-      )}
-      {globalSettingsData && (
-        <Layout globalSettings={globalSettingsData}>
-          1. Layout (<a href="http://demo.posthemes.com/pos_drama/en/">Theme</a>
-          )
-        </Layout>
-      )}
+  if (globalSettingsError) {
+    return (
+      <>
+        <Alert message="Can not load global settings." type="error" banner />
+        <br />
+      </>
+    )
+  }
 
-      {/* <pre>{JSON.stringify(pageContent, null, 2)}</pre> */}
-    </>
-  )
+  if (pageContentError) {
+    return (
+      <>
+        <Alert message="Can not load page content." type="error" banner />
+        <br />
+      </>
+    )
+  }
+
+  if (globalSettingsData && pageContent) {
+    return (
+      <>
+        {globalSettingsData && pageContent && (
+          <Layout globalSettings={globalSettingsData}>123</Layout>
+        )}
+
+        {/* <pre>{JSON.stringify(pageContent, null, 2)}</pre> */}
+      </>
+    )
+  } else {
+    return <PageLoading wording="Loading page..." />
+  }
 }
 
 export const getStaticProps = async () => {

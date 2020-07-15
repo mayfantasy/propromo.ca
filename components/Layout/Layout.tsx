@@ -1,4 +1,9 @@
 import { IGlobalSettings } from 'types/monfent,types'
+import { Row } from 'antd'
+import TopHeader from './TopHeader'
+import MiddleHeader from './MiddleHeader'
+import BottomHeader from './BottomHeader'
+import { CONTENT_WIDTH } from 'helpers/layout.helper'
 
 interface IProps {
   globalSettings: IGlobalSettings
@@ -10,9 +15,32 @@ const Layout = (props: IProps) => {
     <>
       <style jsx global>{`
         .propromo-layout {
+          .propromo-layout__content {
+            width: 90%;
+            padding: 20px 0;
+          }
         }
       `}</style>
-      <div className="propromo-layout">{children}</div>
+      <div className="propromo-layout">
+        <TopHeader
+          announcement={globalSettings.announcement}
+          hideAnnouncement={globalSettings.hide_announcement}
+        />
+        <MiddleHeader
+          logoUrl={globalSettings.main_logo}
+          contactEmail={globalSettings.contact_email}
+          contactPhone={globalSettings.contact_phone}
+        />
+        <BottomHeader />
+        <Row justify="center">
+          <div
+            className="propromo-layout__content"
+            style={{ maxWidth: CONTENT_WIDTH }}
+          >
+            {children}
+          </div>
+        </Row>
+      </div>
     </>
   )
 }

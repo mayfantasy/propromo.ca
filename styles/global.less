@@ -1,3 +1,23 @@
 body {
   font-family: 'Montserrat', sans-serif;
 }
+
+.nav-button {
+  height: 100%;
+  padding: 0 18px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0483d7;
+  }
+  display: flex;
+  align-items: center;
+  a {
+    color: white;
+  }
+}
+
+.center_md {
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+}
