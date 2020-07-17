@@ -51,6 +51,7 @@ const BottomHeader = (props: IProps) => {
             <div className="nav-button">
               <a>Home</a>
             </div>
+            {/* Hardware */}
             <Dropdown
               overlay={
                 <Menu>
@@ -87,7 +88,49 @@ const BottomHeader = (props: IProps) => {
             >
               <div className="nav-button">
                 <a>
-                  Products <CaretDownFilled />
+                  Hardwares <CaretDownFilled />
+                </a>
+              </div>
+            </Dropdown>
+
+            {/* Prints */}
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="http://www.alipay.com/"
+                    >
+                      1st menu item
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="http://www.taobao.com/"
+                    >
+                      2nd menu item
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="http://www.tmall.com/"
+                    >
+                      3rd menu item
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item danger>a danger item</Menu.Item>
+                </Menu>
+              }
+            >
+              <div className="nav-button">
+                <a>
+                  Prints <CaretDownFilled />
                 </a>
               </div>
             </Dropdown>

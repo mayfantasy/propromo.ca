@@ -1,15 +1,28 @@
 import { shopify } from 'request/shopify'
 import axios from 'axios'
 import { api } from 'request/axios'
-import { IGlobalSettings, IHomePageContent } from 'types/monfent,types'
+import { IGlobalSettings, IHomePageContent } from 'types/monfent.types'
 import { IMonfentData } from 'types/utils.types'
+import { ProductResource, Collection, Product } from 'shopify-buy'
 
 /**
  * ||===========================
  * || Shopify Fetchers
  */
-export const productFetcher = () =>
+// All products
+export const allProductsFetcher = () =>
   shopify.product.fetchAll().then((data) => data)
+
+// All collections
+export const allCollectionsFetcher = () =>
+  shopify.collection.fetchAllWithProducts().then((data) => data as Product[])
+
+// Featured Products collection
+export const featuredProductsFetcher = () =>
+  shopify.collection
+    .fetchWithProducts('Z2lkOi8vc2hvcGlmeS9Db2xsZWN0aW9uLzIwNjY5NTM5OTU4NA==')
+    // Type error: data is Collection but type is any[]
+    .then((data) => (data as any).products as Product[])
 
 /**
  * ||===========================

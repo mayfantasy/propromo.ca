@@ -2,10 +2,15 @@ import useSWR from 'swr'
 import Head from 'next/head'
 import { IFetchers } from 'types/fetchers.types'
 import { globalSettingsFetcher, homePageContentFetcher } from 'fetchers'
-import { IGlobalSettings, IHomePageContent } from 'types/monfent,types'
+import { IGlobalSettings, IHomePageContent } from 'types/monfent.types'
 import Layout from 'components/Layout/Layout'
 import { Alert, Spin } from 'antd'
 import PageLoading from 'components/PageLoading'
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import HomePageSlider from 'components/HomePage/HomePageSlider'
+import ServiceBlock from 'components/HomePage/ServiceBlock'
+import FeaturedProducts from 'components/HomePage/FeaturedProducts'
+import CollectionBlocks from 'components/HomePage/CollectionBlocks'
 
 interface IProps {
   initialGlobalSettings: IGlobalSettings
@@ -14,6 +19,7 @@ interface IProps {
 
 const HomePage = (props: IProps) => {
   const { initialGlobalSettings, initialPageContent } = props
+  const bp = useBreakpoint()
   /**
    * ||===============================
    * || Load Global Settings & Content
@@ -55,7 +61,26 @@ const HomePage = (props: IProps) => {
     return (
       <>
         {globalSettingsData && pageContent && (
-          <Layout globalSettings={globalSettingsData}>123</Layout>
+          <Layout globalSettings={globalSettingsData}>
+            {/* <pre>{JSON.stringify(bp)}</pre> */}
+
+            <HomePageSlider images={pageContent.slider_images} />
+
+            <br />
+            <br />
+
+            <ServiceBlock />
+
+            <br />
+            <br />
+
+            <CollectionBlocks />
+
+            <br />
+            <br />
+
+            <FeaturedProducts />
+          </Layout>
         )}
 
         {/* <pre>{JSON.stringify(pageContent, null, 2)}</pre> */}

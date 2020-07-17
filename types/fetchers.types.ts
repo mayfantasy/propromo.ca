@@ -3,7 +3,9 @@ export enum IFetchers {
    * ||====================
    * || Shopify Fetcher IDs
    */
-  ShopifyProduct = 'ShopifyProduct',
+  ShopifyAllProducts = 'ShopifyAllProducts',
+  ShopifyAllCollections = 'ShopifyAllCollections',
+  ShopifyFeaturedProducts = 'ShopifyFeaturedProducts',
   /**
    * ||====================
    * || Monfent Fetcher IDs

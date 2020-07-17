@@ -8,4 +8,5 @@ export interface IGlobalSettings {
 
 export interface IHomePageContent {
   title: string
+  slider_images: string[]
 }

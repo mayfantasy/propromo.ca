@@ -2,7 +2,7 @@ import { shopify } from 'request/shopify'
 import { useState, useEffect } from 'react'
 import { IData } from 'types/utils.types'
 import useSWR from 'swr'
-import { productFetcher } from 'fetchers'
+import { allProductsFetcher } from 'fetchers'
 import { IFetchers } from 'types/fetchers.types'
 
 const Home = () => {
@@ -10,7 +10,10 @@ const Home = () => {
    * ||==================
    * || Load products
    */
-  const { data, error } = useSWR(IFetchers.ShopifyProduct, productFetcher)
+  const { data, error } = useSWR(
+    IFetchers.ShopifyAllProducts,
+    allProductsFetcher
+  )
 
   /**
    * ||==================

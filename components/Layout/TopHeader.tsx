@@ -31,10 +31,10 @@ const TopHeader = (props: IProps) => {
           justify="space-between"
           align="middle"
         >
-          <Col className="top-header__announcement" xs={20} lg={18}>
+          <Col className="top-header__announcement" xs={20} md={16}>
             {!hideAnnouncement && announcement && <div>{announcement}</div>}
           </Col>
-          <Col className="top-header__nav" xs={4} lg={6}>
+          <Col className="top-header__nav" xs={4} md={8}>
             <Row justify="end">
               {bp.md && (
                 <>

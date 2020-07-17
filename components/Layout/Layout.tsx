@@ -1,4 +1,4 @@
-import { IGlobalSettings } from 'types/monfent,types'
+import { IGlobalSettings } from 'types/monfent.types'
 import { Row } from 'antd'
 import TopHeader from './TopHeader'
 import MiddleHeader from './MiddleHeader'
@@ -16,8 +16,7 @@ const Layout = (props: IProps) => {
       <style jsx global>{`
         .propromo-layout {
           .propromo-layout__content {
-            width: 90%;
-            padding: 20px 0;
+            width: 100%;
           }
         }
       `}</style>
@@ -33,12 +32,7 @@ const Layout = (props: IProps) => {
         />
         <BottomHeader />
         <Row justify="center">
-          <div
-            className="propromo-layout__content"
-            style={{ maxWidth: CONTENT_WIDTH }}
-          >
-            {children}
-          </div>
+          <div className="propromo-layout__content">{children}</div>
         </Row>
       </div>
     </>
