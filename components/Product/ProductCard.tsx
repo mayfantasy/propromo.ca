@@ -17,8 +17,13 @@ const ProductCard = (props: IProps) => {
     <>
       <style jsx global>{`
         .product-card {
+          a {
+            color: initial;
+          }
           cursor: pointer;
           &:hover {
+            border: 1px solid #0090f0;
+            transition: border 300ms ease-in-out;
             .product-card__title {
               text-decoration: underline;
             }
