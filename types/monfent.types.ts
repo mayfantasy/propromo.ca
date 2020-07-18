@@ -4,6 +4,7 @@ export interface IGlobalSettings {
   main_logo: string
   contact_phone: string
   contact_email: string
+  contact_address: string
 }
 
 export interface IHomePageContent {

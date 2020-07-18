@@ -1,4 +1,4 @@
-import { Card, Typography, Row, Button } from 'antd'
+import { Card, Typography, Row, Button, Tooltip } from 'antd'
 import { Product } from 'shopify-buy'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 import { CURRENCY_SYMBOL } from 'helpers/utils.helper'
@@ -96,11 +96,13 @@ const ProductCard = (props: IProps) => {
                 )}
               </div>
               <div className="product-card__add-to-cart">
-                <Button
-                  type="link"
-                  shape="circle"
-                  icon={<ShoppingCartOutlined />}
-                />
+                <Tooltip title="Add to cart">
+                  <Button
+                    type="link"
+                    shape="circle"
+                    icon={<ShoppingCartOutlined />}
+                  />
+                </Tooltip>
               </div>
             </Row>
           </a>

@@ -11,6 +11,7 @@ import HomePageSlider from 'components/HomePage/HomePageSlider'
 import ServiceBlock from 'components/HomePage/ServiceBlock'
 import FeaturedProducts from 'components/HomePage/FeaturedProducts'
 import CollectionBlocks from 'components/HomePage/CollectionBlocks'
+import SubscriptionBlock from 'components/HomePage/SubscriptionBlock'
 
 interface IProps {
   initialGlobalSettings: IGlobalSettings
@@ -80,6 +81,11 @@ const HomePage = (props: IProps) => {
             <br />
 
             <FeaturedProducts />
+
+            <br />
+            <br />
+
+            <SubscriptionBlock />
           </Layout>
         )}
 

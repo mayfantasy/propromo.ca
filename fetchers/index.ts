@@ -15,7 +15,7 @@ export const allProductsFetcher = () =>
 
 // All collections
 export const allCollectionsFetcher = () =>
-  shopify.collection.fetchAllWithProducts().then((data) => data as Product[])
+  shopify.collection.fetchAll().then((data) => data as Collection[])
 
 // Featured Products collection
 export const featuredProductsFetcher = () =>

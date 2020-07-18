@@ -1,9 +1,12 @@
 import { IGlobalSettings } from 'types/monfent.types'
-import { Row } from 'antd'
+import { Row, Divider } from 'antd'
 import TopHeader from './TopHeader'
 import MiddleHeader from './MiddleHeader'
 import BottomHeader from './BottomHeader'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
+import Footer from './Footer'
+import CopyrightBlock from './CopyrightBlock'
+import ContactBlock from './ContactBlock'
 
 interface IProps {
   globalSettings: IGlobalSettings
@@ -34,6 +37,15 @@ const Layout = (props: IProps) => {
         <Row justify="center">
           <div className="propromo-layout__content">{children}</div>
         </Row>
+
+        <ContactBlock
+          email={globalSettings.contact_email}
+          phone={globalSettings.contact_phone}
+          address={globalSettings.contact_address}
+        />
+        <Divider />
+        <Footer />
+        <CopyrightBlock />
       </div>
     </>
   )

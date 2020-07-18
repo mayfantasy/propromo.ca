@@ -1,16 +1,21 @@
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
-import { Row, Col, Alert, Skeleton } from 'antd'
+import { Row, Col, Alert, Skeleton, Card, Typography } from 'antd'
 import useSWR from 'swr'
 import { IFetchers } from 'types/fetchers.types'
 import { allCollectionsFetcher } from 'fetchers'
 import SectionHeader from 'components/Utils/HeaderLine'
+import Link from 'next/link'
+import { CaretRightFilled } from '@ant-design/icons'
+import CollectionCard from 'components/Collection/CollectionCard'
+
+const { Text } = Typography
 
 interface IProps {}
 const CollectionBlocks = (props: IProps) => {
   const {} = props
 
   const { data, error } = useSWR(
-    IFetchers.ShopifyAllProducts,
+    IFetchers.ShopifyAllCollections,
     allCollectionsFetcher
   )
 
@@ -19,10 +24,6 @@ const CollectionBlocks = (props: IProps) => {
       <style jsx global>{`
         .collection-blocks {
           margin: auto;
-          .collection-block__item {
-            background-color: #f5f5f5;
-            padding: 20px;
-          }
         }
       `}</style>
       <div
@@ -31,6 +32,10 @@ const CollectionBlocks = (props: IProps) => {
           maxWidth: CONTENT_WIDTH
         }}
       >
+        <SectionHeader
+          title="Collections"
+          tagline="Checkout our product lineup from collections"
+        />
         {error && (
           <>
             <Alert
@@ -44,8 +49,8 @@ const CollectionBlocks = (props: IProps) => {
         <Row gutter={[4, 4]}>
           {data ? (
             data.map((collection) => (
-              <Col key={collection.id} xs={24} sm={12} lg={6}>
-                <div className="collection-block__item">{collection.title}</div>
+              <Col key={collection.id} xs={24} sm={12} lg={8}>
+                <CollectionCard collection={collection} />
               </Col>
             ))
           ) : (
