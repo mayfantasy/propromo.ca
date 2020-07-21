@@ -9,6 +9,8 @@ import {
   CaretDownFilled
 } from '@ant-design/icons'
 import { Grid } from 'antd'
+import Link from 'next/link'
+import { pageRoutes } from 'helpers/route.helpers'
 
 const { SubMenu } = Menu
 const { useBreakpoint } = Grid
@@ -49,7 +51,9 @@ const BottomHeader = (props: IProps) => {
         >
           <Row className="bottom-header__nav" align="middle">
             <div className="nav-button">
-              <a>Home</a>
+              <Link href={pageRoutes.homePage.url || ''}>
+                <a>Home</a>
+              </Link>
             </div>
             {/* Hardware */}
             <Dropdown

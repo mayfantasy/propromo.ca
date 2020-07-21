@@ -11,3 +11,7 @@ export interface IHomePageContent {
   title: string
   slider_images: string[]
 }
+
+export interface IProductListPageContent {
+  title: string
+}

@@ -2,11 +2,12 @@ import { Card, Row, Col, Typography } from 'antd'
 import { Collection } from 'shopify-buy'
 import { CaretRightFilled } from '@ant-design/icons'
 import Link from 'next/link'
+import { ShopifyCollectionFieldsFragment } from 'graphql/generated'
 
 const { Text } = Typography
 
 interface IProps {
-  collection: Collection
+  collection: ShopifyCollectionFieldsFragment
 }
 
 const CollectionCard = (props: IProps) => {
@@ -35,7 +36,7 @@ const CollectionCard = (props: IProps) => {
       <Card className="collection-card">
         <Row gutter={[8, 8]}>
           <Col xs={24} md={12}>
-            <img src={collection.image.src} />
+            <img src={collection.image?.originalSrc} />
           </Col>
           <Col xs={24} md={12}>
             <div className="collection-card__content">

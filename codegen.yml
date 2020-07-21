@@ -1,0 +1,15 @@
+overwrite: true
+schema:
+  - https://propromo-canada.myshopify.com/api/2019-07/graphql.json:
+      headers:
+        X-Shopify-Storefront-Access-Token: '${NEXT_PUBLIC_STORE_ACCESS_TOKEN}'
+documents: graphql/documents/**/*.graphql
+generates:
+  graphql/generated/index.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-urql'
+config:
+  # skipDocumentsValidation: true
+  typesPrefix: Shopify

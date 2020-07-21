@@ -1,18 +1,21 @@
 import { Card, Typography, Row, Button, Tooltip } from 'antd'
-import { Product } from 'shopify-buy'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 import { CURRENCY_SYMBOL } from 'helpers/utils.helper'
 import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
+import {
+  ShopifyProduct,
+  ShopifyProductFieldsFragmentsFragment
+} from 'graphql/generated'
 
 const { Title, Text } = Typography
 interface IProps {
-  product: Product
+  product: ShopifyProductFieldsFragmentsFragment
 }
 
 const ProductCard = (props: IProps) => {
   const { product: parent } = props
-  const product = parent?.variants?.[0]
+  const product = parent.variants.edges?.[0].node
   return (
     <>
       <style jsx global>{`
@@ -59,7 +62,7 @@ const ProductCard = (props: IProps) => {
           <a>
             {/* Image */}
             <div className="product-card__image">
-              <img src={product?.image?.src} />
+              <img src={product.image?.originalSrc} />
             </div>
 
             {/* Title */}
@@ -81,17 +84,17 @@ const ProductCard = (props: IProps) => {
               <div className="product-card__pricing">
                 <small
                   style={{
-                    textDecoration: product?.compareAtPrice
+                    textDecoration: product.compareAtPriceV2?.amount
                       ? 'line-through'
                       : ''
                   }}
                 >
-                  {CURRENCY_SYMBOL} {product?.price}
+                  {CURRENCY_SYMBOL} {product.priceV2.amount}
                 </small>
                 &nbsp;
-                {product?.compareAtPrice && (
+                {product.compareAtPriceV2?.amount && (
                   <Text type="danger">
-                    {CURRENCY_SYMBOL} {product?.compareAtPrice}
+                    {CURRENCY_SYMBOL} {product.compareAtPriceV2.amount}
                   </Text>
                 )}
               </div>

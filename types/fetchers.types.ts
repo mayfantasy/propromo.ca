@@ -6,10 +6,12 @@ export enum IFetchers {
   ShopifyAllProducts = 'ShopifyAllProducts',
   ShopifyAllCollections = 'ShopifyAllCollections',
   ShopifyFeaturedProducts = 'ShopifyFeaturedProducts',
+  ShopifyProductsByCollectionHandle = 'ShopifyProductsByCollectionHandle',
   /**
    * ||====================
    * || Monfent Fetcher IDs
    */
   GlobalSettings = 'GlobalSettings',
-  HomePageContent = 'HomePageContent'
+  HomePageContent = 'HomePageContent',
+  ProductListPageContent = 'ProductListPageContent'
 }

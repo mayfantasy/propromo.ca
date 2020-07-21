@@ -115,7 +115,7 @@ const Footer = (props: IProps) => {
               {category.children && (
                 <div>
                   {category.children.map((item) => (
-                    <div>
+                    <div key={item.key}>
                       <Link
                         key={item.key}
                         href={item.url || ''}

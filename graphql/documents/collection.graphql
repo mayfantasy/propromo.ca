@@ -1,0 +1,25 @@
+query GetCollections($pageSize: Int) {
+  collections(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...collectionFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+
+fragment collectionFields on Collection {
+  id
+  handle
+  title
+  image {
+    altText
+    originalSrc
+  }
+  description
+}

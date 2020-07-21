@@ -1,0 +1,61 @@
+query GetProductsByCollectionHandle($handle: String!, $pageSize: Int) {
+  collectionByHandle(handle: $handle) {
+    ...collectionFields
+    products(first: $pageSize) {
+      edges {
+        cursor
+        node {
+          ...productFieldsFragments
+        }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}
+
+fragment productFieldsFragments on Product {
+  id
+  description
+  descriptionHtml
+  handle
+  productType
+  title
+  updatedAt
+  vendor
+  variants(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...productVariantFieldsFragments
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+
+fragment productVariantFieldsFragments on ProductVariant {
+  id
+  sku
+  title
+  image {
+    id
+    altText
+    originalSrc
+  }
+  priceV2 {
+    amount
+    currencyCode
+  }
+  compareAtPriceV2 {
+    amount
+    currencyCode
+  }
+  weight
+  weightUnit
+}
