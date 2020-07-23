@@ -17,7 +17,8 @@ import {
 import { PAGE_SIZE } from 'helpers/utils.helper'
 import ProductCard from 'components/Product/ProductCard'
 import { pageRoutes } from 'helpers/route.helpers'
-import { productSortOptions } from 'helpers/product.helper'
+import { productSortOptions, sortProducts } from 'helpers/product.helper'
+import { useState } from 'react'
 
 const { Title, Text } = Typography
 const { Option } = Select
@@ -26,6 +27,7 @@ interface IProps {}
 const ProductList = (props: IProps) => {
   const {} = props
   const bp = useBreakpoint()
+  const [sortValue, setSortValue] = useState(productSortOptions.name_asc.value)
   /**
    * ||===============================
    * || Router
@@ -79,6 +81,10 @@ const ProductList = (props: IProps) => {
     )
   }
   const collectionTitle = collectionWithProducts.data?.collectionByHandle?.title
+  const products = (
+    collectionWithProducts.data?.collectionByHandle?.products.edges || []
+  ).map((p) => p.node.variants.edges[0].node)
+  const sortedProducts = sortProducts(products, sortValue)
 
   if (globalSettingsData && pageContent) {
     return (
@@ -137,7 +143,12 @@ const ProductList = (props: IProps) => {
                     justify="end"
                     align="middle"
                   >
-                    <Select placeholder="Sort By" style={{ width: '300px' }}>
+                    <Select
+                      placeholder="Sort By"
+                      value={sortValue}
+                      onChange={(v: string) => setSortValue(v)}
+                      style={{ width: '300px' }}
+                    >
                       {Object.keys(productSortOptions).map((o) => (
                         <Option value={productSortOptions[o].value}>
                           {productSortOptions[o].name}
@@ -149,13 +160,14 @@ const ProductList = (props: IProps) => {
                   {/* List Data */}
                   {collectionWithProducts.data ? (
                     <Row gutter={[4, 4]}>
-                      {collectionWithProducts.data.collectionByHandle?.products.edges.map(
-                        (product) => (
-                          <Col key={product.node.id} sm={8} xs={12}>
-                            <ProductCard product={product.node} />
-                          </Col>
-                        )
-                      )}
+                      {sortedProducts.map((product) => (
+                        <Col key={product.id} sm={8} xs={12}>
+                          <ProductCard
+                            collectionHandle={collectionHandle}
+                            product={product}
+                          />
+                        </Col>
+                      ))}
                     </Row>
                   ) : (
                     <Skeleton active />

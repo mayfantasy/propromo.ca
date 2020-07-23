@@ -24,6 +24,24 @@ const Layout = (props: IProps) => {
         }
       `}</style>
       <div className="propromo-layout">
+        {/* <pre>
+          {JSON.stringify(
+            {
+              '1': 'Real Nav Items',
+              '2': 'Product Detail Page',
+              '3': 'Real Filters',
+              '4': 'Sort Products',
+              '5': 'Customer Login & Register & My Account Page',
+              '6': 'Connect to CRM',
+              '7': 'Cart page & Checkout',
+              '8': 'Refund & Return Policy page',
+              '9': 'About us page',
+              '10': 'Terms & policy page'
+            },
+            null,
+            2
+          )}
+        </pre> */}
         <TopHeader
           announcement={globalSettings.announcement}
           hideAnnouncement={globalSettings.hide_announcement}

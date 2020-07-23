@@ -5,17 +5,18 @@ import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
 import {
   ShopifyProduct,
-  ShopifyProductFieldsFragmentsFragment
+  ShopifyProductVariantFieldsFragment
 } from 'graphql/generated'
 
 const { Title, Text } = Typography
 interface IProps {
-  product: ShopifyProductFieldsFragmentsFragment
+  collectionHandle: string
+  product: ShopifyProductVariantFieldsFragment
 }
 
 const ProductCard = (props: IProps) => {
-  const { product: parent } = props
-  const product = parent.variants.edges?.[0].node
+  const { product, collectionHandle } = props
+
   return (
     <>
       <style jsx global>{`
@@ -51,12 +52,16 @@ const ProductCard = (props: IProps) => {
       <Card className="product-card">
         <Link
           href={
-            pageRoutes.productDetailPage((product as any)?.sku as string)
-              .url as string
+            pageRoutes.productDetailPage(
+              collectionHandle,
+              product.product.handle as string
+            ).dynamicUrl as string
           }
           as={
-            pageRoutes.productDetailPage((product as any)?.sku as string)
-              .dynamicUrl
+            pageRoutes.productDetailPage(
+              collectionHandle,
+              product.product.handle as string
+            ).url
           }
         >
           <a>
@@ -71,7 +76,8 @@ const ProductCard = (props: IProps) => {
               justify="center"
               align="middle"
             >
-              <Text strong>{product?.title}as dklnfasl djfalskdj f</Text>
+              {/* <Text strong>{product?.title}as dklnfasl djfalskdj f</Text> */}
+              <Text strong>{product.title}as dklnfasl djfalskdj f</Text>
             </Row>
 
             {/* Actions */}

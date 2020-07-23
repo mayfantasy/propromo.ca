@@ -51,7 +51,10 @@ const CollectionProducts = (props: IProps) => {
           productListData.data.collectionByHandle?.products.edges.map(
             (product) => (
               <Col key={product.node.id} md={6} sm={8} xs={12}>
-                <ProductCard product={product.node} />
+                <ProductCard
+                  collectionHandle={collectionHandle}
+                  product={product.node.variants.edges[0].node}
+                />
               </Col>
             )
           )

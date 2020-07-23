@@ -50,9 +50,22 @@ const BottomHeader = (props: IProps) => {
           align="middle"
         >
           <Row className="bottom-header__nav" align="middle">
+            {/* Home */}
             <div className="nav-button">
               <Link href={pageRoutes.homePage.url || ''}>
                 <a>Home</a>
+              </Link>
+            </div>
+            {/* About */}
+            <div className="nav-button">
+              <Link href={pageRoutes.aboutPage.url || ''}>
+                <a>About</a>
+              </Link>
+            </div>
+            {/* All Products */}
+            <div className="nav-button">
+              <Link href={pageRoutes.productListPage('all').url || ''}>
+                <a>All Products</a>
               </Link>
             </div>
             {/* Hardware */}

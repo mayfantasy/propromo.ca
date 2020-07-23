@@ -5,7 +5,7 @@ query GetProductsByCollectionHandle($handle: String!, $pageSize: Int) {
       edges {
         cursor
         node {
-          ...productFieldsFragments
+          ...productFields
         }
       }
       pageInfo {
@@ -15,8 +15,29 @@ query GetProductsByCollectionHandle($handle: String!, $pageSize: Int) {
     }
   }
 }
+query GetProductByHandle($handle: String!, $pageSize: Int) {
+  productByHandle(handle: $handle) {
+    ...productWithCollectionsFields
+  }
+}
 
-fragment productFieldsFragments on Product {
+fragment productWithCollectionsFields on Product {
+  collections(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...collectionFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+  ...productFields
+}
+
+fragment productFields on Product {
   id
   description
   descriptionHtml
@@ -25,11 +46,23 @@ fragment productFieldsFragments on Product {
   title
   updatedAt
   vendor
+  metafields(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...producttMetafields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   variants(first: $pageSize) {
     edges {
       cursor
       node {
-        ...productVariantFieldsFragments
+        ...productVariantFields
       }
     }
     pageInfo {
@@ -39,10 +72,13 @@ fragment productFieldsFragments on Product {
   }
 }
 
-fragment productVariantFieldsFragments on ProductVariant {
+fragment productVariantFields on ProductVariant {
   id
   sku
   title
+  product {
+    handle
+  }
   image {
     id
     altText
@@ -58,4 +94,11 @@ fragment productVariantFieldsFragments on ProductVariant {
   }
   weight
   weightUnit
+}
+
+fragment producttMetafields on Metafield {
+  id
+  key
+  value
+  description
 }

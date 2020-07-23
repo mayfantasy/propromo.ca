@@ -12,6 +12,7 @@ import {
   GetCollectionsDocument
 } from 'graphql/generated'
 import { PAGE_SIZE } from 'helpers/utils.helper'
+import { pageRoutes } from 'helpers/route.helpers'
 
 const { Text } = Typography
 
@@ -61,7 +62,17 @@ const CollectionBlocks = (props: IProps) => {
           {collectionList.data ? (
             collectionList.data.collections.edges.map((collection) => (
               <Col key={collection.node.id} xs={24} sm={12} lg={8}>
-                <CollectionCard collection={collection.node} />
+                <Link
+                  href={
+                    pageRoutes.productListPage(collection.node.handle)
+                      .dynamicUrl || ''
+                  }
+                  as={pageRoutes.productListPage(collection.node.handle).url}
+                >
+                  <a>
+                    <CollectionCard collection={collection.node} />
+                  </a>
+                </Link>
               </Col>
             ))
           ) : (

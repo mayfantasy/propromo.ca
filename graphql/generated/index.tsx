@@ -4613,7 +4613,7 @@ export type ShopifyGetProductsByCollectionHandleQuery = (
         & Pick<ShopifyProductEdge, 'cursor'>
         & { node: (
           { __typename?: 'Product' }
-          & ShopifyProductFieldsFragmentsFragment
+          & ShopifyProductFieldsFragment
         ) }
       )>, pageInfo: (
         { __typename?: 'PageInfo' }
@@ -4624,17 +4624,63 @@ export type ShopifyGetProductsByCollectionHandleQuery = (
   )> }
 );
 
-export type ShopifyProductFieldsFragmentsFragment = (
+export type ShopifyGetProductByHandleQueryVariables = {
+  handle: Scalars['String'];
+  pageSize?: Maybe<Scalars['Int']>;
+};
+
+
+export type ShopifyGetProductByHandleQuery = (
+  { __typename?: 'QueryRoot' }
+  & { productByHandle?: Maybe<(
+    { __typename?: 'Product' }
+    & ShopifyProductWithCollectionsFieldsFragment
+  )> }
+);
+
+export type ShopifyProductWithCollectionsFieldsFragment = (
+  { __typename?: 'Product' }
+  & { collections: (
+    { __typename?: 'CollectionConnection' }
+    & { edges: Array<(
+      { __typename?: 'CollectionEdge' }
+      & Pick<ShopifyCollectionEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Collection' }
+        & ShopifyCollectionFieldsFragment
+      ) }
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<ShopifyPageInfo, 'hasNextPage' | 'hasPreviousPage'>
+    ) }
+  ) }
+  & ShopifyProductFieldsFragment
+);
+
+export type ShopifyProductFieldsFragment = (
   { __typename?: 'Product' }
   & Pick<ShopifyProduct, 'id' | 'description' | 'descriptionHtml' | 'handle' | 'productType' | 'title' | 'updatedAt' | 'vendor'>
-  & { variants: (
+  & { metafields: (
+    { __typename?: 'MetafieldConnection' }
+    & { edges: Array<(
+      { __typename?: 'MetafieldEdge' }
+      & Pick<ShopifyMetafieldEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Metafield' }
+        & ShopifyProducttMetafieldsFragment
+      ) }
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<ShopifyPageInfo, 'hasNextPage' | 'hasPreviousPage'>
+    ) }
+  ), variants: (
     { __typename?: 'ProductVariantConnection' }
     & { edges: Array<(
       { __typename?: 'ProductVariantEdge' }
       & Pick<ShopifyProductVariantEdge, 'cursor'>
       & { node: (
         { __typename?: 'ProductVariant' }
-        & ShopifyProductVariantFieldsFragmentsFragment
+        & ShopifyProductVariantFieldsFragment
       ) }
     )>, pageInfo: (
       { __typename?: 'PageInfo' }
@@ -4643,10 +4689,13 @@ export type ShopifyProductFieldsFragmentsFragment = (
   ) }
 );
 
-export type ShopifyProductVariantFieldsFragmentsFragment = (
+export type ShopifyProductVariantFieldsFragment = (
   { __typename?: 'ProductVariant' }
   & Pick<ShopifyProductVariant, 'id' | 'sku' | 'title' | 'weight' | 'weightUnit'>
-  & { image?: Maybe<(
+  & { product: (
+    { __typename?: 'Product' }
+    & Pick<ShopifyProduct, 'handle'>
+  ), image?: Maybe<(
     { __typename?: 'Image' }
     & Pick<ShopifyImage, 'id' | 'altText' | 'originalSrc'>
   )>, priceV2: (
@@ -4656,6 +4705,11 @@ export type ShopifyProductVariantFieldsFragmentsFragment = (
     { __typename?: 'MoneyV2' }
     & Pick<ShopifyMoneyV2, 'amount' | 'currencyCode'>
   )> }
+);
+
+export type ShopifyProducttMetafieldsFragment = (
+  { __typename?: 'Metafield' }
+  & Pick<ShopifyMetafield, 'id' | 'key' | 'value' | 'description'>
 );
 
 export const CollectionFieldsFragmentDoc = gql`
@@ -4670,11 +4724,22 @@ export const CollectionFieldsFragmentDoc = gql`
   description
 }
     `;
-export const ProductVariantFieldsFragmentsFragmentDoc = gql`
-    fragment productVariantFieldsFragments on ProductVariant {
+export const ProducttMetafieldsFragmentDoc = gql`
+    fragment producttMetafields on Metafield {
+  id
+  key
+  value
+  description
+}
+    `;
+export const ProductVariantFieldsFragmentDoc = gql`
+    fragment productVariantFields on ProductVariant {
   id
   sku
   title
+  product {
+    handle
+  }
   image {
     id
     altText
@@ -4692,8 +4757,8 @@ export const ProductVariantFieldsFragmentsFragmentDoc = gql`
   weightUnit
 }
     `;
-export const ProductFieldsFragmentsFragmentDoc = gql`
-    fragment productFieldsFragments on Product {
+export const ProductFieldsFragmentDoc = gql`
+    fragment productFields on Product {
   id
   description
   descriptionHtml
@@ -4702,11 +4767,23 @@ export const ProductFieldsFragmentsFragmentDoc = gql`
   title
   updatedAt
   vendor
+  metafields(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...producttMetafields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   variants(first: $pageSize) {
     edges {
       cursor
       node {
-        ...productVariantFieldsFragments
+        ...productVariantFields
       }
     }
     pageInfo {
@@ -4715,7 +4792,26 @@ export const ProductFieldsFragmentsFragmentDoc = gql`
     }
   }
 }
-    ${ProductVariantFieldsFragmentsFragmentDoc}`;
+    ${ProducttMetafieldsFragmentDoc}
+${ProductVariantFieldsFragmentDoc}`;
+export const ProductWithCollectionsFieldsFragmentDoc = gql`
+    fragment productWithCollectionsFields on Product {
+  collections(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...collectionFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+  ...productFields
+}
+    ${CollectionFieldsFragmentDoc}
+${ProductFieldsFragmentDoc}`;
 export const GetCollectionsDocument = gql`
     query GetCollections($pageSize: Int) {
   collections(first: $pageSize) {
@@ -4745,7 +4841,7 @@ export const GetProductsByCollectionHandleDocument = gql`
       edges {
         cursor
         node {
-          ...productFieldsFragments
+          ...productFields
         }
       }
       pageInfo {
@@ -4756,8 +4852,20 @@ export const GetProductsByCollectionHandleDocument = gql`
   }
 }
     ${CollectionFieldsFragmentDoc}
-${ProductFieldsFragmentsFragmentDoc}`;
+${ProductFieldsFragmentDoc}`;
 
 export const GetProductsByCollectionHandleComponent = (props: Omit<Urql.QueryProps<ShopifyGetProductsByCollectionHandleQuery, ShopifyGetProductsByCollectionHandleQueryVariables>, 'query'> & { variables: ShopifyGetProductsByCollectionHandleQueryVariables }) => (
   <Urql.Query {...props} query={GetProductsByCollectionHandleDocument} />
+);
+
+export const GetProductByHandleDocument = gql`
+    query GetProductByHandle($handle: String!, $pageSize: Int) {
+  productByHandle(handle: $handle) {
+    ...productWithCollectionsFields
+  }
+}
+    ${ProductWithCollectionsFieldsFragmentDoc}`;
+
+export const GetProductByHandleComponent = (props: Omit<Urql.QueryProps<ShopifyGetProductByHandleQuery, ShopifyGetProductByHandleQueryVariables>, 'query'> & { variables: ShopifyGetProductByHandleQueryVariables }) => (
+  <Urql.Query {...props} query={GetProductByHandleDocument} />
 );
