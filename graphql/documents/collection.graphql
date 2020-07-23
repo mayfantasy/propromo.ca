@@ -18,8 +18,7 @@ fragment collectionFields on Collection {
   handle
   title
   image {
-    altText
-    originalSrc
+    ...imageFields
   }
   description
 }

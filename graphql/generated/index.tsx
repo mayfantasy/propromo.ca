@@ -4592,7 +4592,7 @@ export type ShopifyCollectionFieldsFragment = (
   & Pick<ShopifyCollection, 'id' | 'handle' | 'title' | 'description'>
   & { image?: Maybe<(
     { __typename?: 'Image' }
-    & Pick<ShopifyImage, 'altText' | 'originalSrc'>
+    & ShopifyImageFieldsFragment
   )> }
 );
 
@@ -4660,7 +4660,20 @@ export type ShopifyProductWithCollectionsFieldsFragment = (
 export type ShopifyProductFieldsFragment = (
   { __typename?: 'Product' }
   & Pick<ShopifyProduct, 'id' | 'description' | 'descriptionHtml' | 'handle' | 'productType' | 'title' | 'updatedAt' | 'vendor'>
-  & { metafields: (
+  & { images: (
+    { __typename?: 'ImageConnection' }
+    & { edges: Array<(
+      { __typename?: 'ImageEdge' }
+      & Pick<ShopifyImageEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Image' }
+        & ShopifyImageFieldsFragment
+      ) }
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<ShopifyPageInfo, 'hasNextPage' | 'hasPreviousPage'>
+    ) }
+  ), metafields: (
     { __typename?: 'MetafieldConnection' }
     & { edges: Array<(
       { __typename?: 'MetafieldEdge' }
@@ -4689,6 +4702,11 @@ export type ShopifyProductFieldsFragment = (
   ) }
 );
 
+export type ShopifyImageFieldsFragment = (
+  { __typename?: 'Image' }
+  & Pick<ShopifyImage, 'id' | 'altText' | 'originalSrc'>
+);
+
 export type ShopifyProductVariantFieldsFragment = (
   { __typename?: 'ProductVariant' }
   & Pick<ShopifyProductVariant, 'id' | 'sku' | 'title' | 'weight' | 'weightUnit'>
@@ -4697,7 +4715,7 @@ export type ShopifyProductVariantFieldsFragment = (
     & Pick<ShopifyProduct, 'handle'>
   ), image?: Maybe<(
     { __typename?: 'Image' }
-    & Pick<ShopifyImage, 'id' | 'altText' | 'originalSrc'>
+    & ShopifyImageFieldsFragment
   )>, priceV2: (
     { __typename?: 'MoneyV2' }
     & Pick<ShopifyMoneyV2, 'amount' | 'currencyCode'>
@@ -4712,18 +4730,24 @@ export type ShopifyProducttMetafieldsFragment = (
   & Pick<ShopifyMetafield, 'id' | 'key' | 'value' | 'description'>
 );
 
+export const ImageFieldsFragmentDoc = gql`
+    fragment imageFields on Image {
+  id
+  altText
+  originalSrc
+}
+    `;
 export const CollectionFieldsFragmentDoc = gql`
     fragment collectionFields on Collection {
   id
   handle
   title
   image {
-    altText
-    originalSrc
+    ...imageFields
   }
   description
 }
-    `;
+    ${ImageFieldsFragmentDoc}`;
 export const ProducttMetafieldsFragmentDoc = gql`
     fragment producttMetafields on Metafield {
   id
@@ -4741,9 +4765,7 @@ export const ProductVariantFieldsFragmentDoc = gql`
     handle
   }
   image {
-    id
-    altText
-    originalSrc
+    ...imageFields
   }
   priceV2 {
     amount
@@ -4756,7 +4778,7 @@ export const ProductVariantFieldsFragmentDoc = gql`
   weight
   weightUnit
 }
-    `;
+    ${ImageFieldsFragmentDoc}`;
 export const ProductFieldsFragmentDoc = gql`
     fragment productFields on Product {
   id
@@ -4767,6 +4789,18 @@ export const ProductFieldsFragmentDoc = gql`
   title
   updatedAt
   vendor
+  images(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...imageFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   metafields(first: $pageSize) {
     edges {
       cursor
@@ -4792,7 +4826,8 @@ export const ProductFieldsFragmentDoc = gql`
     }
   }
 }
-    ${ProducttMetafieldsFragmentDoc}
+    ${ImageFieldsFragmentDoc}
+${ProducttMetafieldsFragmentDoc}
 ${ProductVariantFieldsFragmentDoc}`;
 export const ProductWithCollectionsFieldsFragmentDoc = gql`
     fragment productWithCollectionsFields on Product {

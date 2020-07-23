@@ -14,9 +14,10 @@ import { useQuery } from 'urql'
 
 interface IProps {
   collectionHandle: string
+  take?: number
 }
 const CollectionProducts = (props: IProps) => {
-  const { collectionHandle } = props
+  const { collectionHandle, take } = props
 
   /**
    * ||========================
@@ -31,6 +32,8 @@ const CollectionProducts = (props: IProps) => {
       }
     }
   )
+
+  const products = productListData.data?.collectionByHandle?.products.edges
   return (
     <>
       {productListData.error && (
@@ -47,17 +50,15 @@ const CollectionProducts = (props: IProps) => {
       )}
 
       <Row gutter={[4, 4]}>
-        {productListData.data ? (
-          productListData.data.collectionByHandle?.products.edges.map(
-            (product) => (
-              <Col key={product.node.id} md={6} sm={8} xs={12}>
-                <ProductCard
-                  collectionHandle={collectionHandle}
-                  product={product.node.variants.edges[0].node}
-                />
-              </Col>
-            )
-          )
+        {products ? (
+          products.slice(0, take || products.length).map((product) => (
+            <Col key={product.node.id} md={6} sm={8} xs={12}>
+              <ProductCard
+                collectionHandle={collectionHandle}
+                product={product.node.variants.edges[0].node}
+              />
+            </Col>
+          ))
         ) : (
           <Skeleton active />
         )}

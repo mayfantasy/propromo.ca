@@ -46,6 +46,18 @@ fragment productFields on Product {
   title
   updatedAt
   vendor
+  images(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...imageFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   metafields(first: $pageSize) {
     edges {
       cursor
@@ -72,6 +84,12 @@ fragment productFields on Product {
   }
 }
 
+fragment imageFields on Image {
+  id
+  altText
+  originalSrc
+}
+
 fragment productVariantFields on ProductVariant {
   id
   sku
@@ -80,9 +98,7 @@ fragment productVariantFields on ProductVariant {
     handle
   }
   image {
-    id
-    altText
-    originalSrc
+    ...imageFields
   }
   priceV2 {
     amount
