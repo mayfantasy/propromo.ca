@@ -3,6 +3,8 @@ import { CONTENT_WIDTH } from 'helpers/layout.helper'
 import { SearchOutlined, PhoneOutlined } from '@ant-design/icons'
 import { Grid } from 'antd'
 import ServiceItem from 'components/Utils/ServiceItem'
+import { pageRoutes } from 'helpers/route.helpers'
+import Link from 'next/link'
 
 const { useBreakpoint } = Grid
 
@@ -46,7 +48,11 @@ const MiddleHeader = (props: IProps) => {
         >
           <Col xs={24} md={6}>
             <div className="middle-header__logo center_md">
-              <img src={logoUrl} />
+              <Link href={pageRoutes.homePage.url || ''}>
+                <a>
+                  <img src={logoUrl} />
+                </a>
+              </Link>
             </div>
           </Col>
           <Col xs={24} md={12}>
