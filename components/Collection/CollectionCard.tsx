@@ -44,13 +44,11 @@ const CollectionCard = (props: IProps) => {
                 <Text strong>{collection.title}</Text>
               </div>
               <div>
-                <Link href={''}>
-                  <a className="collection-card__shop-button">
-                    <small>
-                      Shop Now <CaretRightFilled />
-                    </small>
-                  </a>
-                </Link>
+                <a className="collection-card__shop-button">
+                  <small>
+                    Shop Now <CaretRightFilled />
+                  </small>
+                </a>
               </div>
             </div>
           </Col>

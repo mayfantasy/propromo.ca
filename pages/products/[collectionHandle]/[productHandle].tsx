@@ -24,7 +24,11 @@ import { globalSettingsFetcher } from 'fetchers'
 import { useQuery } from 'urql'
 import {
   ShopifyGetProductByHandleQuery,
-  GetProductByHandleDocument
+  GetProductByHandleDocument,
+  ShopifyGetProductsByCollectionHandleQuery,
+  GetProductsByCollectionHandleDocument,
+  ShopifyGetCollectionByHandleQuery,
+  GetCollectionByHandleDocument
 } from 'graphql/generated'
 import { PAGE_SIZE, CURRENCY_SYMBOL } from 'helpers/utils.helper'
 import ImageDisplay from 'components/Product/ImageDisplay'
@@ -61,7 +65,9 @@ const ProductDetailPage = (props: IProps) => {
    * ||========================
    * || Get product by handle
    */
-  const [productData, reload] = useQuery<ShopifyGetProductByHandleQuery>({
+  const [productData, reloadProductData] = useQuery<
+    ShopifyGetProductByHandleQuery
+  >({
     query: GetProductByHandleDocument,
     variables: {
       handle: productHandle,
@@ -69,9 +75,22 @@ const ProductDetailPage = (props: IProps) => {
     }
   })
 
+  /**
+   * ||========================
+   * || Get collection by handle
+   */
+  const [collectionData, reloadCollectionData] = useQuery<
+    ShopifyGetCollectionByHandleQuery
+  >({
+    query: GetCollectionByHandleDocument,
+    variables: {
+      handle: collectionHandle
+    }
+  })
+
   useEffect(() => {
-    reload()
-  }, [router.pathname])
+    reloadProductData()
+  }, [router.asPath])
 
   /**
    * ||=======
@@ -88,7 +107,10 @@ const ProductDetailPage = (props: IProps) => {
 
   const product = productData.data?.productByHandle
   const productVariant = product?.variants.edges[0].node
-  const productCollection = product?.collections.edges[0].node
+  const productCollection =
+    collectionHandle === 'all-products'
+      ? product?.collections.edges[0].node
+      : collectionData.data?.collectionByHandle
 
   if (globalSettingsData) {
     return (

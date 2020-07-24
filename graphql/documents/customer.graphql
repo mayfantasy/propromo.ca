@@ -1,0 +1,77 @@
+mutation Login($input: CustomerAccessTokenCreateInput!) {
+  customerAccessTokenCreate(input: $input) {
+    customerAccessToken {
+      accessToken
+      expiresAt
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation Logout($customerAccessToken: String!) {
+  customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
+    deletedAccessToken
+    deletedCustomerAccessTokenId
+    userErrors {
+      field
+      message
+    }
+  }
+}
+
+mutation CreateCustomer($input: CustomerCreateInput!) {
+  customerCreate(input: $input) {
+    customer {
+      ...customerFields
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation UpdateCustomer(
+  $customerAccessToken: String!
+  $customer: CustomerUpdateInput!
+) {
+  customerUpdate(
+    customerAccessToken: $customerAccessToken
+    customer: $customer
+  ) {
+    customer {
+      id
+    }
+    customerAccessToken {
+      accessToken
+      expiresAt
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+fragment customerFields on Customer {
+  id
+  displayName
+  email
+  firstName
+  lastName
+  phone
+  acceptsMarketing
+  defaultAddress {
+    ...addressFields
+  }
+  phone
+  lastIncompleteCheckout {
+    ...checkoutFields
+  }
+}

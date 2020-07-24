@@ -1,6 +1,16 @@
 import { INavItem } from 'types/utils.types'
 
 export const pageRoutes = {
+  loginPage: {
+    key: 'login-page',
+    name: 'Login',
+    url: '/login'
+  } as INavItem,
+  registerPage: {
+    key: 'register-page',
+    name: 'Register',
+    url: '/register'
+  } as INavItem,
   homePage: {
     key: 'home-page',
     name: 'Home',

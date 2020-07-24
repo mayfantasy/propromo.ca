@@ -1,6 +1,8 @@
 import { Row, Button, Col, Grid } from 'antd'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
 import Hamburger from 'hamburger-react'
+import { pageRoutes } from 'helpers/route.helpers'
+import Link from 'next/link'
 
 interface IProps {
   announcement: string
@@ -38,8 +40,12 @@ const TopHeader = (props: IProps) => {
             <Row justify="end">
               {bp.md && (
                 <>
-                  <Button type="link">Login</Button>
-                  <Button type="link">Register</Button>
+                  <Link href={pageRoutes.loginPage.url || ''}>
+                    <Button type="link">Login</Button>
+                  </Link>
+                  <Link href={pageRoutes.registerPage.url || ''}>
+                    <Button type="link">Register</Button>
+                  </Link>
                 </>
               )}
               {!bp.md && (

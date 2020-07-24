@@ -1,0 +1,75 @@
+fragment checkoutFields on Checkout {
+  id
+  ready
+  requiresShipping
+
+  availableShippingRates {
+    ...availableShippingRateFields
+  }
+  completedAt
+  createdAt
+  currencyCode
+  email
+  lineItemsSubtotalPrice {
+    amount
+    currencyCode
+  }
+  note
+  orderStatusUrl
+  shippingAddress {
+    ...addressFields
+  }
+  shippingLine {
+    ...shippingRateFields
+  }
+  subtotalPriceV2 {
+    amount
+    currencyCode
+  }
+  taxExempt
+  taxesIncluded
+  totalPriceV2 {
+    amount
+    currencyCode
+  }
+  totalTaxV2 {
+    amount
+    currencyCode
+  }
+  webUrl
+}
+
+fragment availableShippingRateFields on AvailableShippingRates {
+  ready
+  shippingRates {
+    ...shippingRateFields
+  }
+}
+
+fragment shippingRateFields on ShippingRate {
+  handle
+  priceV2 {
+    amount
+    currencyCode
+  }
+  title
+}
+
+fragment addressFields on MailingAddress {
+  id
+  address1
+  address2
+  city
+  company
+  country
+  countryCodeV2
+  firstName
+  lastName
+  name
+  phone
+  province
+  provinceCode
+  zip
+  latitude
+  longitude
+}

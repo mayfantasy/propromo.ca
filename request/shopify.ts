@@ -9,7 +9,7 @@ export const shopify = Client.buildClient({
 })
 
 export const shopifyGql = createClient({
-  url: `https://${process.env.NEXT_PUBLIC_STORE_URL}/api/2019-07/graphql.json`,
+  url: `https://${process.env.NEXT_PUBLIC_STORE_URL}/api/2020-07/graphql.json`,
   fetchOptions: () => {
     return {
       headers: {

@@ -7,7 +7,6 @@ import {
   IProductListPageContent
 } from 'types/monfent.types'
 import { IMonfentData } from 'types/utils.types'
-import { ProductResource, Collection, Product } from 'shopify-buy'
 
 /**
  * ||===========================

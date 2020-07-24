@@ -7,6 +7,7 @@ import { CONTENT_WIDTH } from 'helpers/layout.helper'
 import Footer from './Footer'
 import CopyrightBlock from './CopyrightBlock'
 import ContactBlock from './ContactBlock'
+import SubscriptionBlock from 'components/HomePage/SubscriptionBlock'
 
 interface IProps {
   globalSettings: IGlobalSettings
@@ -55,6 +56,11 @@ const Layout = (props: IProps) => {
         <Row justify="center">
           <div className="propromo-layout__content">{children}</div>
         </Row>
+
+        <br />
+        <br />
+
+        <SubscriptionBlock />
 
         <ContactBlock
           email={globalSettings.contact_email}

@@ -7,6 +7,9 @@ export enum IFetchers {
   ShopifyAllCollections = 'ShopifyAllCollections',
   ShopifyFeaturedProducts = 'ShopifyFeaturedProducts',
   ShopifyProductsByCollectionHandle = 'ShopifyProductsByCollectionHandle',
+  ShopifyCreateCheckout = 'ShopifyCreateCheckout',
+  ShopifyAddCheckoutLineItems = 'ShopifyAddCheckoutLineItems',
+  ShopifyUpdateCheckoutLineItems = 'ShopifyUpdateCheckoutLineItems',
   /**
    * ||====================
    * || Monfent Fetcher IDs

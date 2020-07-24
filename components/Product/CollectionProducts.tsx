@@ -11,6 +11,8 @@ import {
   ShopifyGetProductsByCollectionHandleQuery
 } from 'graphql/generated'
 import { useQuery } from 'urql'
+import { useEffect } from 'react'
+import { useRouter } from 'next/dist/client/router'
 
 interface IProps {
   collectionHandle: string
@@ -19,19 +21,25 @@ interface IProps {
 const CollectionProducts = (props: IProps) => {
   const { collectionHandle, take } = props
 
+  const router = useRouter()
+
   /**
    * ||========================
    * || Get collection by handle
    */
-  const [productListData] = useQuery<ShopifyGetProductsByCollectionHandleQuery>(
-    {
-      query: GetProductsByCollectionHandleDocument,
-      variables: {
-        handle: 'featured-products',
-        pageSize: PAGE_SIZE
-      }
+  const [productListData, reload] = useQuery<
+    ShopifyGetProductsByCollectionHandleQuery
+  >({
+    query: GetProductsByCollectionHandleDocument,
+    variables: {
+      handle: collectionHandle,
+      pageSize: PAGE_SIZE
     }
-  )
+  })
+
+  useEffect(() => {
+    reload()
+  }, [router.asPath])
 
   const products = productListData.data?.collectionByHandle?.products.edges
   return (

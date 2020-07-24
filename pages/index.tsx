@@ -81,11 +81,6 @@ const HomePage = (props: IProps) => {
             <br />
 
             <FeaturedProducts />
-
-            <br />
-            <br />
-
-            <SubscriptionBlock />
           </Layout>
         )}
 
