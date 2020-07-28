@@ -177,9 +177,14 @@ const ProductDetailPage = (props: IProps) => {
                   <br />
                 </>
               )}
-
+              {productData.fetching && (
+                <>
+                  <br />
+                  <Skeleton active />
+                </>
+              )}
               {product && currentVariant && productCollection && (
-                <Spin spinning={productData.fetching}>
+                <>
                   <BreadCrumb
                     items={[
                       pageRoutes.homePage,
@@ -212,7 +217,6 @@ const ProductDetailPage = (props: IProps) => {
                       <Title level={4}>
                         {product.title} - {currentVariantValue}
                       </Title>
-
                       {/* Pricing */}
                       <div className="product-detail__pricing">
                         <span
@@ -233,9 +237,7 @@ const ProductDetailPage = (props: IProps) => {
                           </Text>
                         )}
                       </div>
-
                       <Divider />
-
                       {/* Description */}
                       <div className="product-detail__description">
                         <Text type="secondary">
@@ -246,34 +248,32 @@ const ProductDetailPage = (props: IProps) => {
                           />
                         </Text>
                       </div>
-
                       {/* Product Variants */}
-                      {product.options.length && (
-                        <>
-                          <br />
-                          <Row gutter={[2, 2]}>
-                            {product.options[0].values.map((o) => (
-                              <Col key={o}>
-                                {currentVariantValue === o ? (
-                                  <Button ghost type="primary">
-                                    {o}
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    onClick={() => onUpdateVariants(o)}
-                                    type="ghost"
-                                  >
-                                    {o}
-                                  </Button>
-                                )}
-                              </Col>
-                            ))}
-                          </Row>
-                        </>
-                      )}
-
+                      {product.options.length &&
+                        currentVariantValue !== 'Default Title' && (
+                          <>
+                            <br />
+                            <Row gutter={[2, 2]}>
+                              {product.options[0].values.map((o) => (
+                                <Col key={o}>
+                                  {currentVariantValue === o ? (
+                                    <Button ghost type="primary">
+                                      {o}
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      onClick={() => onUpdateVariants(o)}
+                                      type="ghost"
+                                    >
+                                      {o}
+                                    </Button>
+                                  )}
+                                </Col>
+                              ))}
+                            </Row>
+                          </>
+                        )}
                       <Divider />
-
                       {/* Buy Button */}
                       <div className="product-detail__buy-button">
                         <Space>
@@ -296,7 +296,6 @@ const ProductDetailPage = (props: IProps) => {
                           </Button>
                         </Space>
                       </div>
-
                       {/* Stock info */}
                       {quantityAvailable < 10 && (
                         <Text type="warning">
@@ -346,7 +345,7 @@ const ProductDetailPage = (props: IProps) => {
                   {/* <pre>
                     <small>{JSON.stringify(productData.data, null, 2)}</small>
                   </pre> */}
-                </Spin>
+                </>
               )}
             </div>
           </Layout>
