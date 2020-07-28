@@ -1,19 +1,67 @@
-import { Row, Button, Col, Grid } from 'antd'
+import { Row, Button, Col, Grid, Typography, Spin } from 'antd'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
 import Hamburger from 'hamburger-react'
 import { pageRoutes } from 'helpers/route.helpers'
 import Link from 'next/link'
+import { useQuery } from 'urql'
+import { ShopifyGetCustomerQuery, GetCustomerDocument } from 'graphql/generated'
+import { useEffect } from 'react'
+import { observer } from 'mobx-react'
+import { useStores } from 'stores'
+import { Router, useRouter } from 'next/dist/client/router'
+import { UserOutlined } from '@ant-design/icons'
+
+const { Text } = Typography
 
 interface IProps {
   announcement: string
   hideAnnouncement: boolean
 }
 
-const TopHeader = (props: IProps) => {
+const TopHeader = observer((props: IProps) => {
   const { announcement, hideAnnouncement } = props
   const { useBreakpoint } = Grid
 
   const bp = useBreakpoint()
+  const router = useRouter()
+
+  const {
+    AuthStore: { token$, setMe$, me$ }
+  } = useStores()
+  /**
+   * ||===================
+   * || Get Customer
+   */
+  const [GetCustomerResult, getCustomer] = useQuery<ShopifyGetCustomerQuery>({
+    query: GetCustomerDocument,
+    variables: { customerAccessToken: token$ },
+    pause: true
+  })
+
+  useEffect(() => {
+    if (token$) {
+      console.log('token: ', token$)
+      getCustomer()
+    }
+  }, [token$])
+
+  useEffect(() => {
+    if (GetCustomerResult.data?.customer) {
+      const me = GetCustomerResult.data.customer
+      setMe$(me)
+    }
+  }, [GetCustomerResult.data])
+
+  useEffect(() => {
+    if (GetCustomerResult.error) {
+      router.push(pageRoutes.loginPage.url || '')
+    }
+  }, [GetCustomerResult.error])
+
+  /**
+   * ||===================
+   * || Render
+   */
   return (
     <>
       <style jsx global>{`
@@ -29,7 +77,9 @@ const TopHeader = (props: IProps) => {
       <Row className="top-header" justify="center" align="middle">
         <Row
           className="top-header__content"
-          style={{ maxWidth: CONTENT_WIDTH }}
+          style={{
+            maxWidth: CONTENT_WIDTH
+          }}
           justify="space-between"
           align="middle"
         >
@@ -37,17 +87,24 @@ const TopHeader = (props: IProps) => {
             {!hideAnnouncement && announcement && <div>{announcement}</div>}
           </Col>
           <Col className="top-header__nav" xs={4} md={8}>
-            <Row justify="end">
-              {bp.md && (
-                <>
-                  <Link href={pageRoutes.loginPage.url || ''}>
-                    <Button type="link">Login</Button>
-                  </Link>
-                  <Link href={pageRoutes.registerPage.url || ''}>
-                    <Button type="link">Register</Button>
-                  </Link>
-                </>
-              )}
+            <Row justify="end" align="middle">
+              {bp.md &&
+                (GetCustomerResult.fetching ? (
+                  <Spin />
+                ) : me$ ? (
+                  <Text type="secondary">
+                    <UserOutlined /> {me$.displayName}
+                  </Text>
+                ) : (
+                  <>
+                    <Link href={pageRoutes.loginPage.url || ''}>
+                      <Button type="link">Login</Button>
+                    </Link>
+                    <Link href={pageRoutes.registerPage.url || ''}>
+                      <Button type="link">Register</Button>
+                    </Link>
+                  </>
+                ))}
               {!bp.md && (
                 <>
                   <Hamburger />
@@ -59,6 +116,6 @@ const TopHeader = (props: IProps) => {
       </Row>
     </>
   )
-}
+})
 
 export default TopHeader

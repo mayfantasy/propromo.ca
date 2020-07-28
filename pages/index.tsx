@@ -75,7 +75,7 @@ const HomePage = (props: IProps) => {
             <br />
             <br />
 
-            <CollectionBlocks />
+            <CollectionBlocks take={6} />
 
             <br />
             <br />

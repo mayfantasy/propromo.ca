@@ -1,3 +1,9 @@
+query GetCustomer($customerAccessToken: String!) {
+  customer(customerAccessToken: $customerAccessToken) {
+    ...customerFields
+  }
+}
+
 mutation Login($input: CustomerAccessTokenCreateInput!) {
   customerAccessTokenCreate(input: $input) {
     customerAccessToken {

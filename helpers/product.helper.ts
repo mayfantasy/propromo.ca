@@ -25,9 +25,12 @@ export const productSortOptions: {
 }
 
 export const sortProducts = (
-  products: ShopifyProductVariantFieldsFragment[],
+  products: ShopifyProductFieldsFragment[],
   sortValue: string
 ) => {
+  const getFirstVariant = (product: ShopifyProductFieldsFragment) => {
+    return product.variants.edges[0].node
+  }
   switch (sortValue) {
     case productSortOptions.name_asc.value:
       return products.sort((a, b) => {
@@ -44,8 +47,14 @@ export const sortProducts = (
     case productSortOptions.price_asc.value:
       return products.sort((a, b) => {
         if (
-          Number(a.compareAtPriceV2?.amount || a.priceV2.amount) >
-          Number(b.compareAtPriceV2?.amount || b.priceV2.amount)
+          Number(
+            getFirstVariant(a).compareAtPriceV2?.amount ||
+              getFirstVariant(a).priceV2.amount
+          ) >
+          Number(
+            getFirstVariant(b).compareAtPriceV2?.amount ||
+              getFirstVariant(b).priceV2.amount
+          )
         ) {
           return 1
         } else return -1
@@ -53,8 +62,14 @@ export const sortProducts = (
     case productSortOptions.price_des.value:
       return products.sort((a, b) => {
         if (
-          Number(a.compareAtPriceV2?.amount || a.priceV2.amount) <
-          Number(b.compareAtPriceV2?.amount || b.priceV2.amount)
+          Number(
+            getFirstVariant(a).compareAtPriceV2?.amount ||
+              getFirstVariant(a).priceV2.amount
+          ) <
+          Number(
+            getFirstVariant(b).compareAtPriceV2?.amount ||
+              getFirstVariant(b).priceV2.amount
+          )
         ) {
           return 1
         } else return -1

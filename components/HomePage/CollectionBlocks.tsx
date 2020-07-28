@@ -16,9 +16,11 @@ import { pageRoutes } from 'helpers/route.helpers'
 
 const { Text } = Typography
 
-interface IProps {}
+interface IProps {
+  take?: number
+}
 const CollectionBlocks = (props: IProps) => {
-  const {} = props
+  const { take } = props
 
   /**
    * ||========================
@@ -60,21 +62,23 @@ const CollectionBlocks = (props: IProps) => {
         )}
         <Row gutter={[4, 4]}>
           {collectionList.data ? (
-            collectionList.data.collections.edges.map((collection) => (
-              <Col key={collection.node.id} xs={24} sm={12} lg={8}>
-                <Link
-                  href={
-                    pageRoutes.productListPage(collection.node.handle)
-                      .dynamicUrl || ''
-                  }
-                  as={pageRoutes.productListPage(collection.node.handle).url}
-                >
-                  <a>
-                    <CollectionCard collection={collection.node} />
-                  </a>
-                </Link>
-              </Col>
-            ))
+            collectionList.data.collections.edges
+              .slice(0, take || collectionList.data.collections.edges.length)
+              .map((collection) => (
+                <Col key={collection.node.id} xs={24} sm={12} lg={8}>
+                  <Link
+                    href={
+                      pageRoutes.productListPage(collection.node.handle)
+                        .dynamicUrl || ''
+                    }
+                    as={pageRoutes.productListPage(collection.node.handle).url}
+                  >
+                    <a>
+                      <CollectionCard collection={collection.node} />
+                    </a>
+                  </Link>
+                </Col>
+              ))
           ) : (
             <Skeleton active />
           )}

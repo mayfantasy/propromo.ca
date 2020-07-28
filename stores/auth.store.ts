@@ -1,43 +1,29 @@
 import { action, observable } from 'mobx'
+import {
+  ShopifyCustomer,
+  ShopifyCustomerFieldsFragment
+} from 'graphql/generated'
 
 class AuthStore {
   @observable
-  token$: string | null = null
+  token$: string | undefined
 
   @action
-  setToken$ = (token: string | null) => {
+  setToken$ = (token: string | undefined) => {
     this.token$ = token
+    if (token) {
+      localStorage.setItem('token', token)
+    } else {
+      localStorage.removeItem('token')
+    }
   }
 
-  // @observable
-  // me$: IToken | null = null
+  @observable
+  me$: ShopifyCustomerFieldsFragment | undefined
 
-  // @action
-  // signIn$ = (payload: { encoded: string; token: IToken }) => {
-  //   this.me$ = payload.token
-
-  //   // Set token to local storage
-  //   storeTokenId(payload.encoded)
-
-  //   if (this.me$) {
-  //     window.location.href = buildUrl(
-  //       pageRoutes.productsPage.url,
-  //       this.me$.user.brands[0].id,
-  //       getDefaultCountry().id
-  //     )
-  //   }
-  // }
-
-  // @action
-  // setMe$ = (payload: IToken) => {
-  //   this.me$ = payload
-  // }
-
-  // @action
-  // logout$ = () => {
-  //   unstoreTokenId()
-  //   this.me$ = null
-  //   window.location.href = pageRoutes.loginPage.url as string
-  // }
+  @action
+  setMe$ = (me: ShopifyCustomerFieldsFragment | undefined) => {
+    this.me$ = me
+  }
 }
 export default AuthStore

@@ -81,9 +81,10 @@ const ProductList = (props: IProps) => {
     )
   }
   const collectionTitle = collectionWithProducts.data?.collectionByHandle?.title
-  const products = (
-    collectionWithProducts.data?.collectionByHandle?.products.edges || []
-  ).map((p) => p.node.variants.edges[0].node)
+  const products =
+    collectionWithProducts.data?.collectionByHandle?.products.edges.map(
+      (p) => p.node
+    ) || []
   const sortedProducts = sortProducts(products, sortValue)
 
   if (globalSettingsData && pageContent) {

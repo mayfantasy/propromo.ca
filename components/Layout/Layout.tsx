@@ -8,13 +8,33 @@ import Footer from './Footer'
 import CopyrightBlock from './CopyrightBlock'
 import ContactBlock from './ContactBlock'
 import SubscriptionBlock from 'components/HomePage/SubscriptionBlock'
+import { observer } from 'mobx-react'
+import { useStores } from 'stores'
+import { useEffect } from 'react'
+import { useRouter } from 'next/dist/client/router'
+import { pageRoutes } from 'helpers/route.helpers'
 
 interface IProps {
   globalSettings: IGlobalSettings
   children: React.ReactNode
 }
-const Layout = (props: IProps) => {
+const Layout = observer((props: IProps) => {
   const { globalSettings, children } = props
+
+  const {
+    AuthStore: { setToken$ }
+  } = useStores()
+  const router = useRouter()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      setToken$(token)
+    } else {
+      router.push(pageRoutes.loginPage.url || '')
+    }
+  }, [])
+
   return (
     <>
       <style jsx global>{`
@@ -73,6 +93,6 @@ const Layout = (props: IProps) => {
       </div>
     </>
   )
-}
+})
 
 export default Layout

@@ -28,9 +28,14 @@ import {
   ShopifyGetProductsByCollectionHandleQuery,
   GetProductsByCollectionHandleDocument,
   ShopifyGetCollectionByHandleQuery,
-  GetCollectionByHandleDocument
+  GetCollectionByHandleDocument,
+  ShopifyProductVariantFieldsFragment
 } from 'graphql/generated'
-import { PAGE_SIZE, CURRENCY_SYMBOL } from 'helpers/utils.helper'
+import {
+  PAGE_SIZE,
+  CURRENCY_SYMBOL,
+  RELATED_PRODUCT_TAG_PREFIX
+} from 'helpers/utils.helper'
 import ImageDisplay from 'components/Product/ImageDisplay'
 import { useState, useEffect } from 'react'
 import SectionHeader from 'components/Utils/HeaderLine'
@@ -43,6 +48,10 @@ interface IProps {}
 const ProductDetailPage = (props: IProps) => {
   const {} = props
   const bp = useBreakpoint()
+
+  const [currentVariant, setCurrentVariant] = useState<
+    ShopifyProductVariantFieldsFragment | undefined
+  >()
 
   const [quantity, setQuantity] = useState(1)
   /**
@@ -93,6 +102,18 @@ const ProductDetailPage = (props: IProps) => {
   }, [router.asPath])
 
   /**
+   * ||========================
+   * || On update variant
+   */
+  const onUpdateVariants = (option: string) => {
+    const foundVariant = productVariants?.find(
+      (v) => v.node.selectedOptions[0].value === option
+    )?.node
+    setCurrentVariant(foundVariant)
+    setQuantity(1)
+  }
+
+  /**
    * ||=======
    * || Render
    */
@@ -106,11 +127,23 @@ const ProductDetailPage = (props: IProps) => {
   }
 
   const product = productData.data?.productByHandle
-  const productVariant = product?.variants.edges[0].node
+  const productVariants = product?.variants.edges
+  const firstVariant = productVariants?.[0].node
+  const currentVariantValue = currentVariant?.selectedOptions[0].value
+  const quantityAvailable = currentVariant?.quantityAvailable || 0
+  const relatedCollectionHandle = product?.tags.find((t) =>
+    t.includes(RELATED_PRODUCT_TAG_PREFIX)
+  )
+
+  console.log(quantityAvailable)
   const productCollection =
     collectionHandle === 'all-products'
       ? product?.collections.edges[0].node
       : collectionData.data?.collectionByHandle
+
+  useEffect(() => {
+    setCurrentVariant(firstVariant)
+  }, [firstVariant])
 
   if (globalSettingsData) {
     return (
@@ -145,7 +178,7 @@ const ProductDetailPage = (props: IProps) => {
                 </>
               )}
 
-              {product && productVariant && productCollection && (
+              {product && currentVariant && productCollection && (
                 <Spin spinning={productData.fetching}>
                   <BreadCrumb
                     items={[
@@ -176,25 +209,27 @@ const ProductDetailPage = (props: IProps) => {
                       />
                     </Col>
                     <Col xs={24} lg={12}>
-                      <Title level={4}>{productVariant.title}</Title>
+                      <Title level={4}>
+                        {product.title} - {currentVariantValue}
+                      </Title>
 
                       {/* Pricing */}
                       <div className="product-detail__pricing">
                         <span
                           style={{
-                            textDecoration: productVariant.compareAtPriceV2
+                            textDecoration: currentVariant.compareAtPriceV2
                               ?.amount
                               ? 'line-through'
                               : ''
                           }}
                         >
-                          {CURRENCY_SYMBOL} {productVariant.priceV2.amount}
+                          {CURRENCY_SYMBOL} {currentVariant.priceV2.amount}
                         </span>
                         &nbsp;
-                        {productVariant.compareAtPriceV2?.amount && (
+                        {currentVariant.compareAtPriceV2?.amount && (
                           <Text type="danger">
                             {CURRENCY_SYMBOL}{' '}
-                            {productVariant.compareAtPriceV2.amount}
+                            {currentVariant.compareAtPriceV2.amount}
                           </Text>
                         )}
                       </div>
@@ -212,20 +247,70 @@ const ProductDetailPage = (props: IProps) => {
                         </Text>
                       </div>
 
+                      {/* Product Variants */}
+                      {product.options.length && (
+                        <>
+                          <br />
+                          <Row gutter={[2, 2]}>
+                            {product.options[0].values.map((o) => (
+                              <Col key={o}>
+                                {currentVariantValue === o ? (
+                                  <Button ghost type="primary">
+                                    {o}
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    onClick={() => onUpdateVariants(o)}
+                                    type="ghost"
+                                  >
+                                    {o}
+                                  </Button>
+                                )}
+                              </Col>
+                            ))}
+                          </Row>
+                        </>
+                      )}
+
                       <Divider />
 
                       {/* Buy Button */}
                       <div className="product-detail__buy-button">
                         <Space>
                           <InputNumber
+                            disabled={!quantityAvailable}
                             value={quantity}
                             onChange={(v) => {
-                              setQuantity(v as number)
+                              const value = v as number
+                              setQuantity(
+                                value <= 1
+                                  ? 1
+                                  : value > quantityAvailable
+                                  ? quantityAvailable
+                                  : value
+                              )
                             }}
                           />
-                          <Button type="primary">Add To Cart</Button>
+                          <Button disabled={!quantityAvailable} type="primary">
+                            {quantityAvailable ? 'Add To Cart' : 'Out Of Stock'}
+                          </Button>
                         </Space>
                       </div>
+
+                      {/* Stock info */}
+                      {quantityAvailable < 10 && (
+                        <Text type="warning">
+                          {quantityAvailable ? (
+                            <small>
+                              Only {quantityAvailable} left in stock
+                            </small>
+                          ) : (
+                            <small>
+                              This product is currently out of stock
+                            </small>
+                          )}
+                        </Text>
+                      )}
                     </Col>
                   </Row>
 
@@ -233,24 +318,27 @@ const ProductDetailPage = (props: IProps) => {
                   <br />
 
                   {/* Suggested */}
-                  <div className="product-detail__suggested">
-                    <SectionHeader
-                      title="You may also like"
-                      tagline="Checkout the related products"
-                    />
+                  {relatedCollectionHandle && (
+                    <>
+                      <div className="product-detail__suggested">
+                        <SectionHeader
+                          title="You may also like"
+                          tagline="Checkout the related products"
+                        />
 
-                    <CollectionProducts
-                      take={4}
-                      collectionHandle={productCollection.handle}
-                    />
-                  </div>
-
-                  <br />
-                  <br />
+                        <CollectionProducts
+                          take={8}
+                          collectionHandle={relatedCollectionHandle}
+                        />
+                      </div>
+                      <br />
+                      <br />
+                    </>
+                  )}
 
                   {/* Collections */}
                   <div className="product-detail__collectioins">
-                    <CollectionBlocks />
+                    <CollectionBlocks take={6} />
                   </div>
 
                   <br />

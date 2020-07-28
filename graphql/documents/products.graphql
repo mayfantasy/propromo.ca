@@ -45,7 +45,12 @@ fragment productFields on Product {
   productType
   title
   updatedAt
+  totalInventory
   vendor
+  tags
+  options {
+    ...productOptionFields
+  }
   images(first: $pageSize) {
     edges {
       cursor
@@ -62,7 +67,7 @@ fragment productFields on Product {
     edges {
       cursor
       node {
-        ...producttMetafields
+        ...producttMetaFields
       }
     }
     pageInfo {
@@ -97,6 +102,10 @@ fragment productVariantFields on ProductVariant {
   product {
     handle
   }
+  quantityAvailable
+  selectedOptions {
+    ...selectedOptionFields
+  }
   image {
     ...imageFields
   }
@@ -112,9 +121,20 @@ fragment productVariantFields on ProductVariant {
   weightUnit
 }
 
-fragment producttMetafields on Metafield {
+fragment producttMetaFields on Metafield {
   id
   key
   value
   description
+}
+
+fragment productOptionFields on ProductOption {
+  id
+  name
+  values
+}
+
+fragment selectedOptionFields on SelectedOption {
+  name
+  value
 }

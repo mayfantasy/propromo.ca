@@ -1,21 +1,35 @@
-import { Card, Typography, Row, Button, Tooltip } from 'antd'
-import { ShoppingCartOutlined } from '@ant-design/icons'
+import {
+  Card,
+  Typography,
+  Row,
+  Button,
+  Tooltip,
+  Popover,
+  Tag,
+  Col,
+  Divider
+} from 'antd'
+import { ShoppingCartOutlined, CaretRightFilled } from '@ant-design/icons'
 import { CURRENCY_SYMBOL } from 'helpers/utils.helper'
 import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
-import {
-  ShopifyProduct,
-  ShopifyProductVariantFieldsFragment
-} from 'graphql/generated'
+import { ShopifyProduct, ShopifyProductFieldsFragment } from 'graphql/generated'
 
 const { Title, Text } = Typography
 interface IProps {
   collectionHandle: string
-  product: ShopifyProductVariantFieldsFragment
+  product: ShopifyProductFieldsFragment
 }
 
 const ProductCard = (props: IProps) => {
   const { product, collectionHandle } = props
+
+  console.log(product)
+
+  const productVariants = product.variants
+  const firstVariant = productVariants?.edges[0].node
+  const variantCount = productVariants?.edges.length
+  const totalInventory = product.totalInventory || 0
 
   return (
     <>
@@ -46,6 +60,11 @@ const ProductCard = (props: IProps) => {
             margin-top: 10px;
             text-align: center;
           }
+          .product-card__variants-info {
+            a {
+              color: #0090f0;
+            }
+          }
         }
       `}</style>
 
@@ -54,20 +73,25 @@ const ProductCard = (props: IProps) => {
           href={
             pageRoutes.productDetailPage(
               collectionHandle,
-              product.product.handle as string
+              product.handle as string
             ).dynamicUrl as string
           }
           as={
             pageRoutes.productDetailPage(
               collectionHandle,
-              product.product.handle as string
+              product.handle as string
             ).url
           }
         >
           <a>
             {/* Image */}
             <div className="product-card__image">
-              <img src={product.image?.originalSrc} />
+              <img
+                src={
+                  firstVariant?.image?.originalSrc ||
+                  product?.images?.edges?.[0].node.originalSrc
+                }
+              />
             </div>
 
             {/* Title */}
@@ -77,7 +101,7 @@ const ProductCard = (props: IProps) => {
               align="middle"
             >
               {/* <Text strong>{product?.title}as dklnfasl djfalskdj f</Text> */}
-              <Text strong>{product.title}as dklnfasl djfalskdj f</Text>
+              <Text strong>{product.title}</Text>
             </Row>
 
             {/* Actions */}
@@ -88,32 +112,59 @@ const ProductCard = (props: IProps) => {
               align="middle"
             >
               <div className="product-card__pricing">
-                <small
-                  style={{
-                    textDecoration: product.compareAtPriceV2?.amount
-                      ? 'line-through'
-                      : ''
-                  }}
-                >
-                  {CURRENCY_SYMBOL} {product.priceV2.amount}
-                </small>
-                &nbsp;
-                {product.compareAtPriceV2?.amount && (
-                  <Text type="danger">
-                    {CURRENCY_SYMBOL} {product.compareAtPriceV2.amount}
+                {totalInventory ? (
+                  <>
+                    <small
+                      style={{
+                        textDecoration: firstVariant?.compareAtPriceV2?.amount
+                          ? 'line-through'
+                          : ''
+                      }}
+                    >
+                      {CURRENCY_SYMBOL} {firstVariant?.priceV2.amount}
+                    </small>
+                    &nbsp;
+                    {firstVariant?.compareAtPriceV2?.amount && (
+                      <Text type="danger">
+                        {CURRENCY_SYMBOL}{' '}
+                        {firstVariant?.compareAtPriceV2.amount}
+                      </Text>
+                    )}
+                  </>
+                ) : (
+                  <Text type="secondary">
+                    <small>Out Of Stock</small>
                   </Text>
                 )}
               </div>
               <div className="product-card__add-to-cart">
-                <Tooltip title="Add to cart">
+                {
                   <Button
                     type="link"
+                    disabled={!totalInventory}
                     shape="circle"
                     icon={<ShoppingCartOutlined />}
                   />
-                </Tooltip>
+                }
               </div>
             </Row>
+            <Divider style={{ margin: '5px 0' }} />
+            <div className="product-card__variants-info">
+              {variantCount === 1 ? (
+                <small>
+                  <a>
+                    View product <CaretRightFilled />
+                  </a>
+                </small>
+              ) : (
+                <small>
+                  <a>
+                    <strong>{variantCount}</strong> variants available{' '}
+                    <CaretRightFilled />
+                  </a>
+                </small>
+              )}
+            </div>
           </a>
         </Link>
       </Card>

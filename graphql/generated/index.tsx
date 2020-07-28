@@ -5087,6 +5087,19 @@ export type ShopifyCollectionFieldsFragment = (
   )> }
 );
 
+export type ShopifyGetCustomerQueryVariables = {
+  customerAccessToken: Scalars['String'];
+};
+
+
+export type ShopifyGetCustomerQuery = (
+  { __typename?: 'QueryRoot' }
+  & { customer?: Maybe<(
+    { __typename?: 'Customer' }
+    & ShopifyCustomerFieldsFragment
+  )> }
+);
+
 export type ShopifyLoginMutationVariables = {
   input: ShopifyCustomerAccessTokenCreateInput;
 };
@@ -5096,25 +5109,6 @@ export type ShopifyLoginMutation = (
   { __typename?: 'Mutation' }
   & { customerAccessTokenCreate?: Maybe<(
     { __typename?: 'CustomerAccessTokenCreatePayload' }
-    & { customerAccessToken?: Maybe<(
-      { __typename?: 'CustomerAccessToken' }
-      & Pick<ShopifyCustomerAccessToken, 'accessToken' | 'expiresAt'>
-    )>, customerUserErrors: Array<(
-      { __typename?: 'CustomerUserError' }
-      & Pick<ShopifyCustomerUserError, 'code' | 'field' | 'message'>
-    )> }
-  )> }
-);
-
-export type ShopifyLoginWithTokenMutationVariables = {
-  multipassToken: Scalars['String'];
-};
-
-
-export type ShopifyLoginWithTokenMutation = (
-  { __typename?: 'Mutation' }
-  & { customerAccessTokenCreateWithMultipass?: Maybe<(
-    { __typename?: 'CustomerAccessTokenCreateWithMultipassPayload' }
     & { customerAccessToken?: Maybe<(
       { __typename?: 'CustomerAccessToken' }
       & Pick<ShopifyCustomerAccessToken, 'accessToken' | 'expiresAt'>
@@ -5259,8 +5253,11 @@ export type ShopifyProductWithCollectionsFieldsFragment = (
 
 export type ShopifyProductFieldsFragment = (
   { __typename?: 'Product' }
-  & Pick<ShopifyProduct, 'id' | 'description' | 'descriptionHtml' | 'handle' | 'productType' | 'title' | 'updatedAt' | 'vendor'>
-  & { images: (
+  & Pick<ShopifyProduct, 'id' | 'description' | 'descriptionHtml' | 'handle' | 'productType' | 'title' | 'updatedAt' | 'totalInventory' | 'vendor' | 'tags'>
+  & { options: Array<(
+    { __typename?: 'ProductOption' }
+    & ShopifyProductOptionFieldsFragment
+  )>, images: (
     { __typename?: 'ImageConnection' }
     & { edges: Array<(
       { __typename?: 'ImageEdge' }
@@ -5280,7 +5277,7 @@ export type ShopifyProductFieldsFragment = (
       & Pick<ShopifyMetafieldEdge, 'cursor'>
       & { node: (
         { __typename?: 'Metafield' }
-        & ShopifyProducttMetafieldsFragment
+        & ShopifyProducttMetaFieldsFragment
       ) }
     )>, pageInfo: (
       { __typename?: 'PageInfo' }
@@ -5309,11 +5306,14 @@ export type ShopifyImageFieldsFragment = (
 
 export type ShopifyProductVariantFieldsFragment = (
   { __typename?: 'ProductVariant' }
-  & Pick<ShopifyProductVariant, 'id' | 'sku' | 'title' | 'weight' | 'weightUnit'>
+  & Pick<ShopifyProductVariant, 'id' | 'sku' | 'title' | 'quantityAvailable' | 'weight' | 'weightUnit'>
   & { product: (
     { __typename?: 'Product' }
     & Pick<ShopifyProduct, 'handle'>
-  ), image?: Maybe<(
+  ), selectedOptions: Array<(
+    { __typename?: 'SelectedOption' }
+    & ShopifySelectedOptionFieldsFragment
+  )>, image?: Maybe<(
     { __typename?: 'Image' }
     & ShopifyImageFieldsFragment
   )>, priceV2: (
@@ -5325,9 +5325,19 @@ export type ShopifyProductVariantFieldsFragment = (
   )> }
 );
 
-export type ShopifyProducttMetafieldsFragment = (
+export type ShopifyProducttMetaFieldsFragment = (
   { __typename?: 'Metafield' }
   & Pick<ShopifyMetafield, 'id' | 'key' | 'value' | 'description'>
+);
+
+export type ShopifyProductOptionFieldsFragment = (
+  { __typename?: 'ProductOption' }
+  & Pick<ShopifyProductOption, 'id' | 'name' | 'values'>
+);
+
+export type ShopifySelectedOptionFieldsFragment = (
+  { __typename?: 'SelectedOption' }
+  & Pick<ShopifySelectedOption, 'name' | 'value'>
 );
 
 export const AddressFieldsFragmentDoc = gql`
@@ -5448,12 +5458,25 @@ export const CollectionFieldsFragmentDoc = gql`
   description
 }
     ${ImageFieldsFragmentDoc}`;
-export const ProducttMetafieldsFragmentDoc = gql`
-    fragment producttMetafields on Metafield {
+export const ProductOptionFieldsFragmentDoc = gql`
+    fragment productOptionFields on ProductOption {
+  id
+  name
+  values
+}
+    `;
+export const ProducttMetaFieldsFragmentDoc = gql`
+    fragment producttMetaFields on Metafield {
   id
   key
   value
   description
+}
+    `;
+export const SelectedOptionFieldsFragmentDoc = gql`
+    fragment selectedOptionFields on SelectedOption {
+  name
+  value
 }
     `;
 export const ProductVariantFieldsFragmentDoc = gql`
@@ -5463,6 +5486,10 @@ export const ProductVariantFieldsFragmentDoc = gql`
   title
   product {
     handle
+  }
+  quantityAvailable
+  selectedOptions {
+    ...selectedOptionFields
   }
   image {
     ...imageFields
@@ -5478,7 +5505,8 @@ export const ProductVariantFieldsFragmentDoc = gql`
   weight
   weightUnit
 }
-    ${ImageFieldsFragmentDoc}`;
+    ${SelectedOptionFieldsFragmentDoc}
+${ImageFieldsFragmentDoc}`;
 export const ProductFieldsFragmentDoc = gql`
     fragment productFields on Product {
   id
@@ -5488,7 +5516,12 @@ export const ProductFieldsFragmentDoc = gql`
   productType
   title
   updatedAt
+  totalInventory
   vendor
+  tags
+  options {
+    ...productOptionFields
+  }
   images(first: $pageSize) {
     edges {
       cursor
@@ -5505,7 +5538,7 @@ export const ProductFieldsFragmentDoc = gql`
     edges {
       cursor
       node {
-        ...producttMetafields
+        ...producttMetaFields
       }
     }
     pageInfo {
@@ -5526,8 +5559,9 @@ export const ProductFieldsFragmentDoc = gql`
     }
   }
 }
-    ${ImageFieldsFragmentDoc}
-${ProducttMetafieldsFragmentDoc}
+    ${ProductOptionFieldsFragmentDoc}
+${ImageFieldsFragmentDoc}
+${ProducttMetaFieldsFragmentDoc}
 ${ProductVariantFieldsFragmentDoc}`;
 export const ProductWithCollectionsFieldsFragmentDoc = gql`
     fragment productWithCollectionsFields on Product {
@@ -5580,6 +5614,18 @@ export const GetCollectionsComponent = (props: Omit<Urql.QueryProps<ShopifyGetCo
   <Urql.Query {...props} query={GetCollectionsDocument} />
 );
 
+export const GetCustomerDocument = gql`
+    query GetCustomer($customerAccessToken: String!) {
+  customer(customerAccessToken: $customerAccessToken) {
+    ...customerFields
+  }
+}
+    ${CustomerFieldsFragmentDoc}`;
+
+export const GetCustomerComponent = (props: Omit<Urql.QueryProps<ShopifyGetCustomerQuery, ShopifyGetCustomerQueryVariables>, 'query'> & { variables: ShopifyGetCustomerQueryVariables }) => (
+  <Urql.Query {...props} query={GetCustomerDocument} />
+);
+
 export const LoginDocument = gql`
     mutation Login($input: CustomerAccessTokenCreateInput!) {
   customerAccessTokenCreate(input: $input) {
@@ -5598,26 +5644,6 @@ export const LoginDocument = gql`
 
 export const LoginComponent = (props: Omit<Urql.MutationProps<ShopifyLoginMutation, ShopifyLoginMutationVariables>, 'query'> & { variables?: ShopifyLoginMutationVariables }) => (
   <Urql.Mutation {...props} query={LoginDocument} />
-);
-
-export const LoginWithTokenDocument = gql`
-    mutation LoginWithToken($multipassToken: String!) {
-  customerAccessTokenCreateWithMultipass(multipassToken: $multipassToken) {
-    customerAccessToken {
-      accessToken
-      expiresAt
-    }
-    customerUserErrors {
-      code
-      field
-      message
-    }
-  }
-}
-    `;
-
-export const LoginWithTokenComponent = (props: Omit<Urql.MutationProps<ShopifyLoginWithTokenMutation, ShopifyLoginWithTokenMutationVariables>, 'query'> & { variables?: ShopifyLoginWithTokenMutationVariables }) => (
-  <Urql.Mutation {...props} query={LoginWithTokenDocument} />
 );
 
 export const LogoutDocument = gql`

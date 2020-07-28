@@ -23,15 +23,19 @@ import { CONTENT_WIDTH, LOGIN_CONTENT_WIDTH } from 'helpers/layout.helper'
 import { useForm } from 'antd/lib/form/Form'
 import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
-import { useMutation } from 'urql'
+import { useMutation, useQuery } from 'urql'
 import {
   ShopifyLoginMutation,
   ShopifyLoginMutationVariables,
   LoginDocument,
-  ShopifyCustomerCreateInput
+  ShopifyCustomerCreateInput,
+  ShopifyGetCustomerQuery,
+  GetCustomerDocument
 } from '../graphql/generated'
 import { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
+import { observer } from 'mobx-react'
+import { useStores } from 'stores'
 
 const { Title } = Typography
 
@@ -39,12 +43,16 @@ interface IProps {
   initialGlobalSettings: IGlobalSettings
 }
 
-const LoginPage = (props: IProps) => {
+const LoginPage = observer((props: IProps) => {
   const { initialGlobalSettings } = props
   const bp = useBreakpoint()
 
   const [form] = useForm()
   const router = useRouter()
+
+  const {
+    AuthStore: { setToken$, token$ }
+  } = useStores()
 
   /**
    * ||===============================
@@ -67,6 +75,10 @@ const LoginPage = (props: IProps) => {
   useEffect(() => {
     if (loginResult.data?.customerAccessTokenCreate?.customerAccessToken) {
       message.success('Login successfully.')
+      const token =
+        loginResult.data.customerAccessTokenCreate?.customerAccessToken
+          ?.accessToken
+      setToken$(token)
       router.push(pageRoutes.homePage.url || '/')
     }
     if (loginResult.data?.customerAccessTokenCreate?.customerUserErrors[0]) {
@@ -119,7 +131,9 @@ const LoginPage = (props: IProps) => {
             <Spin spinning={loginResult.fetching}>
               <div
                 className="login-page"
-                style={{ maxWidth: LOGIN_CONTENT_WIDTH }}
+                style={{
+                  maxWidth: LOGIN_CONTENT_WIDTH
+                }}
               >
                 <br />
                 <br />
@@ -127,12 +141,20 @@ const LoginPage = (props: IProps) => {
                 <Title level={4}>Login</Title>
                 <Divider />
 
-                <Form form={form} labelCol={{ xs: 5 }}>
+                <Form
+                  form={form}
+                  labelCol={{
+                    xs: 5
+                  }}
+                >
                   <Form.Item
                     label="Email"
                     name="email"
                     rules={[
-                      { required: true, message: 'Email is required.' },
+                      {
+                        required: true,
+                        message: 'Email is required.'
+                      },
                       {
                         type: 'email',
                         message: 'Please enter a valid email address.'
@@ -145,7 +167,10 @@ const LoginPage = (props: IProps) => {
                     label="Password"
                     name="password"
                     rules={[
-                      { required: true, message: 'Password is required.' }
+                      {
+                        required: true,
+                        message: 'Password is required.'
+                      }
                     ]}
                   >
                     <Input.Password />
@@ -171,6 +196,6 @@ const LoginPage = (props: IProps) => {
   } else {
     return <PageLoading wording="Loading page..." />
   }
-}
+})
 
 export default LoginPage

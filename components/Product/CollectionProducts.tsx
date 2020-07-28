@@ -13,13 +13,15 @@ import {
 import { useQuery } from 'urql'
 import { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
+import { ColProps } from 'antd/lib/col'
 
 interface IProps {
   collectionHandle: string
   take?: number
+  layout?: ColProps
 }
 const CollectionProducts = (props: IProps) => {
-  const { collectionHandle, take } = props
+  const { collectionHandle, take, layout } = props
 
   const router = useRouter()
 
@@ -42,6 +44,8 @@ const CollectionProducts = (props: IProps) => {
   }, [router.asPath])
 
   const products = productListData.data?.collectionByHandle?.products.edges
+
+  const defaultLayout: ColProps = { md: 6, sm: 8, xs: 12 }
   return (
     <>
       {productListData.error && (
@@ -60,10 +64,10 @@ const CollectionProducts = (props: IProps) => {
       <Row gutter={[4, 4]}>
         {products ? (
           products.slice(0, take || products.length).map((product) => (
-            <Col key={product.node.id} md={6} sm={8} xs={12}>
+            <Col key={product.node.id} {...(layout || defaultLayout)}>
               <ProductCard
                 collectionHandle={collectionHandle}
-                product={product.node.variants.edges[0].node}
+                product={product.node}
               />
             </Col>
           ))
