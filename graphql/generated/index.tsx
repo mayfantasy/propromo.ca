@@ -4992,6 +4992,131 @@ export enum ShopifyWeightUnit {
   Ounces = 'OUNCES'
 }
 
+export type ShopifyCreateCheckoutMutationVariables = {
+  input: ShopifyCheckoutCreateInput;
+};
+
+
+export type ShopifyCreateCheckoutMutation = (
+  { __typename?: 'Mutation' }
+  & { checkoutCreate?: Maybe<(
+    { __typename?: 'CheckoutCreatePayload' }
+    & { checkout?: Maybe<(
+      { __typename?: 'Checkout' }
+      & Pick<ShopifyCheckout, 'id'>
+    )>, checkoutUserErrors: Array<(
+      { __typename?: 'CheckoutUserError' }
+      & Pick<ShopifyCheckoutUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
+export type ShopifyCheckoutCustomerAssociateMutationVariables = {
+  checkoutId: Scalars['ID'];
+  customerAccessToken: Scalars['String'];
+};
+
+
+export type ShopifyCheckoutCustomerAssociateMutation = (
+  { __typename?: 'Mutation' }
+  & { checkoutCustomerAssociateV2?: Maybe<(
+    { __typename?: 'CheckoutCustomerAssociateV2Payload' }
+    & { checkout?: Maybe<(
+      { __typename?: 'Checkout' }
+      & Pick<ShopifyCheckout, 'id'>
+    )>, checkoutUserErrors: Array<(
+      { __typename?: 'CheckoutUserError' }
+      & Pick<ShopifyCheckoutUserError, 'code' | 'field' | 'message'>
+    )>, customer?: Maybe<(
+      { __typename?: 'Customer' }
+      & Pick<ShopifyCustomer, 'id'>
+    )> }
+  )> }
+);
+
+export type ShopifyCheckoutCompleteWithTokenizedPaymentMutationVariables = {
+  checkoutId: Scalars['ID'];
+  payment: ShopifyTokenizedPaymentInputV3;
+};
+
+
+export type ShopifyCheckoutCompleteWithTokenizedPaymentMutation = (
+  { __typename?: 'Mutation' }
+  & { checkoutCompleteWithTokenizedPaymentV3?: Maybe<(
+    { __typename?: 'CheckoutCompleteWithTokenizedPaymentV3Payload' }
+    & { checkout?: Maybe<(
+      { __typename?: 'Checkout' }
+      & Pick<ShopifyCheckout, 'id'>
+    )>, checkoutUserErrors: Array<(
+      { __typename?: 'CheckoutUserError' }
+      & Pick<ShopifyCheckoutUserError, 'code' | 'field' | 'message'>
+    )>, payment?: Maybe<(
+      { __typename?: 'Payment' }
+      & Pick<ShopifyPayment, 'id'>
+    )> }
+  )> }
+);
+
+export type ShopifyCheckoutLineItemsReplaceMutationVariables = {
+  lineItems: Array<ShopifyCheckoutLineItemInput>;
+  checkoutId: Scalars['ID'];
+};
+
+
+export type ShopifyCheckoutLineItemsReplaceMutation = (
+  { __typename?: 'Mutation' }
+  & { checkoutLineItemsReplace?: Maybe<(
+    { __typename?: 'CheckoutLineItemsReplacePayload' }
+    & { checkout?: Maybe<(
+      { __typename?: 'Checkout' }
+      & Pick<ShopifyCheckout, 'id'>
+    )>, userErrors: Array<(
+      { __typename?: 'CheckoutUserError' }
+      & Pick<ShopifyCheckoutUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
+export type ShopifyCheckoutShippingAddressUpdateMutationVariables = {
+  shippingAddress: ShopifyMailingAddressInput;
+  checkoutId: Scalars['ID'];
+};
+
+
+export type ShopifyCheckoutShippingAddressUpdateMutation = (
+  { __typename?: 'Mutation' }
+  & { checkoutShippingAddressUpdateV2?: Maybe<(
+    { __typename?: 'CheckoutShippingAddressUpdateV2Payload' }
+    & { checkout?: Maybe<(
+      { __typename?: 'Checkout' }
+      & Pick<ShopifyCheckout, 'id'>
+    )>, checkoutUserErrors: Array<(
+      { __typename?: 'CheckoutUserError' }
+      & Pick<ShopifyCheckoutUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
+export type ShopifyCheckoutShippingLineUpdateMutationVariables = {
+  checkoutId: Scalars['ID'];
+  shippingRateHandle: Scalars['String'];
+};
+
+
+export type ShopifyCheckoutShippingLineUpdateMutation = (
+  { __typename?: 'Mutation' }
+  & { checkoutShippingLineUpdate?: Maybe<(
+    { __typename?: 'CheckoutShippingLineUpdatePayload' }
+    & { checkout?: Maybe<(
+      { __typename?: 'Checkout' }
+      & Pick<ShopifyCheckout, 'id'>
+    )>, checkoutUserErrors: Array<(
+      { __typename?: 'CheckoutUserError' }
+      & Pick<ShopifyCheckoutUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
 export type ShopifyCheckoutFieldsFragment = (
   { __typename?: 'Checkout' }
   & Pick<ShopifyCheckout, 'id' | 'ready' | 'requiresShipping' | 'completedAt' | 'createdAt' | 'currencyCode' | 'email' | 'note' | 'orderStatusUrl' | 'taxExempt' | 'taxesIncluded' | 'webUrl'>
@@ -5148,6 +5273,47 @@ export type ShopifyCreateCustomerMutation = (
     & { customer?: Maybe<(
       { __typename?: 'Customer' }
       & ShopifyCustomerFieldsFragment
+    )>, customerUserErrors: Array<(
+      { __typename?: 'CustomerUserError' }
+      & Pick<ShopifyCustomerUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
+export type ShopifyCreateCustomerAddressMutationVariables = {
+  customerAccessToken: Scalars['String'];
+  address: ShopifyMailingAddressInput;
+};
+
+
+export type ShopifyCreateCustomerAddressMutation = (
+  { __typename?: 'Mutation' }
+  & { customerAddressCreate?: Maybe<(
+    { __typename?: 'CustomerAddressCreatePayload' }
+    & { customerAddress?: Maybe<(
+      { __typename?: 'MailingAddress' }
+      & Pick<ShopifyMailingAddress, 'id'>
+    )>, customerUserErrors: Array<(
+      { __typename?: 'CustomerUserError' }
+      & Pick<ShopifyCustomerUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
+export type ShopifyUpdateCustomerAddressMutationVariables = {
+  customerAccessToken: Scalars['String'];
+  id: Scalars['ID'];
+  address: ShopifyMailingAddressInput;
+};
+
+
+export type ShopifyUpdateCustomerAddressMutation = (
+  { __typename?: 'Mutation' }
+  & { customerAddressUpdate?: Maybe<(
+    { __typename?: 'CustomerAddressUpdatePayload' }
+    & { customerAddress?: Maybe<(
+      { __typename?: 'MailingAddress' }
+      & Pick<ShopifyMailingAddress, 'id'>
     )>, customerUserErrors: Array<(
       { __typename?: 'CustomerUserError' }
       & Pick<ShopifyCustomerUserError, 'code' | 'field' | 'message'>
@@ -5581,6 +5747,126 @@ export const ProductWithCollectionsFieldsFragmentDoc = gql`
 }
     ${CollectionFieldsFragmentDoc}
 ${ProductFieldsFragmentDoc}`;
+export const CreateCheckoutDocument = gql`
+    mutation CreateCheckout($input: CheckoutCreateInput!) {
+  checkoutCreate(input: $input) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+
+export const CreateCheckoutComponent = (props: Omit<Urql.MutationProps<ShopifyCreateCheckoutMutation, ShopifyCreateCheckoutMutationVariables>, 'query'> & { variables?: ShopifyCreateCheckoutMutationVariables }) => (
+  <Urql.Mutation {...props} query={CreateCheckoutDocument} />
+);
+
+export const CheckoutCustomerAssociateDocument = gql`
+    mutation CheckoutCustomerAssociate($checkoutId: ID!, $customerAccessToken: String!) {
+  checkoutCustomerAssociateV2(checkoutId: $checkoutId, customerAccessToken: $customerAccessToken) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+    customer {
+      id
+    }
+  }
+}
+    `;
+
+export const CheckoutCustomerAssociateComponent = (props: Omit<Urql.MutationProps<ShopifyCheckoutCustomerAssociateMutation, ShopifyCheckoutCustomerAssociateMutationVariables>, 'query'> & { variables?: ShopifyCheckoutCustomerAssociateMutationVariables }) => (
+  <Urql.Mutation {...props} query={CheckoutCustomerAssociateDocument} />
+);
+
+export const CheckoutCompleteWithTokenizedPaymentDocument = gql`
+    mutation CheckoutCompleteWithTokenizedPayment($checkoutId: ID!, $payment: TokenizedPaymentInputV3!) {
+  checkoutCompleteWithTokenizedPaymentV3(checkoutId: $checkoutId, payment: $payment) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+    payment {
+      id
+    }
+  }
+}
+    `;
+
+export const CheckoutCompleteWithTokenizedPaymentComponent = (props: Omit<Urql.MutationProps<ShopifyCheckoutCompleteWithTokenizedPaymentMutation, ShopifyCheckoutCompleteWithTokenizedPaymentMutationVariables>, 'query'> & { variables?: ShopifyCheckoutCompleteWithTokenizedPaymentMutationVariables }) => (
+  <Urql.Mutation {...props} query={CheckoutCompleteWithTokenizedPaymentDocument} />
+);
+
+export const CheckoutLineItemsReplaceDocument = gql`
+    mutation CheckoutLineItemsReplace($lineItems: [CheckoutLineItemInput!]!, $checkoutId: ID!) {
+  checkoutLineItemsReplace(lineItems: $lineItems, checkoutId: $checkoutId) {
+    checkout {
+      id
+    }
+    userErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+
+export const CheckoutLineItemsReplaceComponent = (props: Omit<Urql.MutationProps<ShopifyCheckoutLineItemsReplaceMutation, ShopifyCheckoutLineItemsReplaceMutationVariables>, 'query'> & { variables?: ShopifyCheckoutLineItemsReplaceMutationVariables }) => (
+  <Urql.Mutation {...props} query={CheckoutLineItemsReplaceDocument} />
+);
+
+export const CheckoutShippingAddressUpdateDocument = gql`
+    mutation CheckoutShippingAddressUpdate($shippingAddress: MailingAddressInput!, $checkoutId: ID!) {
+  checkoutShippingAddressUpdateV2(shippingAddress: $shippingAddress, checkoutId: $checkoutId) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+
+export const CheckoutShippingAddressUpdateComponent = (props: Omit<Urql.MutationProps<ShopifyCheckoutShippingAddressUpdateMutation, ShopifyCheckoutShippingAddressUpdateMutationVariables>, 'query'> & { variables?: ShopifyCheckoutShippingAddressUpdateMutationVariables }) => (
+  <Urql.Mutation {...props} query={CheckoutShippingAddressUpdateDocument} />
+);
+
+export const CheckoutShippingLineUpdateDocument = gql`
+    mutation CheckoutShippingLineUpdate($checkoutId: ID!, $shippingRateHandle: String!) {
+  checkoutShippingLineUpdate(checkoutId: $checkoutId, shippingRateHandle: $shippingRateHandle) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+
+export const CheckoutShippingLineUpdateComponent = (props: Omit<Urql.MutationProps<ShopifyCheckoutShippingLineUpdateMutation, ShopifyCheckoutShippingLineUpdateMutationVariables>, 'query'> & { variables?: ShopifyCheckoutShippingLineUpdateMutationVariables }) => (
+  <Urql.Mutation {...props} query={CheckoutShippingLineUpdateDocument} />
+);
+
 export const GetCollectionByHandleDocument = gql`
     query GetCollectionByHandle($handle: String!) {
   collectionByHandle(handle: $handle) {
@@ -5680,6 +5966,44 @@ export const CreateCustomerDocument = gql`
 
 export const CreateCustomerComponent = (props: Omit<Urql.MutationProps<ShopifyCreateCustomerMutation, ShopifyCreateCustomerMutationVariables>, 'query'> & { variables?: ShopifyCreateCustomerMutationVariables }) => (
   <Urql.Mutation {...props} query={CreateCustomerDocument} />
+);
+
+export const CreateCustomerAddressDocument = gql`
+    mutation CreateCustomerAddress($customerAccessToken: String!, $address: MailingAddressInput!) {
+  customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
+    customerAddress {
+      id
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+
+export const CreateCustomerAddressComponent = (props: Omit<Urql.MutationProps<ShopifyCreateCustomerAddressMutation, ShopifyCreateCustomerAddressMutationVariables>, 'query'> & { variables?: ShopifyCreateCustomerAddressMutationVariables }) => (
+  <Urql.Mutation {...props} query={CreateCustomerAddressDocument} />
+);
+
+export const UpdateCustomerAddressDocument = gql`
+    mutation UpdateCustomerAddress($customerAccessToken: String!, $id: ID!, $address: MailingAddressInput!) {
+  customerAddressUpdate(customerAccessToken: $customerAccessToken, id: $id, address: $address) {
+    customerAddress {
+      id
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+
+export const UpdateCustomerAddressComponent = (props: Omit<Urql.MutationProps<ShopifyUpdateCustomerAddressMutation, ShopifyUpdateCustomerAddressMutationVariables>, 'query'> & { variables?: ShopifyUpdateCustomerAddressMutationVariables }) => (
+  <Urql.Mutation {...props} query={UpdateCustomerAddressDocument} />
 );
 
 export const UpdateCustomerDocument = gql`

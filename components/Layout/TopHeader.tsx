@@ -40,7 +40,6 @@ const TopHeader = observer((props: IProps) => {
 
   useEffect(() => {
     if (token$) {
-      console.log('token: ', token$)
       getCustomer()
     }
   }, [token$])

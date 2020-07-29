@@ -24,8 +24,6 @@ interface IProps {
 const ProductCard = (props: IProps) => {
   const { product, collectionHandle } = props
 
-  console.log(product)
-
   const productVariants = product.variants
   const firstVariant = productVariants?.edges[0].node
   const variantCount = productVariants?.edges.length

@@ -29,7 +29,8 @@ import {
   GetProductsByCollectionHandleDocument,
   ShopifyGetCollectionByHandleQuery,
   GetCollectionByHandleDocument,
-  ShopifyProductVariantFieldsFragment
+  ShopifyProductVariantFieldsFragment,
+  ShopifySelectedOptionFieldsFragment
 } from 'graphql/generated'
 import {
   PAGE_SIZE,
@@ -41,6 +42,7 @@ import { useState, useEffect } from 'react'
 import SectionHeader from 'components/Utils/HeaderLine'
 import CollectionProducts from 'components/Product/CollectionProducts'
 import CollectionBlocks from 'components/HomePage/CollectionBlocks'
+import _ from 'lodash'
 
 const { Title, Text } = Typography
 
@@ -105,12 +107,39 @@ const ProductDetailPage = (props: IProps) => {
    * ||========================
    * || On update variant
    */
-  const onUpdateVariants = (option: string) => {
-    const foundVariant = productVariants?.find(
-      (v) => v.node.selectedOptions[0].value === option
-    )?.node
-    setCurrentVariant(foundVariant)
-    setQuantity(1)
+  const onUpdateVariants = (option: ShopifySelectedOptionFieldsFragment) => {
+    const currentSelectedOptions = currentVariant?.selectedOptions
+
+    if (currentSelectedOptions) {
+      const newSelectedOptions = [...currentSelectedOptions]
+      // Find the old option
+      const foundOptionIndex = currentSelectedOptions.findIndex(
+        (dso) => dso.name === option.name
+      )
+      if (foundOptionIndex !== -1) {
+        // Replace with the new option
+        newSelectedOptions.splice(foundOptionIndex, 1, option)
+      }
+
+      // Find variatioin
+      const foundVariant = productVariants?.find((variant) => {
+        const isEqual = _.isEqual(
+          newSelectedOptions.map((o) => ({
+            name: o.name,
+            value: o.value
+          })),
+          variant.node.selectedOptions.map((so) => ({
+            name: so.name,
+            value: so.value
+          }))
+        )
+
+        return isEqual
+      })
+
+      setCurrentVariant(foundVariant?.node)
+      setQuantity(1)
+    }
   }
 
   /**
@@ -129,13 +158,11 @@ const ProductDetailPage = (props: IProps) => {
   const product = productData.data?.productByHandle
   const productVariants = product?.variants.edges
   const firstVariant = productVariants?.[0].node
-  const currentVariantValue = currentVariant?.selectedOptions[0].value
   const quantityAvailable = currentVariant?.quantityAvailable || 0
   const relatedCollectionHandle = product?.tags.find((t) =>
     t.includes(RELATED_PRODUCT_TAG_PREFIX)
   )
 
-  console.log(quantityAvailable)
   const productCollection =
     collectionHandle === 'all-products'
       ? product?.collections.edges[0].node
@@ -215,7 +242,7 @@ const ProductDetailPage = (props: IProps) => {
                     </Col>
                     <Col xs={24} lg={12}>
                       <Title level={4}>
-                        {product.title} - {currentVariantValue}
+                        {product.title} - {currentVariant.title}
                       </Title>
                       {/* Pricing */}
                       <div className="product-detail__pricing">
@@ -248,29 +275,42 @@ const ProductDetailPage = (props: IProps) => {
                           />
                         </Text>
                       </div>
+
                       {/* Product Variants */}
                       {product.options.length &&
-                        currentVariantValue !== 'Default Title' && (
+                        currentVariant.title !== 'Default Title' && (
                           <>
                             <br />
-                            <Row gutter={[2, 2]}>
-                              {product.options[0].values.map((o) => (
-                                <Col key={o}>
-                                  {currentVariantValue === o ? (
-                                    <Button ghost type="primary">
-                                      {o}
-                                    </Button>
-                                  ) : (
-                                    <Button
-                                      onClick={() => onUpdateVariants(o)}
-                                      type="ghost"
-                                    >
-                                      {o}
-                                    </Button>
-                                  )}
-                                </Col>
-                              ))}
-                            </Row>
+                            {product.options.map((o) => (
+                              <div className="mb-15">
+                                <Title level={4}>{o.name}</Title>
+                                <Row gutter={[2, 2]}>
+                                  {o.values.map((v) => (
+                                    <Col key={v}>
+                                      {currentVariant.selectedOptions.find(
+                                        (so) => so.value === v
+                                      ) ? (
+                                        <Button ghost type="primary">
+                                          {v}
+                                        </Button>
+                                      ) : (
+                                        <Button
+                                          onClick={() =>
+                                            onUpdateVariants({
+                                              name: o.name,
+                                              value: v
+                                            })
+                                          }
+                                          type="ghost"
+                                        >
+                                          {v}
+                                        </Button>
+                                      )}
+                                    </Col>
+                                  ))}
+                                </Row>
+                              </div>
+                            ))}
                           </>
                         )}
                       <Divider />

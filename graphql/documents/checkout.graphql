@@ -1,3 +1,114 @@
+mutation CreateCheckout($input: CheckoutCreateInput!) {
+  checkoutCreate(input: $input) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation CheckoutCustomerAssociate(
+  $checkoutId: ID!
+  $customerAccessToken: String!
+) {
+  checkoutCustomerAssociateV2(
+    checkoutId: $checkoutId
+    customerAccessToken: $customerAccessToken
+  ) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+    customer {
+      id
+    }
+  }
+}
+
+mutation CheckoutCompleteWithTokenizedPayment(
+  $checkoutId: ID!
+  $payment: TokenizedPaymentInputV3!
+) {
+  checkoutCompleteWithTokenizedPaymentV3(
+    checkoutId: $checkoutId
+    payment: $payment
+  ) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+    payment {
+      id
+    }
+  }
+}
+
+mutation CheckoutLineItemsReplace(
+  $lineItems: [CheckoutLineItemInput!]!
+  $checkoutId: ID!
+) {
+  checkoutLineItemsReplace(lineItems: $lineItems, checkoutId: $checkoutId) {
+    checkout {
+      id
+    }
+    userErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation CheckoutShippingAddressUpdate(
+  $shippingAddress: MailingAddressInput!
+  $checkoutId: ID!
+) {
+  checkoutShippingAddressUpdateV2(
+    shippingAddress: $shippingAddress
+    checkoutId: $checkoutId
+  ) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation CheckoutShippingLineUpdate(
+  $checkoutId: ID!
+  $shippingRateHandle: String!
+) {
+  checkoutShippingLineUpdate(
+    checkoutId: $checkoutId
+    shippingRateHandle: $shippingRateHandle
+  ) {
+    checkout {
+      id
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
 fragment checkoutFields on Checkout {
   id
   ready
