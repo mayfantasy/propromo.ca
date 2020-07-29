@@ -151,7 +151,7 @@ const ProductList = (props: IProps) => {
                       style={{ width: '300px' }}
                     >
                       {Object.keys(productSortOptions).map((o) => (
-                        <Option value={productSortOptions[o].value}>
+                        <Option key={o} value={productSortOptions[o].value}>
                           {productSortOptions[o].name}
                         </Option>
                       ))}

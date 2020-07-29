@@ -14,6 +14,7 @@ import { CURRENCY_SYMBOL } from 'helpers/utils.helper'
 import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
 import { ShopifyProduct, ShopifyProductFieldsFragment } from 'graphql/generated'
+import { useRouter } from 'next/dist/client/router'
 
 const { Title, Text } = Typography
 interface IProps {
@@ -23,6 +24,8 @@ interface IProps {
 
 const ProductCard = (props: IProps) => {
   const { product, collectionHandle } = props
+
+  const router = useRouter()
 
   const productVariants = product.variants
   const firstVariant = productVariants?.edges[0].node
@@ -66,105 +69,99 @@ const ProductCard = (props: IProps) => {
         }
       `}</style>
 
-      <Card className="product-card">
-        <Link
-          href={
+      <Card
+        className="product-card"
+        onClick={() => {
+          router.push(
             pageRoutes.productDetailPage(
               collectionHandle,
               product.handle as string
-            ).dynamicUrl as string
-          }
-          as={
+            ).url as string
+          ),
             pageRoutes.productDetailPage(
               collectionHandle,
               product.handle as string
-            ).url
-          }
-        >
-          <a>
-            {/* Image */}
-            <div className="product-card__image">
-              <img
-                src={
-                  firstVariant?.image?.originalSrc ||
-                  product?.images?.edges?.[0].node.originalSrc
-                }
-              />
-            </div>
+            ).dynamicUrl
+        }}
+      >
+        <>
+          {/* Image */}
+          <div className="product-card__image">
+            <img
+              src={
+                firstVariant?.image?.originalSrc ||
+                product?.images?.edges?.[0].node.originalSrc
+              }
+            />
+          </div>
 
-            {/* Title */}
-            <Row
-              className="product-card__title"
-              justify="center"
-              align="middle"
-            >
-              {/* <Text strong>{product?.title}as dklnfasl djfalskdj f</Text> */}
-              <Text strong>{product.title}</Text>
-            </Row>
+          {/* Title */}
+          <Row className="product-card__title" justify="center" align="middle">
+            {/* <Text strong>{product?.title}as dklnfasl djfalskdj f</Text> */}
+            <Text strong>{product.title}</Text>
+          </Row>
 
-            {/* Actions */}
+          {/* Actions */}
 
-            <Row
-              className="product-card__actions"
-              justify="space-between"
-              align="middle"
-            >
-              <div className="product-card__pricing">
-                {totalInventory ? (
-                  <>
-                    <small
-                      style={{
-                        textDecoration: firstVariant?.compareAtPriceV2?.amount
-                          ? 'line-through'
-                          : ''
-                      }}
-                    >
-                      {CURRENCY_SYMBOL} {firstVariant?.priceV2.amount}
-                    </small>
-                    &nbsp;
-                    {firstVariant?.compareAtPriceV2?.amount && (
-                      <Text type="danger">
-                        {CURRENCY_SYMBOL}{' '}
-                        {firstVariant?.compareAtPriceV2.amount}
-                      </Text>
-                    )}
-                  </>
-                ) : (
-                  <Text type="secondary">
-                    <small>Out Of Stock</small>
-                  </Text>
-                )}
-              </div>
-              <div className="product-card__add-to-cart">
-                {
-                  <Button
-                    type="link"
-                    disabled={!totalInventory}
-                    shape="circle"
-                    icon={<ShoppingCartOutlined />}
-                  />
-                }
-              </div>
-            </Row>
-            <Divider style={{ margin: '5px 0' }} />
-            <div className="product-card__variants-info">
-              {variantCount === 1 ? (
-                <small>
-                  <a>
-                    View product <CaretRightFilled />
-                  </a>
-                </small>
+          <Row
+            className="product-card__actions"
+            justify="space-between"
+            align="middle"
+          >
+            <div className="product-card__pricing">
+              {totalInventory ? (
+                <>
+                  <small
+                    style={{
+                      textDecoration: firstVariant?.compareAtPriceV2?.amount
+                        ? 'line-through'
+                        : ''
+                    }}
+                  >
+                    {CURRENCY_SYMBOL} {firstVariant?.priceV2.amount}
+                  </small>
+                  &nbsp;
+                  {firstVariant?.compareAtPriceV2?.amount && (
+                    <Text type="danger">
+                      {CURRENCY_SYMBOL} {firstVariant?.compareAtPriceV2.amount}
+                    </Text>
+                  )}
+                </>
               ) : (
-                <small>
-                  <a>
-                    <strong>{variantCount}</strong> variants available{' '}
-                    <CaretRightFilled />
-                  </a>
-                </small>
+                <Text type="secondary">
+                  <small>Out Of Stock</small>
+                </Text>
               )}
             </div>
-          </a>
-        </Link>
+            <div className="product-card__add-to-cart">
+              {
+                <Button
+                  type="link"
+                  disabled={!totalInventory}
+                  shape="circle"
+                  icon={<ShoppingCartOutlined />}
+                />
+              }
+            </div>
+          </Row>
+          <Divider style={{ margin: '5px 0' }} />
+          <div className="product-card__variants-info">
+            {variantCount === 1 ? (
+              <small>
+                <a>
+                  View product <CaretRightFilled />
+                </a>
+              </small>
+            ) : (
+              <small>
+                <a>
+                  <strong>{variantCount}</strong> variants available{' '}
+                  <CaretRightFilled />
+                </a>
+              </small>
+            )}
+          </div>
+        </>
       </Card>
     </>
   )

@@ -214,7 +214,7 @@ const RegisterPage = (props: IProps) => {
                 </Form>
                 <Row justify="end" gutter={2}>
                   <Space>
-                    <Link href={pageRoutes.registerPage.url || ''}>
+                    <Link href={pageRoutes.loginPage.url || ''}>
                       <Button>Login</Button>
                     </Link>
                     <Button type="primary" onClick={onRegister}>

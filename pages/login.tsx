@@ -137,6 +137,8 @@ const LoginPage = observer((props: IProps) => {
               >
                 <br />
                 <br />
+                <br />
+                <br />
 
                 <Title level={4}>Login</Title>
                 <Divider />
@@ -187,6 +189,15 @@ const LoginPage = observer((props: IProps) => {
                   </Space>
                 </Row>
               </div>
+
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
             </Spin>
           </Layout>
         )}

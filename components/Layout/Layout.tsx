@@ -45,24 +45,26 @@ const Layout = observer((props: IProps) => {
         }
       `}</style>
       <div className="propromo-layout">
-        {/* <pre>
+        <pre>
           {JSON.stringify(
             {
               '1': 'Real Nav Items',
-              '2': 'Product Detail Page',
+              // '2': 'Product Detail Page',
               '3': 'Real Filters',
-              '4': 'Sort Products',
-              '5': 'Customer Login & Register & My Account Page',
-              '6': 'Connect to CRM',
+              // '4': 'Sort Products',
+              // '5': 'Customer Login & Register & My Account Page',
+              '5': 'My Account Page',
+              '6': 'Upload designs, select design templates (use antd drawers)',
               '7': 'Cart page & Checkout',
               '8': 'Refund & Return Policy page',
               '9': 'About us page',
-              '10': 'Terms & policy page'
+              '10': 'Terms & policy page',
+              '11': 'Connect to CRM'
             },
             null,
             2
           )}
-        </pre> */}
+        </pre>
         <TopHeader
           announcement={globalSettings.announcement}
           hideAnnouncement={globalSettings.hide_announcement}

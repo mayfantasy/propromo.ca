@@ -282,7 +282,7 @@ const ProductDetailPage = (props: IProps) => {
                           <>
                             <br />
                             {product.options.map((o) => (
-                              <div className="mb-15">
+                              <div key={o.id} className="mb-15">
                                 <Title level={4}>{o.name}</Title>
                                 <Row gutter={[2, 2]}>
                                   {o.values.map((v) => (
