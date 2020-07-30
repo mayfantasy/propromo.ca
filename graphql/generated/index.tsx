@@ -5313,7 +5313,7 @@ export type ShopifyUpdateCustomerAddressMutation = (
     { __typename?: 'CustomerAddressUpdatePayload' }
     & { customerAddress?: Maybe<(
       { __typename?: 'MailingAddress' }
-      & Pick<ShopifyMailingAddress, 'id'>
+      & ShopifyAddressFieldsFragment
     )>, customerUserErrors: Array<(
       { __typename?: 'CustomerUserError' }
       & Pick<ShopifyCustomerUserError, 'code' | 'field' | 'message'>
@@ -5337,6 +5337,26 @@ export type ShopifyUpdateCustomerMutation = (
     )>, customerAccessToken?: Maybe<(
       { __typename?: 'CustomerAccessToken' }
       & Pick<ShopifyCustomerAccessToken, 'accessToken' | 'expiresAt'>
+    )>, customerUserErrors: Array<(
+      { __typename?: 'CustomerUserError' }
+      & Pick<ShopifyCustomerUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
+export type ShopifySetCustomerDefaultAddressMutationVariables = {
+  customerAccessToken: Scalars['String'];
+  addressId: Scalars['ID'];
+};
+
+
+export type ShopifySetCustomerDefaultAddressMutation = (
+  { __typename?: 'Mutation' }
+  & { customerDefaultAddressUpdate?: Maybe<(
+    { __typename?: 'CustomerDefaultAddressUpdatePayload' }
+    & { customer?: Maybe<(
+      { __typename?: 'Customer' }
+      & Pick<ShopifyCustomer, 'id'>
     )>, customerUserErrors: Array<(
       { __typename?: 'CustomerUserError' }
       & Pick<ShopifyCustomerUserError, 'code' | 'field' | 'message'>
@@ -5991,7 +6011,7 @@ export const UpdateCustomerAddressDocument = gql`
     mutation UpdateCustomerAddress($customerAccessToken: String!, $id: ID!, $address: MailingAddressInput!) {
   customerAddressUpdate(customerAccessToken: $customerAccessToken, id: $id, address: $address) {
     customerAddress {
-      id
+      ...addressFields
     }
     customerUserErrors {
       code
@@ -6000,7 +6020,7 @@ export const UpdateCustomerAddressDocument = gql`
     }
   }
 }
-    `;
+    ${AddressFieldsFragmentDoc}`;
 
 export const UpdateCustomerAddressComponent = (props: Omit<Urql.MutationProps<ShopifyUpdateCustomerAddressMutation, ShopifyUpdateCustomerAddressMutationVariables>, 'query'> & { variables?: ShopifyUpdateCustomerAddressMutationVariables }) => (
   <Urql.Mutation {...props} query={UpdateCustomerAddressDocument} />
@@ -6027,6 +6047,25 @@ export const UpdateCustomerDocument = gql`
 
 export const UpdateCustomerComponent = (props: Omit<Urql.MutationProps<ShopifyUpdateCustomerMutation, ShopifyUpdateCustomerMutationVariables>, 'query'> & { variables?: ShopifyUpdateCustomerMutationVariables }) => (
   <Urql.Mutation {...props} query={UpdateCustomerDocument} />
+);
+
+export const SetCustomerDefaultAddressDocument = gql`
+    mutation SetCustomerDefaultAddress($customerAccessToken: String!, $addressId: ID!) {
+  customerDefaultAddressUpdate(customerAccessToken: $customerAccessToken, addressId: $addressId) {
+    customer {
+      id
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    `;
+
+export const SetCustomerDefaultAddressComponent = (props: Omit<Urql.MutationProps<ShopifySetCustomerDefaultAddressMutation, ShopifySetCustomerDefaultAddressMutationVariables>, 'query'> & { variables?: ShopifySetCustomerDefaultAddressMutationVariables }) => (
+  <Urql.Mutation {...props} query={SetCustomerDefaultAddressDocument} />
 );
 
 export const GetProductsByCollectionHandleDocument = gql`

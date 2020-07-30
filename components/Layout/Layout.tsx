@@ -31,7 +31,7 @@ const Layout = observer((props: IProps) => {
     if (token) {
       setToken$(token)
     } else {
-      router.push(pageRoutes.loginPage.url || '')
+      router.push(pageRoutes.loginPage.url!)
     }
   }, [])
 
@@ -45,7 +45,7 @@ const Layout = observer((props: IProps) => {
         }
       `}</style>
       <div className="propromo-layout">
-        <pre>
+        {/* <pre>
           {JSON.stringify(
             {
               '1': 'Real Nav Items',
@@ -64,7 +64,7 @@ const Layout = observer((props: IProps) => {
             null,
             2
           )}
-        </pre>
+        </pre> */}
         <TopHeader
           announcement={globalSettings.announcement}
           hideAnnouncement={globalSettings.hide_announcement}

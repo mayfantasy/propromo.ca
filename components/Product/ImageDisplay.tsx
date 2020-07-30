@@ -7,10 +7,10 @@ interface IProps {
 const ImageDisplay = (props: IProps) => {
   const { images } = props
 
-  const [mainImage, setMainImage] = useState(images[0] || '')
+  const [mainImage, setMainImage] = useState(images[0]!)
 
   useEffect(() => {
-    setMainImage(images[0] || '')
+    setMainImage(images[0]!)
   }, [images])
 
   return (

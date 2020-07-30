@@ -53,7 +53,7 @@ const TopHeader = observer((props: IProps) => {
 
   useEffect(() => {
     if (GetCustomerResult.error) {
-      router.push(pageRoutes.loginPage.url || '')
+      router.push(pageRoutes.loginPage.url!)
     }
   }, [GetCustomerResult.error])
 
@@ -70,6 +70,11 @@ const TopHeader = observer((props: IProps) => {
           .top-header__content {
             width: 90%;
             font-size: 0.8rem;
+          }
+          .top-header__account {
+            &:hover {
+              text-decoration: underline;
+            }
           }
         }
       `}</style>
@@ -91,15 +96,19 @@ const TopHeader = observer((props: IProps) => {
                 (GetCustomerResult.fetching ? (
                   <Spin />
                 ) : me$ ? (
-                  <Text type="secondary">
-                    <UserOutlined /> {me$.displayName}
-                  </Text>
+                  <Link href={pageRoutes.accountPage.url!}>
+                    <a>
+                      <Text type="secondary" className="top-header__account">
+                        <UserOutlined /> {me$.displayName}
+                      </Text>
+                    </a>
+                  </Link>
                 ) : (
                   <>
-                    <Link href={pageRoutes.loginPage.url || ''}>
+                    <Link href={pageRoutes.loginPage.url!}>
                       <Button type="link">Login</Button>
                     </Link>
-                    <Link href={pageRoutes.registerPage.url || ''}>
+                    <Link href={pageRoutes.registerPage.url!}>
                       <Button type="link">Register</Button>
                     </Link>
                   </>

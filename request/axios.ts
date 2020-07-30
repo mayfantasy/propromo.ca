@@ -1,7 +1,7 @@
 import Axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 const api = Axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_MONFENT_BASE_URL || ''}/api`
+  baseURL: `${process.env.NEXT_PUBLIC_MONFENT_BASE_URL!}/api`
 })
 
 api.interceptors.request.use(
@@ -9,7 +9,7 @@ api.interceptors.request.use(
     const _config = {
       ...config,
       headers: {
-        'x-acc-k': process.env.NEXT_PUBLIC_MONFENT_API_KEY || ''
+        'x-acc-k': process.env.NEXT_PUBLIC_MONFENT_API_KEY!
       }
     }
     return _config

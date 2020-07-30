@@ -235,9 +235,13 @@ const ProductDetailPage = (props: IProps) => {
                     <Col xs={24} lg={12}>
                       {/* Images */}
                       <ImageDisplay
-                        images={product.images.edges.map(
-                          (i) => i.node.originalSrc
-                        )}
+                        images={
+                          product.images.edges.length
+                            ? product.images.edges.map(
+                                (i) => i.node?.originalSrc
+                              )
+                            : ['/square-placeholder.jpg']
+                        }
                       />
                     </Col>
                     <Col xs={24} lg={12}>

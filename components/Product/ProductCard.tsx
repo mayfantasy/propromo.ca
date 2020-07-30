@@ -90,7 +90,8 @@ const ProductCard = (props: IProps) => {
             <img
               src={
                 firstVariant?.image?.originalSrc ||
-                product?.images?.edges?.[0].node.originalSrc
+                product?.images?.edges?.[0]?.node?.originalSrc ||
+                '/square-placeholder.jpg'
               }
             />
           </div>

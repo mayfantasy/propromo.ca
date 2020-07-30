@@ -118,7 +118,7 @@ const Footer = (props: IProps) => {
                     <div key={item.key}>
                       <Link
                         key={item.key}
-                        href={item.url || ''}
+                        href={item.url!}
                         as={item.dynamicUrl}
                       >
                         <a>{item.name}</a>

@@ -42,6 +42,8 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
 import { IRegisterFormValues } from '../types/customer.types'
 import { confirmPasswordRule } from 'helpers/form.helpers'
+import { observer } from 'mobx-react'
+import { useStores } from 'stores'
 
 const { Title, Text } = Typography
 
@@ -49,12 +51,22 @@ interface IProps {
   initialGlobalSettings: IGlobalSettings
 }
 
-const RegisterPage = (props: IProps) => {
+const RegisterPage = observer((props: IProps) => {
   const { initialGlobalSettings } = props
   const bp = useBreakpoint()
 
   const [form] = useForm()
   const router = useRouter()
+
+  const {
+    AuthStore: { me$ }
+  } = useStores()
+
+  useEffect(() => {
+    if (me$) {
+      router.push(pageRoutes.accountPage.url!)
+    }
+  }, [])
 
   /**
    * ||===============================
@@ -214,7 +226,7 @@ const RegisterPage = (props: IProps) => {
                 </Form>
                 <Row justify="end" gutter={2}>
                   <Space>
-                    <Link href={pageRoutes.loginPage.url || ''}>
+                    <Link href={pageRoutes.loginPage.url!}>
                       <Button>Login</Button>
                     </Link>
                     <Button type="primary" onClick={onRegister}>
@@ -232,6 +244,6 @@ const RegisterPage = (props: IProps) => {
   } else {
     return <PageLoading wording="Loading page..." />
   }
-}
+})
 
 export default RegisterPage

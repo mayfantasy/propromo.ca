@@ -13,6 +13,7 @@ import {
 } from 'graphql/generated'
 import { PAGE_SIZE } from 'helpers/utils.helper'
 import { pageRoutes } from 'helpers/route.helpers'
+import { ICollectionCardInfo } from 'types/collection.types'
 
 const { Text } = Typography
 
@@ -24,14 +25,25 @@ const CollectionBlocks = (props: IProps) => {
 
   /**
    * ||========================
-   * || Get collections
+   * || Collections
    */
-  const [collectionList] = useQuery<ShopifyGetCollectionsQuery>({
-    query: GetCollectionsDocument,
-    variables: {
-      pageSize: PAGE_SIZE
+  const collectionList: ICollectionCardInfo[] = [
+    {
+      name: 'All Products',
+      handle: 'all',
+      imgSrc: '/square-placeholder.jpg'
+    },
+    {
+      name: 'Acrylic Signs',
+      handle: 'acrylic-sign',
+      imgSrc: '/square-placeholder.jpg'
+    },
+    {
+      name: 'Backdrop Stands & Pop-up Display',
+      handle: 'backdrop-stands-pop-up-display',
+      imgSrc: '/square-placeholder.jpg'
     }
-  })
+  ]
 
   /**
    * ||========================
@@ -54,31 +66,22 @@ const CollectionBlocks = (props: IProps) => {
           title="Collections"
           tagline="Checkout our product lineup from collections"
         />
-        {collectionList.error && (
-          <>
-            <Alert banner message={collectionList.error.message} type="error" />
-            <br />
-          </>
-        )}
         <Row gutter={[4, 4]}>
-          {collectionList.data ? (
-            collectionList.data.collections.edges
-              .slice(0, take || collectionList.data.collections.edges.length)
-              .map((collection) => (
-                <Col key={collection.node.id} xs={24} sm={12} lg={8}>
-                  <Link
-                    href={
-                      pageRoutes.productListPage(collection.node.handle)
-                        .dynamicUrl || ''
-                    }
-                    as={pageRoutes.productListPage(collection.node.handle).url}
-                  >
-                    <a>
-                      <CollectionCard collection={collection.node} />
-                    </a>
-                  </Link>
-                </Col>
-              ))
+          {collectionList.length ? (
+            collectionList.map((collection) => (
+              <Col key={collection.handle} xs={24} sm={12} lg={8}>
+                <Link
+                  href={
+                    pageRoutes.productListPage(collection.handle).dynamicUrl!
+                  }
+                  as={pageRoutes.productListPage(collection.handle).url}
+                >
+                  <a>
+                    <CollectionCard collection={collection} />
+                  </a>
+                </Link>
+              </Col>
+            ))
           ) : (
             <Skeleton active />
           )}

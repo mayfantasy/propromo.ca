@@ -51,8 +51,14 @@ const LoginPage = observer((props: IProps) => {
   const router = useRouter()
 
   const {
-    AuthStore: { setToken$, token$ }
+    AuthStore: { setToken$, token$, me$ }
   } = useStores()
+
+  useEffect(() => {
+    if (me$) {
+      router.push(pageRoutes.accountPage.url!)
+    }
+  }, [])
 
   /**
    * ||===============================
@@ -180,7 +186,7 @@ const LoginPage = observer((props: IProps) => {
                 </Form>
                 <Row justify="end" gutter={2}>
                   <Space>
-                    <Link href={pageRoutes.registerPage.url || ''}>
+                    <Link href={pageRoutes.registerPage.url!}>
                       <Button>Register</Button>
                     </Link>
                     <Button type="primary" onClick={onLogin}>

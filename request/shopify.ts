@@ -4,8 +4,8 @@ import { createClient } from 'urql'
 
 // Initializing a client to return content in the store's primary language
 export const shopify = Client.buildClient({
-  domain: process.env.NEXT_PUBLIC_STORE_URL || '',
-  storefrontAccessToken: process.env.NEXT_PUBLIC_STORE_ACCESS_TOKEN || ''
+  domain: process.env.NEXT_PUBLIC_STORE_URL!,
+  storefrontAccessToken: process.env.NEXT_PUBLIC_STORE_ACCESS_TOKEN!
 })
 
 export const shopifyGql = createClient({
@@ -14,7 +14,7 @@ export const shopifyGql = createClient({
     return {
       headers: {
         'X-Shopify-Storefront-Access-Token':
-          `${process.env.NEXT_PUBLIC_STORE_ACCESS_TOKEN}` || ''
+          `${process.env.NEXT_PUBLIC_STORE_ACCESS_TOKEN}` || 'TOKEN_NOT_FOUND'
       }
     }
   }

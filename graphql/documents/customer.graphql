@@ -72,7 +72,7 @@ mutation UpdateCustomerAddress(
     address: $address
   ) {
     customerAddress {
-      id
+      ...addressFields
     }
     customerUserErrors {
       code
@@ -96,6 +96,25 @@ mutation UpdateCustomer(
     customerAccessToken {
       accessToken
       expiresAt
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation SetCustomerDefaultAddress(
+  $customerAccessToken: String!
+  $addressId: ID!
+) {
+  customerDefaultAddressUpdate(
+    customerAccessToken: $customerAccessToken
+    addressId: $addressId
+  ) {
+    customer {
+      id
     }
     customerUserErrors {
       code

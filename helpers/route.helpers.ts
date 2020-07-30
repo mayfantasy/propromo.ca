@@ -11,6 +11,11 @@ export const pageRoutes = {
     name: 'Register',
     url: '/register'
   } as INavItem,
+  accountPage: {
+    key: 'account-page',
+    name: 'My Account',
+    url: '/account'
+  } as INavItem,
   homePage: {
     key: 'home-page',
     name: 'Home',

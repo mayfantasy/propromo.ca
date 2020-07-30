@@ -48,7 +48,7 @@ const MiddleHeader = (props: IProps) => {
         >
           <Col xs={24} md={6}>
             <div className="middle-header__logo center_md">
-              <Link href={pageRoutes.homePage.url || ''}>
+              <Link href={pageRoutes.homePage.url!}>
                 <a>
                   <img src={logoUrl} />
                 </a>

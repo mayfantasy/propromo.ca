@@ -35,7 +35,8 @@ export const confirmPasswordRule: any = (fieldName?: string) => (
   form: FormInstance
 ) => ({
   validator(rule: any, value: string) {
-    if (!value || form.getFieldValue(fieldName || 'password') === value) {
+    const password = form.getFieldValue(fieldName || 'password')
+    if (!password || password === value) {
       return Promise.resolve()
     }
     return Promise.reject('The two passwords that you entered do not match')

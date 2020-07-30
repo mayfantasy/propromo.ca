@@ -80,7 +80,8 @@ const ProductList = (props: IProps) => {
       </>
     )
   }
-  const collectionTitle = collectionWithProducts.data?.collectionByHandle?.title
+  const collectionTitle = collectionWithProducts.data?.collectionByHandle
+    ?.title!
   const products =
     collectionWithProducts.data?.collectionByHandle?.products.edges.map(
       (p) => p.node
@@ -123,7 +124,7 @@ const ProductList = (props: IProps) => {
                 items={[
                   pageRoutes.homePage,
                   {
-                    name: collectionTitle || '',
+                    name: collectionTitle,
                     key: collectionHandle
                   }
                 ]}
