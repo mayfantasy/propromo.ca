@@ -383,7 +383,7 @@ const ProductDetailPage = (props: IProps) => {
 
                   {/* Collections */}
                   <div className="product-detail__collectioins">
-                    <CollectionBlocks take={6} />
+                    <CollectionBlocks />
                   </div>
 
                   <br />
