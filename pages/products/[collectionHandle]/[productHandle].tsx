@@ -248,9 +248,9 @@ const ProductDetailPage = (props: IProps) => {
                       />
                     </Col>
                     <Col xs={24} lg={12}>
-                      <Title level={4} style={{ height: '60px' }}>
+                      <Title level={3} style={{ height: '60px' }}>
                         {product.title}
-                        {hasVariants ? ` - ${currentVariant.title}` : ''}
+                        {/* {hasVariants ? ` - ${currentVariant.title}` : ''} */}
                       </Title>
                       {/* Pricing */}
                       <div className="product-detail__pricing">
