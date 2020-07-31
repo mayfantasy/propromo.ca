@@ -51,12 +51,6 @@ const TopHeader = observer((props: IProps) => {
     }
   }, [GetCustomerResult.data])
 
-  useEffect(() => {
-    if (GetCustomerResult.error) {
-      router.push(pageRoutes.loginPage.url!)
-    }
-  }, [GetCustomerResult.error])
-
   /**
    * ||===================
    * || Render
