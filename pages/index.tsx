@@ -75,12 +75,12 @@ const HomePage = (props: IProps) => {
             <br />
             <br />
 
-            <CollectionBlocks take={6} />
+            <CollectionBlocks />
 
             <br />
-            <br />
+            {/* <br /> */}
 
-            <FeaturedProducts />
+            {/* <FeaturedProducts /> */}
           </Layout>
         )}
 

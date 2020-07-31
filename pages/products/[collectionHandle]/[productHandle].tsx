@@ -158,6 +158,7 @@ const ProductDetailPage = (props: IProps) => {
   const product = productData.data?.productByHandle
   const productVariants = product?.variants.edges
   const firstVariant = productVariants?.[0].node
+  const hasVariants = productVariants && productVariants.length > 1
   const quantityAvailable = currentVariant?.quantityAvailable || 0
   const relatedCollectionHandle = product?.tags.find((t) =>
     t.includes(RELATED_PRODUCT_TAG_PREFIX)
@@ -245,8 +246,9 @@ const ProductDetailPage = (props: IProps) => {
                       />
                     </Col>
                     <Col xs={24} lg={12}>
-                      <Title level={4}>
-                        {product.title} - {currentVariant.title}
+                      <Title level={4} style={{ height: '60px' }}>
+                        {product.title}
+                        {hasVariants ? ` - ${currentVariant.title}` : ''}
                       </Title>
                       {/* Pricing */}
                       <div className="product-detail__pricing">

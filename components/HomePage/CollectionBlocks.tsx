@@ -17,11 +17,9 @@ import { ICollectionCardInfo } from 'types/collection.types'
 
 const { Text } = Typography
 
-interface IProps {
-  take?: number
-}
+interface IProps {}
 const CollectionBlocks = (props: IProps) => {
-  const { take } = props
+  const {} = props
 
   /**
    * ||========================
@@ -29,18 +27,39 @@ const CollectionBlocks = (props: IProps) => {
    */
   const collectionList: ICollectionCardInfo[] = [
     {
-      name: 'All Products',
-      handle: 'all',
-      imgSrc: '/square-placeholder.jpg'
-    },
-    {
       name: 'Acrylic Signs',
       handle: 'acrylic-sign',
       imgSrc: '/square-placeholder.jpg'
     },
+    // Up comming products
+    // {
+    //   name: 'Backdrop Stands & Pop-up Display',
+    //   handle: 'backdrop-stands-pop-up-display',
+    //   imgSrc: '/square-placeholder.jpg'
+    // },
     {
-      name: 'Backdrop Stands & Pop-up Display',
-      handle: 'backdrop-stands-pop-up-display',
+      name: 'Banner Stands',
+      handle: 'banner-stands',
+      imgSrc: '/square-placeholder.jpg'
+    },
+    {
+      name: 'Brochure and Newspaper Holders',
+      handle: 'brochure-and-newspaper-holders',
+      imgSrc: '/square-placeholder.jpg'
+    },
+    {
+      name: 'Crowd Control Systems',
+      handle: 'crowd-control-systems',
+      imgSrc: '/square-placeholder.jpg'
+    },
+    {
+      name: 'Flags and Accessories',
+      handle: 'flags',
+      imgSrc: '/square-placeholder.jpg'
+    },
+    {
+      name: 'All Products',
+      handle: 'all',
       imgSrc: '/square-placeholder.jpg'
     }
   ]

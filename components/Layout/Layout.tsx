@@ -48,6 +48,7 @@ const Layout = observer((props: IProps) => {
         <pre>
           {JSON.stringify(
             {
+              NEXT________: '6',
               '1': 'Real Nav Items',
               // '2': 'Product Detail Page',
               '3': 'Real Filters',
