@@ -213,7 +213,7 @@ const ProductDetailPage = (props: IProps) => {
               )}
               {product && currentVariant && productCollection && (
                 <>
-                  <BreadCrumb
+                  {/* <BreadCrumb
                     items={[
                       pageRoutes.homePage,
                       {
@@ -231,7 +231,9 @@ const ProductDetailPage = (props: IProps) => {
                         key: product.title
                       }
                     ]}
-                  />
+                  /> */}
+                  <br />
+                  <br />
                   <Row className="product-detail__main" gutter={[16, 16]}>
                     <Col xs={24} lg={12}>
                       {/* Images */}
