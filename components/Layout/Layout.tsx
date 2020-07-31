@@ -62,7 +62,7 @@ const Layout = observer((props: IProps) => {
               '9': 'About us page',
               '10': 'Terms & policy page',
               '11': 'Connect to CRM',
-              '12': 'Product Images & Category Images'
+              '12': 'Product Images & Category Images.'
             },
             null,
             2
