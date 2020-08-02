@@ -21,6 +21,7 @@ export interface ICreateOrUpdateCustomerDesignPayload {
   variant_sku: string
   customer_id: string
   customer_name: string
+  customer_email: string
   file: string
   _handle: string
 }
@@ -31,6 +32,7 @@ export interface ICustomerDesign {
   variant_sku: string
   customer_id: string
   customer_name: string
+  customer_email: string
   file: string
   _handle: string
 }

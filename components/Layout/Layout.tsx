@@ -43,7 +43,7 @@ const Layout = observer((props: IProps) => {
         }
       `}</style>
       <div className="propromo-layout">
-        {/* <pre>
+        <pre>
           {JSON.stringify(
             {
               NEXT________: '6',
@@ -54,7 +54,8 @@ const Layout = observer((props: IProps) => {
               // '5': 'Customer Login & Register & My Account Page',
               '5':
                 'Upload all products to shopify (Upload upload-design product first to do testing)',
-              '6': 'Upload designs, select design templates (use antd drawers)',
+              // '6': 'Upload designs',
+              '6': 'select design templates',
               '7': 'Cart page & Checkout',
               '8': 'Refund & Return Policy page',
               '9': 'About us page',
@@ -65,7 +66,7 @@ const Layout = observer((props: IProps) => {
             null,
             2
           )}
-        </pre> */}
+        </pre>
         <TopHeader
           announcement={globalSettings.announcement}
           hideAnnouncement={globalSettings.hide_announcement}

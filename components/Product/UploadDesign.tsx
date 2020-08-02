@@ -101,6 +101,7 @@ const UploadDesign = observer((props: IProps) => {
           product_handle: productHandle,
           variant_sku: productVariantSku,
           customer_id: me$.id,
+          customer_email: me$.email || '',
           customer_name: me$.displayName,
           file: uploadedFileUrl
         }).then(() => {
@@ -120,6 +121,7 @@ const UploadDesign = observer((props: IProps) => {
           product_handle: productHandle,
           variant_sku: productVariantSku,
           customer_id: me$.id,
+          customer_email: me$.email || '',
           customer_name: me$.displayName,
           file: uploadedFileUrl
         }).then(() => {
