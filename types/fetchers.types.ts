@@ -16,5 +16,6 @@ export enum IFetchers {
    */
   GlobalSettings = 'GlobalSettings',
   HomePageContent = 'HomePageContent',
-  ProductListPageContent = 'ProductListPageContent'
+  ProductListPageContent = 'ProductListPageContent',
+  CustomerDesign = 'CustomerDesign'
 }

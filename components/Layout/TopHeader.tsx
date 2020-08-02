@@ -26,8 +26,19 @@ const TopHeader = observer((props: IProps) => {
   const router = useRouter()
 
   const {
-    AuthStore: { token$, setMe$, me$ }
+    AuthStore: { token$, setMe$, me$, setToken$ }
   } = useStores()
+
+  const redirectUrl = router.query.redirect as string | undefined
+
+  /**
+   * ||===============
+   * || Logout
+   */
+  const onLogout = () => {
+    setMe$(undefined)
+    setToken$(undefined)
+  }
   /**
    * ||===================
    * || Get Customer
@@ -72,6 +83,7 @@ const TopHeader = observer((props: IProps) => {
           }
         }
       `}</style>
+
       <Row className="top-header" justify="center" align="middle">
         <Row
           className="top-header__content"
@@ -90,13 +102,18 @@ const TopHeader = observer((props: IProps) => {
                 (GetCustomerResult.fetching ? (
                   <Spin />
                 ) : me$ ? (
-                  <Link href={pageRoutes.accountPage.url!}>
-                    <a>
-                      <Text type="secondary" className="top-header__account">
-                        <UserOutlined /> {me$.displayName}
-                      </Text>
+                  <>
+                    <Link href={pageRoutes.accountPage.url!}>
+                      <a className="mr-15">
+                        <Text type="secondary" className="top-header__account">
+                          <UserOutlined /> {me$.displayName}
+                        </Text>
+                      </a>
+                    </Link>
+                    <a onClick={onLogout}>
+                      <small>logout</small>
                     </a>
-                  </Link>
+                  </>
                 ) : (
                   <>
                     <Link href={pageRoutes.loginPage.url!}>

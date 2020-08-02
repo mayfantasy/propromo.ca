@@ -50,6 +50,8 @@ const LoginPage = observer((props: IProps) => {
   const [form] = useForm()
   const router = useRouter()
 
+  const redirectUrl = router.query.redirect as string | undefined
+
   const {
     AuthStore: { setToken$, token$, me$ }
   } = useStores()
@@ -85,7 +87,7 @@ const LoginPage = observer((props: IProps) => {
         loginResult.data.customerAccessTokenCreate?.customerAccessToken
           ?.accessToken
       setToken$(token)
-      router.push(pageRoutes.homePage.url || '/')
+      router.push(redirectUrl || pageRoutes.homePage.url || '/')
     }
     if (loginResult.data?.customerAccessTokenCreate?.customerUserErrors[0]) {
       message.error(
@@ -186,7 +188,11 @@ const LoginPage = observer((props: IProps) => {
                 </Form>
                 <Row justify="end" gutter={2}>
                   <Space>
-                    <Link href={pageRoutes.registerPage.url!}>
+                    <Link
+                      href={`${pageRoutes.registerPage.url!}${
+                        redirectUrl ? `?redirect=${redirectUrl}` : ''
+                      }`}
+                    >
                       <Button>Register</Button>
                     </Link>
                     <Button type="primary" onClick={onLogin}>

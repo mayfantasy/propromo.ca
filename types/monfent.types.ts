@@ -15,3 +15,28 @@ export interface IHomePageContent {
 export interface IProductListPageContent {
   title: string
 }
+
+export interface ICreateOrUpdateCustomerDesignPayload {
+  product_handle: string
+  variant_sku: string
+  customer_id: string
+  customer_name: string
+  file: string
+  _handle: string
+}
+
+export interface ICustomerDesign {
+  id: string
+  product_handle: string
+  variant_sku: string
+  customer_id: string
+  customer_name: string
+  file: string
+  _handle: string
+}
+
+export interface IGetCustomerDesignPayload {
+  product_handle: string
+  variant_sku: string
+  customer_id: string
+}

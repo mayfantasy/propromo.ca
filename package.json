@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@types/lodash": "^4.14.158",
+    "@types/pdf-viewer-reactjs": "^2.0.0",
     "@types/shopify-buy": "^2.10.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
@@ -31,6 +32,7 @@
     "mobx-react": "^6.1.8",
     "next": "^9.3.2",
     "nodemailer": "^6.4.2",
+    "pdf-viewer-reactjs": "^2.0.7",
     "randomstring": "^1.1.5",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",

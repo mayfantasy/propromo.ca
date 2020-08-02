@@ -45,7 +45,7 @@ import {
   ShopifyMailingAddressInput
 } from '../graphql/generated'
 import { useEffect } from 'react'
-import { useRouter } from 'next/dist/client/router'
+import { useRouter, Router } from 'next/dist/client/router'
 import { observer } from 'mobx-react'
 import { useStores } from 'stores'
 import { confirmPasswordRule } from 'helpers/form.helpers'
@@ -60,9 +60,20 @@ interface IProps {
   initialGlobalSettings: IGlobalSettings
 }
 
-const AccountPage = (props: IProps) => {
+const AccountPage = observer((props: IProps) => {
   const { initialGlobalSettings } = props
   const bp = useBreakpoint()
+  const router = useRouter()
+
+  const {
+    AuthStore: { me$ }
+  } = useStores()
+
+  useEffect(() => {
+    if (!me$) {
+      router.push(pageRoutes.loginPage.url || '')
+    }
+  }, [me$])
 
   /**
    * ||===============================
@@ -141,6 +152,6 @@ const AccountPage = (props: IProps) => {
   } else {
     return <PageLoading wording="Loading page..." />
   }
-}
+})
 
 export default AccountPage

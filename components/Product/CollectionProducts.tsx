@@ -19,9 +19,10 @@ interface IProps {
   collectionHandle: string
   take?: number
   layout?: ColProps
+  title?: React.ReactNode
 }
 const CollectionProducts = (props: IProps) => {
-  const { collectionHandle, take, layout } = props
+  const { collectionHandle, take, layout, title } = props
 
   const router = useRouter()
 
@@ -61,20 +62,24 @@ const CollectionProducts = (props: IProps) => {
         </>
       )}
 
-      <Row gutter={[4, 4]}>
-        {products ? (
-          products.slice(0, take || products.length).map((product) => (
-            <Col key={product.node.id} {...(layout || defaultLayout)}>
-              <ProductCard
-                collectionHandle={collectionHandle}
-                product={product.node}
-              />
-            </Col>
-          ))
-        ) : (
-          <Skeleton active />
-        )}
-      </Row>
+      {productListData.fetching && <Skeleton active />}
+
+      {products && products.length && (
+        <>
+          {title}
+          <Row gutter={[4, 4]}>
+            {productListData.fetching && <Skeleton active />}
+            {products.slice(0, take || products.length).map((product) => (
+              <Col key={product.node.id} {...(layout || defaultLayout)}>
+                <ProductCard
+                  collectionHandle={collectionHandle}
+                  product={product.node}
+                />
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
     </>
   )
 }

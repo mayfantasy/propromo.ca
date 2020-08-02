@@ -35,7 +35,9 @@ import {
 import {
   PAGE_SIZE,
   CURRENCY_SYMBOL,
-  RELATED_PRODUCT_TAG_PREFIX
+  RELATED_PRODUCT_TAG_PREFIX,
+  FILEUPLOAD_ENABLED_TAG,
+  VARIANT_FILEUPLOAD_ENABLED_TAG_PREFIX
 } from 'helpers/utils.helper'
 import ImageDisplay from 'components/Product/ImageDisplay'
 import { useState, useEffect } from 'react'
@@ -43,6 +45,7 @@ import SectionHeader from 'components/Utils/HeaderLine'
 import CollectionProducts from 'components/Product/CollectionProducts'
 import CollectionBlocks from 'components/HomePage/CollectionBlocks'
 import _ from 'lodash'
+import UploadDesign from 'components/Product/UploadDesign'
 
 const { Title, Text } = Typography
 
@@ -168,6 +171,13 @@ const ProductDetailPage = (props: IProps) => {
     collectionHandle === 'all-products'
       ? product?.collections.edges[0].node
       : collectionData.data?.collectionByHandle
+
+  const productTags = product?.tags
+  const fileuploadEnabled = hasVariants
+    ? productTags?.find(
+        (t) => t === VARIANT_FILEUPLOAD_ENABLED_TAG_PREFIX + currentVariant?.sku
+      )
+    : productTags?.find((t) => t === FILEUPLOAD_ENABLED_TAG)
 
   useEffect(() => {
     setCurrentVariant(firstVariant)
@@ -322,6 +332,21 @@ const ProductDetailPage = (props: IProps) => {
                           </>
                         )}
                       <Divider />
+
+                      {/* Upload design */}
+                      {/* <pre>{JSON.stringify(fileuploadEnabled, null, 2)}</pre> */}
+                      {fileuploadEnabled && currentVariant.sku && (
+                        <>
+                          <div className="product-detail__fileupload">
+                            <UploadDesign
+                              productHandle={product.handle}
+                              productVariantSku={currentVariant.sku}
+                            />
+                          </div>
+                          <Divider />
+                        </>
+                      )}
+
                       {/* Buy Button */}
                       <div className="product-detail__buy-button">
                         <Space>
@@ -368,12 +393,13 @@ const ProductDetailPage = (props: IProps) => {
                   {relatedCollectionHandle && (
                     <>
                       <div className="product-detail__suggested">
-                        <SectionHeader
-                          title="You may also like"
-                          tagline="Checkout the related products"
-                        />
-
                         <CollectionProducts
+                          title={
+                            <SectionHeader
+                              title="You may also like"
+                              tagline="Checkout the related products"
+                            />
+                          }
                           take={8}
                           collectionHandle={relatedCollectionHandle}
                         />

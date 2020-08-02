@@ -58,6 +58,8 @@ const RegisterPage = observer((props: IProps) => {
   const [form] = useForm()
   const router = useRouter()
 
+  const redirectUrl = router.query.redirect as string | undefined
+
   const {
     AuthStore: { me$ }
   } = useStores()
@@ -100,7 +102,11 @@ const RegisterPage = observer((props: IProps) => {
   useEffect(() => {
     if (createCustomerResult.data?.customerCreate?.customer) {
       message.success('Registerd successfully. Please login.')
-      router.push(pageRoutes.loginPage.url || '/')
+      router.push(
+        `${pageRoutes.loginPage.url!}${
+          redirectUrl ? `?redirect=${redirectUrl}` : ''
+        }`
+      )
     }
     if (createCustomerResult.data?.customerCreate?.customerUserErrors[0]) {
       message.error(
