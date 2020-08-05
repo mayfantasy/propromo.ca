@@ -69,7 +69,9 @@ const ProductDetailPage = (props: IProps) => {
    */
   const { data: globalSettingsData, error: globalSettingsError } = useSWR<
     IGlobalSettings
-  >(IFetchers.GlobalSettings, globalSettingsFetcher)
+  >(IFetchers.GlobalSettings, globalSettingsFetcher, {
+    revalidateOnFocus: false
+  })
 
   /**
    * ||========================

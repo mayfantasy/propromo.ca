@@ -33,7 +33,8 @@ const HomePage = (props: IProps) => {
   const { data: pageContent, error: pageContentError } = useSWR<
     IHomePageContent
   >(IFetchers.HomePageContent, homePageContentFetcher, {
-    initialData: initialPageContent
+    initialData: initialPageContent,
+    revalidateOnFocus: false
   })
 
   /**

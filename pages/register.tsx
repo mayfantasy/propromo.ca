@@ -128,7 +128,8 @@ const RegisterPage = observer((props: IProps) => {
   const { data: globalSettingsData, error: globalSettingsError } = useSWR<
     IGlobalSettings
   >(IFetchers.GlobalSettings, globalSettingsFetcher, {
-    initialData: initialGlobalSettings
+    initialData: initialGlobalSettings,
+    revalidateOnFocus: false
   })
 
   /**

@@ -46,7 +46,7 @@ const Layout = observer((props: IProps) => {
         {/* <pre>
           {JSON.stringify(
             {
-              NEXT________: '6',
+              NEXT________: '7',
               '1': 'Real Nav Items',
               // '2': 'Product Detail Page',
               '3': 'Real Filters',
@@ -55,13 +55,14 @@ const Layout = observer((props: IProps) => {
               '5':
                 'Upload all products to shopify (Upload upload-design product first to do testing)',
               // '6': 'Upload designs',
-              '6': 'select design templates',
+              // '6': 'select design templates',
               '7': 'Cart page & Checkout',
               '8': 'Refund & Return Policy page',
               '9': 'About us page',
               '10': 'Terms & policy page',
               '11': 'Connect to CRM',
-              '12': 'Product Images & Category Images'
+              '12': 'Product Images & Category Images',
+              '13': 'Documentation for product tag machanism on product detail page'
             },
             null,
             2

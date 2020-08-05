@@ -44,7 +44,9 @@ const ProductList = (props: IProps) => {
   >(IFetchers.GlobalSettings, globalSettingsFetcher)
   const { data: pageContent, error: pageContentError } = useSWR<
     IProductListPageContent
-  >(IFetchers.ProductListPageContent, productListPageContentFetcher)
+  >(IFetchers.ProductListPageContent, productListPageContentFetcher, {
+    revalidateOnFocus: false
+  })
 
   /**
    * ||========================
