@@ -15,18 +15,14 @@ import {
 } from 'antd'
 import Layout from 'components/Layout/Layout'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
-import BreadCrumb from 'components/Utils/BreadCrumb'
-import { pageRoutes } from 'helpers/route.helpers'
 import useSWR from 'swr'
-import { IGlobalSettings, IProductListPageContent } from 'types/monfent.types'
+import { IGlobalSettings } from 'types/monfent.types'
 import { IFetchers } from 'types/fetchers.types'
 import { globalSettingsFetcher } from 'fetchers'
 import { useQuery } from 'urql'
 import {
   ShopifyGetProductByHandleQuery,
   GetProductByHandleDocument,
-  ShopifyGetProductsByCollectionHandleQuery,
-  GetProductsByCollectionHandleDocument,
   ShopifyGetCollectionByHandleQuery,
   GetCollectionByHandleDocument,
   ShopifyProductVariantFieldsFragment,
@@ -45,7 +41,7 @@ import SectionHeader from 'components/Utils/HeaderLine'
 import CollectionProducts from 'components/Product/CollectionProducts'
 import CollectionBlocks from 'components/HomePage/CollectionBlocks'
 import _ from 'lodash'
-import UploadDesign from 'components/Product/UploadDesign'
+import ProductDesign from 'components/Product/ProductDesign'
 
 const { Title, Text } = Typography
 
@@ -333,12 +329,12 @@ const ProductDetailPage = (props: IProps) => {
                         )}
                       <Divider />
 
-                      {/* Upload design */}
+                      {/* Product custom design */}
                       {/* <pre>{JSON.stringify(fileuploadEnabled, null, 2)}</pre> */}
                       {fileuploadEnabled && currentVariant.sku && (
                         <>
                           <div className="product-detail__fileupload">
-                            <UploadDesign
+                            <ProductDesign
                               productHandle={product.handle}
                               productVariantSku={currentVariant.sku}
                             />

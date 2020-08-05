@@ -7,7 +7,8 @@ import {
   IProductListPageContent,
   ICustomerDesign,
   IGetCustomerDesignPayload,
-  ICreateOrUpdateCustomerDesignPayload
+  ICreateOrUpdateCustomerDesignPayload,
+  IProductDesignTemplate
 } from 'types/monfent.types'
 import { IMonfentData } from 'types/utils.types'
 
@@ -54,7 +55,7 @@ export const updateCustomerDesign = (
   payload: ICreateOrUpdateCustomerDesignPayload
 ) => {
   return api
-    .post<IMonfentData<ICustomerDesign>>(
+    .put<IMonfentData<ICustomerDesign>>(
       `/object/propromo/customer_design/update/${id}`,
       payload
     )
@@ -92,6 +93,27 @@ export const getCustomerDesignFetcher = (
             d.customer_id === customer_id &&
             d.product_handle === product_handle &&
             d.variant_sku === variant_sku
+        ) || null
+      )
+    })
+}
+
+export const getProductDesignTemplatesFetcher = (
+  _: string,
+  product_handle: string,
+  variant_sku: string
+) => {
+  return api
+    .get<IMonfentData<IProductDesignTemplate[]>>(
+      '/object/propromo/design_templates/list'
+    )
+    .then((res) => {
+      const list = res.data.result
+
+      return (
+        list.filter(
+          (d) =>
+            d.product_handle === product_handle && d.variant_sku === variant_sku
         ) || null
       )
     })

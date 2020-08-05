@@ -43,7 +43,7 @@ const Layout = observer((props: IProps) => {
         }
       `}</style>
       <div className="propromo-layout">
-        <pre>
+        {/* <pre>
           {JSON.stringify(
             {
               NEXT________: '6',
@@ -66,7 +66,7 @@ const Layout = observer((props: IProps) => {
             null,
             2
           )}
-        </pre>
+        </pre> */}
         <TopHeader
           announcement={globalSettings.announcement}
           hideAnnouncement={globalSettings.hide_announcement}
