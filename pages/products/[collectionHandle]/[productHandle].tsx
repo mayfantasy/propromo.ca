@@ -156,27 +156,46 @@ const ProductDetailPage = (props: IProps) => {
     )
   }
 
+  // ===== the parent product
   const product = productData.data?.productByHandle
+  // ===== the variant list of the parent product
   const productVariants = product?.variants.edges
+  // ===== the default variant showing
   const firstVariant = productVariants?.[0].node
+  // ===== has more than 1 variant ?
   const hasVariants = productVariants && productVariants.length > 1
+  // ===== Available stock quantity
   const quantityAvailable = currentVariant?.quantityAvailable || 0
+  // ===== find the collection that store this product's related products
   const relatedCollectionHandle = product?.tags.find((t) =>
     t.includes(RELATED_PRODUCT_TAG_PREFIX)
   )
-
+  // ===== The product collection
   const productCollection =
     collectionHandle === 'all-products'
       ? product?.collections.edges[0].node
       : collectionData.data?.collectionByHandle
-
+  // ===== Product Tags
   const productTags = product?.tags
+
+  // ===========================================
+  // Is this product enabled for File upload?
+  // ===========================================
+  // 1. If there's only 1 variant (parent itself),
+  //    "__fileupload__enabled" tag should be found
+  //    to enable the fileupload feature
+  //
+  // 2. If there are multiple variants,
+  //    "__fileupload_enabled__[variant_sku]" tag should
+  //    should be found to enable the fileupload feature
+  //    for the current SKU
   const fileuploadEnabled = hasVariants
     ? productTags?.find(
         (t) => t === VARIANT_FILEUPLOAD_ENABLED_TAG_PREFIX + currentVariant?.sku
       )
     : productTags?.find((t) => t === FILEUPLOAD_ENABLED_TAG)
 
+  // Set the first variant to the default variant
   useEffect(() => {
     setCurrentVariant(firstVariant)
   }, [firstVariant])
@@ -331,8 +350,7 @@ const ProductDetailPage = (props: IProps) => {
                         )}
                       <Divider />
 
-                      {/* Product custom design */}
-                      {/* <pre>{JSON.stringify(fileuploadEnabled, null, 2)}</pre> */}
+                      {/* Upload custom product design (for prints) */}
                       {fileuploadEnabled && currentVariant.sku && (
                         <>
                           <div className="product-detail__fileupload">
@@ -387,7 +405,7 @@ const ProductDetailPage = (props: IProps) => {
                   <br />
                   <br />
 
-                  {/* Suggested */}
+                  {/* Suggested products */}
                   {relatedCollectionHandle && (
                     <>
                       <div className="product-detail__suggested">
@@ -413,10 +431,6 @@ const ProductDetailPage = (props: IProps) => {
                   </div>
 
                   <br />
-
-                  {/* <pre>
-                    <small>{JSON.stringify(productData.data, null, 2)}</small>
-                  </pre> */}
                 </>
               )}
             </div>

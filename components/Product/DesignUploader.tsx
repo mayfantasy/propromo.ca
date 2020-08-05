@@ -78,8 +78,9 @@ const DesignUploader = (props: IProps) => {
         // message.error(info.file.error)
       }
     },
-    // Custom request
-
+    // Custom request ===============================
+    // Note: antd building request system not working
+    // after the first file is uploaded
     customRequest: async (config: RcCustomRequestOptions) => {
       const { file, action, onError, onSuccess, onProgress } = config
 

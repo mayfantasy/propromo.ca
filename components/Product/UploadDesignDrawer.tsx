@@ -62,7 +62,16 @@ const UploadDesignDrawer = (props: IProps) => {
     onRemoveCustomerDesign
   } = props
 
+  /**
+   * ||=====================
+   * || The file preview URL
+   */
   const fileUrl = uploadedFileUrl || customerDesignData?.file
+
+  /**
+   * ||=====================
+   * || Render
+   */
   return (
     <Drawer
       title="Upload Design"
@@ -83,6 +92,8 @@ const UploadDesignDrawer = (props: IProps) => {
           height: '150px'
         }}
       >
+        {/* Design Uploader */}
+        {/* Only sets the uploaded file url */}
         {!fileUrl && (
           <DesignUploader
             onChange={(url: string | undefined) => {
@@ -93,6 +104,7 @@ const UploadDesignDrawer = (props: IProps) => {
 
         <br />
 
+        {/* File Preview */}
         {fileUrl && (
           <>
             <Row justify="space-between">

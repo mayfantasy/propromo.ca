@@ -54,12 +54,18 @@ const SelectTemplateDrawer = (props: IProps) => {
    * || active design
    */
   useEffect(() => {
+    // find active design by the
+    // stored file url from the design list
     const template = designTemplatesData?.find(
       (t) => t['template_img-src'] === selectedTemplateUrl
     )
     setCurrentActive(template)
   }, [selectedTemplateUrl])
 
+  /**
+   * ||======================
+   * || Render
+   */
   return (
     <>
       <style jsx global>{`
@@ -145,7 +151,6 @@ const SelectTemplateDrawer = (props: IProps) => {
               <Divider />
 
               {/* Form */}
-
               <Title level={4}>Your Info</Title>
               <Spin spinning={loading}>
                 <Form form={form} layout="vertical">
@@ -254,7 +259,10 @@ const SelectTemplateDrawer = (props: IProps) => {
                       return field
                     })}
                   </Row>
+
                   <Divider />
+
+                  {/* Submit button */}
                   <div>
                     <Space>
                       <Button

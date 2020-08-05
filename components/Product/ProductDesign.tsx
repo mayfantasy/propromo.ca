@@ -40,15 +40,12 @@ const ProductDesign = observer((props: IProps) => {
   const { productHandle, productVariantSku } = props
   const [loading, setLoading] = useState(false)
 
-  // File Url just uploaded
+  // The uploaded file Url (set by upload event not the original design data)
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string | undefined>()
-
-  // Design method
+  // Design method (Upload design or Select template)
   const [method, setMethod] = useState(ICustomerDesignMethod.upload)
-
   // Information form for selected template
   const [templateInfoForm] = useForm()
-
   // Selected template url
   const [selectedTemplateUrl, setSelectedTemplateUrl] = useState<
     string | undefined
@@ -133,20 +130,23 @@ const ProductDesign = observer((props: IProps) => {
   // customer design data
   useEffect(() => {
     if (customerDesignData) {
-      // Set method
+      // ======================
+      // 1. Set method
       setMethod(
         customerDesignData.use_template
           ? ICustomerDesignMethod.template
           : ICustomerDesignMethod.upload
       )
-      // Set selected template
+      // ======================
+      // 2. Set selected template
       const url = customerDesignData.selected_template
-
       if (url) {
         setSelectedTemplateUrl(url)
       }
 
-      // Set template info
+      // ======================
+      // 3. Set customer info
+      //    for the template
       const values = {
         name: customerDesignData.info_name,
         logo: customerDesignData.info_logo,
@@ -159,6 +159,7 @@ const ProductDesign = observer((props: IProps) => {
     }
   }, [customerDesignData])
 
+  // Create or Update the design
   const onCreateOrUpdateCustomerDesign = () => {
     if (me$) {
       const payload = {
@@ -179,30 +180,33 @@ const ProductDesign = observer((props: IProps) => {
         info_website: templateInfoForm.getFieldValue('website') || null
       }
 
+      const successCallback = () => {
+        setLoading(false)
+        getCustomerDesign()
+        message.success('Your design is set.')
+      }
+
       if (!customerDesignData) {
         setLoading(true)
-        createCustomerDesign(payload).then(() => {
-          setLoading(false)
-          getCustomerDesign()
-          message.success('Your design is set.')
-        })
+        createCustomerDesign(payload).then(successCallback)
       } else {
         setLoading(true)
-        updateCustomerDesign(customerDesignData.id, payload).then(() => {
-          setLoading(false)
-          getCustomerDesign()
-          message.success('Your design is set.')
-        })
+        updateCustomerDesign(customerDesignData.id, payload).then(
+          successCallback
+        )
       }
     }
   }
 
   // Automatically save the uploaded design
+  // When a file is uploaded
   useEffect(() => {
     onCreateOrUpdateCustomerDesign()
   }, [uploadedFileUrl])
 
   // Remove the file url from the design
+  // is actually updating the design by
+  // setting the file field empty
   const onRemoveCustomerDesign = () => {
     if (me$) {
       if (uploadedFileUrl) {
@@ -248,7 +252,7 @@ const ProductDesign = observer((props: IProps) => {
         <br />
 
         <Row gutter={[4, 4]}>
-          {/* Selected Upload Custom Design */}
+          {/* Button for Selected Upload Custom Design */}
           {method === ICustomerDesignMethod.upload && (
             <Col>
               <Button
@@ -270,7 +274,7 @@ const ProductDesign = observer((props: IProps) => {
             </Col>
           )}
 
-          {/* Selected Template Seleection */}
+          {/* Button for Selected Template Seleection */}
           {method === ICustomerDesignMethod.template && (
             <Col>
               <Button
@@ -295,7 +299,7 @@ const ProductDesign = observer((props: IProps) => {
         </Row>
       </div>
 
-      {/* Login Modal */}
+      {/* Un-Auth state Login Modal */}
       <Modal
         title="Please Login"
         visible={authModalOpen}
