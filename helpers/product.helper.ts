@@ -1,7 +1,13 @@
 import {
   ShopifyProductFieldsFragment,
-  ShopifyProductVariantFieldsFragment
+  ShopifyProductVariantFieldsFragment,
+  ShopifyAttributeInput
 } from 'graphql/generated'
+import {
+  ICustomerDesign,
+  IProductDesignTemplateCustomerField
+} from 'types/monfent.types'
+import { ICustomerDesignMethod } from 'types/design.types'
 
 export const productSortOptions: {
   [key: string]: { value: string; name: string }
@@ -77,4 +83,78 @@ export const sortProducts = (
     default:
       return products
   }
+}
+
+export const getCustomAttributes = (
+  customerDesign: ICustomerDesign | undefined
+): ShopifyAttributeInput[] => {
+  return customerDesign
+    ? [
+        {
+          key: 'Design Type',
+          value: customerDesign.use_template
+            ? ICustomerDesignMethod.template
+            : ICustomerDesignMethod.upload
+        },
+        ...(customerDesign.use_template
+          ? [
+              ...(customerDesign.info_name
+                ? [
+                    {
+                      key: IProductDesignTemplateCustomerField.name,
+                      value: customerDesign.info_name
+                    }
+                  ]
+                : []),
+              ...(customerDesign.info_logo
+                ? [
+                    {
+                      key: IProductDesignTemplateCustomerField.logo,
+                      value: customerDesign.info_logo
+                    }
+                  ]
+                : []),
+              ...(customerDesign.info_description
+                ? [
+                    {
+                      key: IProductDesignTemplateCustomerField.description,
+                      value: customerDesign.info_description
+                    }
+                  ]
+                : []),
+              ...(customerDesign.info_phone
+                ? [
+                    {
+                      key: IProductDesignTemplateCustomerField.phone,
+                      value: customerDesign.info_phone
+                    }
+                  ]
+                : []),
+              ...(customerDesign.info_title
+                ? [
+                    {
+                      key: IProductDesignTemplateCustomerField.title,
+                      value: customerDesign.info_title
+                    }
+                  ]
+                : []),
+              ...(customerDesign.info_website
+                ? [
+                    {
+                      key: IProductDesignTemplateCustomerField.website,
+                      value: customerDesign.info_website
+                    }
+                  ]
+                : [])
+            ]
+          : customerDesign.file
+          ? [
+              {
+                key: 'Uploaded Design',
+                value: customerDesign.file
+              }
+            ]
+          : [])
+      ]
+    : []
 }

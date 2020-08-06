@@ -40,11 +40,14 @@ export const useInitCheckout = () => {
 
   useEffect(() => {
     const myCheckout = me$?.lastIncompleteCheckout
+
     if (myCheckout) {
+      console.log('Setting checkout...')
       setCheckout$(myCheckout)
     }
 
     if (token$ && !myCheckout && checkout$) {
+      console.log('Associating...')
       checkoutCustomerAssociate({
         checkoutId: checkout$.id,
         customerAccessToken: token$

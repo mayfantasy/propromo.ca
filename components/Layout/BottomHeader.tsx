@@ -11,6 +11,7 @@ import {
 import { Grid } from 'antd'
 import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
+import ShoppingCartIcon from 'components/Checkout/ShoppingCartIcon'
 
 const { SubMenu } = Menu
 const { useBreakpoint } = Grid
@@ -166,11 +167,7 @@ const BottomHeader = (props: IProps) => {
             </Dropdown>
           </Row>
           <div className="bottom-header__shopping-cart">
-            <ShoppingCartOutlined
-              style={{
-                fontSize: '25px'
-              }}
-            />
+            <ShoppingCartIcon />
           </div>
         </Row>
       </Row>

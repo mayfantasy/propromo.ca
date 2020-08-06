@@ -1,7 +1,7 @@
 mutation CreateCheckout($input: CheckoutCreateInput!) {
   checkoutCreate(input: $input) {
     checkout {
-      id
+      ...checkoutFields
     }
     checkoutUserErrors {
       code
@@ -20,7 +20,7 @@ mutation CheckoutCustomerAssociate(
     customerAccessToken: $customerAccessToken
   ) {
     checkout {
-      id
+      ...checkoutFields
     }
     checkoutUserErrors {
       code
@@ -42,7 +42,7 @@ mutation CheckoutCompleteWithTokenizedPayment(
     payment: $payment
   ) {
     checkout {
-      id
+      ...checkoutFields
     }
     checkoutUserErrors {
       code
@@ -61,7 +61,7 @@ mutation CheckoutLineItemsReplace(
 ) {
   checkoutLineItemsReplace(lineItems: $lineItems, checkoutId: $checkoutId) {
     checkout {
-      id
+      ...checkoutFields
     }
     userErrors {
       code
@@ -80,7 +80,7 @@ mutation CheckoutShippingAddressUpdate(
     checkoutId: $checkoutId
   ) {
     checkout {
-      id
+      ...checkoutFields
     }
     checkoutUserErrors {
       code
@@ -99,7 +99,7 @@ mutation CheckoutShippingLineUpdate(
     shippingRateHandle: $shippingRateHandle
   ) {
     checkout {
-      id
+      ...checkoutFields
     }
     checkoutUserErrors {
       code

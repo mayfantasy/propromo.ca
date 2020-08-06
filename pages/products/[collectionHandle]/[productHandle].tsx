@@ -381,7 +381,11 @@ const ProductDetailPage = (props: IProps) => {
                               )
                             }}
                           />
-                          <CheckoutButton disabled={!quantityAvailable} />
+                          <CheckoutButton
+                            disabled={!quantityAvailable}
+                            currentVariant={currentVariant}
+                            quantity={quantity}
+                          />
                         </Space>
                       </div>
                       {/* Stock info */}

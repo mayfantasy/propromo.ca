@@ -69,7 +69,8 @@ const ProductDesign = observer((props: IProps) => {
    * || Store
    */
   const {
-    AuthStore: { me$ }
+    AuthStore: { me$ },
+    ProductStore: { setCustomerDesign$ }
   } = useStores()
 
   /**
@@ -156,6 +157,10 @@ const ProductDesign = observer((props: IProps) => {
         website: customerDesignData.info_website
       }
       templateInfoForm.setFieldsValue(values)
+
+      // ======================
+      // 4. Set to store
+      setCustomerDesign$(customerDesignData)
     }
   }, [customerDesignData])
 
