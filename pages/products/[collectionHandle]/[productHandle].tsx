@@ -42,6 +42,7 @@ import CollectionProducts from 'components/Product/CollectionProducts'
 import CollectionBlocks from 'components/HomePage/CollectionBlocks'
 import _ from 'lodash'
 import ProductDesign from 'components/Product/ProductDesign'
+import CheckoutButton from 'components/Checkout/CheckoutButton'
 
 const { Title, Text } = Typography
 
@@ -380,9 +381,7 @@ const ProductDetailPage = (props: IProps) => {
                               )
                             }}
                           />
-                          <Button disabled={!quantityAvailable} type="primary">
-                            {quantityAvailable ? 'Add To Cart' : 'Out Of Stock'}
-                          </Button>
+                          <CheckoutButton disabled={!quantityAvailable} />
                         </Space>
                       </div>
                       {/* Stock info */}

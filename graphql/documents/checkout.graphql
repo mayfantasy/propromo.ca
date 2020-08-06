@@ -113,7 +113,18 @@ fragment checkoutFields on Checkout {
   id
   ready
   requiresShipping
-
+  lineItems(first: 100) {
+    edges {
+      cursor
+      node {
+        ...checkoutLineItemFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   availableShippingRates {
     ...availableShippingRateFields
   }
@@ -183,4 +194,21 @@ fragment addressFields on MailingAddress {
   zip
   latitude
   longitude
+}
+
+fragment checkoutLineItemFields on CheckoutLineItem {
+  id
+  quantity
+  title
+  unitPrice {
+    amount
+    currencyCode
+  }
+  variant {
+    ...productVariantFields
+  }
+  customAttributes {
+    key
+    value
+  }
 }

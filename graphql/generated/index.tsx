@@ -3143,22 +3143,13 @@ export type ShopifyMutation = {
   checkoutGiftCardRemoveV2?: Maybe<ShopifyCheckoutGiftCardRemoveV2Payload>;
   /** Appends gift cards to an existing checkout. */
   checkoutGiftCardsAppend?: Maybe<ShopifyCheckoutGiftCardsAppendPayload>;
-  /**
-   * Adds a list of line items to a checkout.
-   * @deprecated Use `checkoutLineItemsReplace` instead
-   */
+  /** Adds a list of line items to a checkout. */
   checkoutLineItemsAdd?: Maybe<ShopifyCheckoutLineItemsAddPayload>;
-  /**
-   * Removes line items from an existing checkout.
-   * @deprecated Use `checkoutLineItemsReplace` instead
-   */
+  /** Removes line items from an existing checkout. */
   checkoutLineItemsRemove?: Maybe<ShopifyCheckoutLineItemsRemovePayload>;
   /** Sets a list of line items to a checkout. */
   checkoutLineItemsReplace?: Maybe<ShopifyCheckoutLineItemsReplacePayload>;
-  /**
-   * Updates line items on a checkout.
-   * @deprecated Use `checkoutLineItemsReplace` instead
-   */
+  /** Updates line items on a checkout. */
   checkoutLineItemsUpdate?: Maybe<ShopifyCheckoutLineItemsUpdatePayload>;
   /**
    * Updates the shipping address of an existing checkout.
@@ -5120,7 +5111,20 @@ export type ShopifyCheckoutShippingLineUpdateMutation = (
 export type ShopifyCheckoutFieldsFragment = (
   { __typename?: 'Checkout' }
   & Pick<ShopifyCheckout, 'id' | 'ready' | 'requiresShipping' | 'completedAt' | 'createdAt' | 'currencyCode' | 'email' | 'note' | 'orderStatusUrl' | 'taxExempt' | 'taxesIncluded' | 'webUrl'>
-  & { availableShippingRates?: Maybe<(
+  & { lineItems: (
+    { __typename?: 'CheckoutLineItemConnection' }
+    & { edges: Array<(
+      { __typename?: 'CheckoutLineItemEdge' }
+      & Pick<ShopifyCheckoutLineItemEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'CheckoutLineItem' }
+        & ShopifyCheckoutLineItemFieldsFragment
+      ) }
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<ShopifyPageInfo, 'hasNextPage' | 'hasPreviousPage'>
+    ) }
+  ), availableShippingRates?: Maybe<(
     { __typename?: 'AvailableShippingRates' }
     & ShopifyAvailableShippingRateFieldsFragment
   )>, lineItemsSubtotalPrice: (
@@ -5165,6 +5169,21 @@ export type ShopifyShippingRateFieldsFragment = (
 export type ShopifyAddressFieldsFragment = (
   { __typename?: 'MailingAddress' }
   & Pick<ShopifyMailingAddress, 'id' | 'address1' | 'address2' | 'city' | 'company' | 'country' | 'countryCodeV2' | 'firstName' | 'lastName' | 'name' | 'phone' | 'province' | 'provinceCode' | 'zip' | 'latitude' | 'longitude'>
+);
+
+export type ShopifyCheckoutLineItemFieldsFragment = (
+  { __typename?: 'CheckoutLineItem' }
+  & Pick<ShopifyCheckoutLineItem, 'id' | 'quantity' | 'title'>
+  & { unitPrice?: Maybe<(
+    { __typename?: 'MoneyV2' }
+    & Pick<ShopifyMoneyV2, 'amount' | 'currencyCode'>
+  )>, variant?: Maybe<(
+    { __typename?: 'ProductVariant' }
+    & ShopifyProductVariantFieldsFragment
+  )>, customAttributes: Array<(
+    { __typename?: 'Attribute' }
+    & Pick<ShopifyAttribute, 'key' | 'value'>
+  )> }
 );
 
 export type ShopifyGetCollectionByHandleQueryVariables = {
@@ -5546,6 +5565,65 @@ export const AddressFieldsFragmentDoc = gql`
   longitude
 }
     `;
+export const SelectedOptionFieldsFragmentDoc = gql`
+    fragment selectedOptionFields on SelectedOption {
+  name
+  value
+}
+    `;
+export const ImageFieldsFragmentDoc = gql`
+    fragment imageFields on Image {
+  id
+  altText
+  originalSrc
+}
+    `;
+export const ProductVariantFieldsFragmentDoc = gql`
+    fragment productVariantFields on ProductVariant {
+  id
+  sku
+  title
+  product {
+    handle
+  }
+  quantityAvailable
+  selectedOptions {
+    ...selectedOptionFields
+  }
+  image {
+    ...imageFields
+  }
+  priceV2 {
+    amount
+    currencyCode
+  }
+  compareAtPriceV2 {
+    amount
+    currencyCode
+  }
+  weight
+  weightUnit
+}
+    ${SelectedOptionFieldsFragmentDoc}
+${ImageFieldsFragmentDoc}`;
+export const CheckoutLineItemFieldsFragmentDoc = gql`
+    fragment checkoutLineItemFields on CheckoutLineItem {
+  id
+  quantity
+  title
+  unitPrice {
+    amount
+    currencyCode
+  }
+  variant {
+    ...productVariantFields
+  }
+  customAttributes {
+    key
+    value
+  }
+}
+    ${ProductVariantFieldsFragmentDoc}`;
 export const ShippingRateFieldsFragmentDoc = gql`
     fragment shippingRateFields on ShippingRate {
   handle
@@ -5569,6 +5647,18 @@ export const CheckoutFieldsFragmentDoc = gql`
   id
   ready
   requiresShipping
+  lineItems(first: 100) {
+    edges {
+      cursor
+      node {
+        ...checkoutLineItemFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   availableShippingRates {
     ...availableShippingRateFields
   }
@@ -5604,7 +5694,8 @@ export const CheckoutFieldsFragmentDoc = gql`
   }
   webUrl
 }
-    ${AvailableShippingRateFieldsFragmentDoc}
+    ${CheckoutLineItemFieldsFragmentDoc}
+${AvailableShippingRateFieldsFragmentDoc}
 ${AddressFieldsFragmentDoc}
 ${ShippingRateFieldsFragmentDoc}`;
 export const CustomerFieldsFragmentDoc = gql`
@@ -5626,13 +5717,6 @@ export const CustomerFieldsFragmentDoc = gql`
 }
     ${AddressFieldsFragmentDoc}
 ${CheckoutFieldsFragmentDoc}`;
-export const ImageFieldsFragmentDoc = gql`
-    fragment imageFields on Image {
-  id
-  altText
-  originalSrc
-}
-    `;
 export const CollectionFieldsFragmentDoc = gql`
     fragment collectionFields on Collection {
   id
@@ -5659,40 +5743,6 @@ export const ProducttMetaFieldsFragmentDoc = gql`
   description
 }
     `;
-export const SelectedOptionFieldsFragmentDoc = gql`
-    fragment selectedOptionFields on SelectedOption {
-  name
-  value
-}
-    `;
-export const ProductVariantFieldsFragmentDoc = gql`
-    fragment productVariantFields on ProductVariant {
-  id
-  sku
-  title
-  product {
-    handle
-  }
-  quantityAvailable
-  selectedOptions {
-    ...selectedOptionFields
-  }
-  image {
-    ...imageFields
-  }
-  priceV2 {
-    amount
-    currencyCode
-  }
-  compareAtPriceV2 {
-    amount
-    currencyCode
-  }
-  weight
-  weightUnit
-}
-    ${SelectedOptionFieldsFragmentDoc}
-${ImageFieldsFragmentDoc}`;
 export const ProductFieldsFragmentDoc = gql`
     fragment productFields on Product {
   id

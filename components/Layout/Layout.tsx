@@ -13,6 +13,13 @@ import { useStores } from 'stores'
 import { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
 import { pageRoutes } from 'helpers/route.helpers'
+import { useMutation } from 'urql'
+import {
+  ShopifyCreateCheckoutMutation,
+  ShopifyCreateCheckoutMutationVariables,
+  CreateCheckoutDocument
+} from 'graphql/generated'
+import { useInitCheckout } from 'hooks/useCheckout.hook'
 
 interface IProps {
   globalSettings: IGlobalSettings
@@ -22,17 +29,28 @@ const Layout = observer((props: IProps) => {
   const { globalSettings, children } = props
 
   const {
-    AuthStore: { setToken$ }
+    AuthStore: { setToken$, me$ }
   } = useStores()
   const router = useRouter()
 
+  /**
+   * ||===============
+   * || Initialization
+   */
   useEffect(() => {
+    // Initialize token
     const token = localStorage.getItem('token')
     if (token) {
       setToken$(token)
     }
   }, [])
 
+  useInitCheckout()
+
+  /**
+   * ||===============
+   * || Render
+   */
   return (
     <>
       <style jsx global>{`

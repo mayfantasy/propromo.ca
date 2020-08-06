@@ -21,6 +21,15 @@ const BottomHeader = (props: IProps) => {
   // const { logoUrl, contactPhone, contactEmail } = props
 
   const bp = useBreakpoint()
+  /**
+   * ||==================
+   * || Initialize checkout
+   */
+
+  /**
+   * ||==================
+   * || Render
+   */
   return (
     <>
       <style jsx global>{`
@@ -41,10 +50,14 @@ const BottomHeader = (props: IProps) => {
         className="bottom-header"
         justify="center"
         align="middle"
-        style={{ backgroundColor: BOTTOM_HEADER_BG }}
+        style={{
+          backgroundColor: BOTTOM_HEADER_BG
+        }}
       >
         <Row
-          style={{ maxWidth: CONTENT_WIDTH }}
+          style={{
+            maxWidth: CONTENT_WIDTH
+          }}
           className="bottom-header__content"
           justify="space-between"
           align="middle"
@@ -153,7 +166,11 @@ const BottomHeader = (props: IProps) => {
             </Dropdown>
           </Row>
           <div className="bottom-header__shopping-cart">
-            <ShoppingCartOutlined style={{ fontSize: '25px' }} />
+            <ShoppingCartOutlined
+              style={{
+                fontSize: '25px'
+              }}
+            />
           </div>
         </Row>
       </Row>
