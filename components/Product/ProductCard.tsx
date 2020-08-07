@@ -73,15 +73,9 @@ const ProductCard = (props: IProps) => {
         className="product-card"
         onClick={() => {
           router.push(
-            pageRoutes.productDetailPage(
-              collectionHandle,
-              product.handle as string
-            ).url as string
+            pageRoutes.productDetailPage(product.handle as string).url as string
           ),
-            pageRoutes.productDetailPage(
-              collectionHandle,
-              product.handle as string
-            ).dynamicUrl
+            pageRoutes.productDetailPage(product.handle as string).dynamicUrl
         }}
       >
         <>

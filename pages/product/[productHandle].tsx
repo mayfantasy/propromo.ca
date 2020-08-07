@@ -61,7 +61,7 @@ const ProductDetailPage = (props: IProps) => {
    * || Router
    */
   const router = useRouter()
-  const collectionHandle = router.query.collectionHandle as string
+
   const productHandle = router.query.productHandle as string
 
   /**
@@ -85,19 +85,6 @@ const ProductDetailPage = (props: IProps) => {
     variables: {
       handle: productHandle,
       pageSize: PAGE_SIZE
-    }
-  })
-
-  /**
-   * ||========================
-   * || Get collection by handle
-   */
-  const [collectionData, reloadCollectionData] = useQuery<
-    ShopifyGetCollectionByHandleQuery
-  >({
-    query: GetCollectionByHandleDocument,
-    variables: {
-      handle: collectionHandle
     }
   })
 
@@ -171,11 +158,6 @@ const ProductDetailPage = (props: IProps) => {
   const relatedCollectionHandle = product?.tags.find((t) =>
     t.includes(RELATED_PRODUCT_TAG_PREFIX)
   )
-  // ===== The product collection
-  const productCollection =
-    collectionHandle === 'all-products'
-      ? product?.collections.edges[0].node
-      : collectionData.data?.collectionByHandle
   // ===== Product Tags
   const productTags = product?.tags
 
@@ -239,7 +221,7 @@ const ProductDetailPage = (props: IProps) => {
                   <Skeleton active />
                 </>
               )}
-              {product && currentVariant && productCollection && (
+              {product && currentVariant && (
                 <>
                   {/* <BreadCrumb
                     items={[

@@ -10,13 +10,14 @@ import {
   ShopifyProductVariantFieldsFragment,
   ShopifyAttributeInput
 } from 'graphql/generated'
-import { Button, message } from 'antd'
+import { Button, message, Popover } from 'antd'
 import { observer } from 'mobx-react'
 import { useStores } from 'stores'
 import { ICustomerDesignMethod } from 'types/design.types'
 import { IProductDesignTemplateCustomerField } from 'types/monfent.types'
 import { getCustomAttributes } from 'helpers/product.helper'
 import { useEffect } from 'react'
+import { getLineItemsFromCheckout } from 'helpers/checkout.helpers'
 
 interface IProps {
   disabled?: boolean
@@ -83,14 +84,9 @@ const CheckoutButton = observer((props: IProps) => {
     // **** If the checkout exists
     if (checkout$) {
       // Convert lineitem
-      const lineItems = checkout$.lineItems.edges.map((i) => ({
-        variantId: i.node.variant?.id || '',
-        quantity: i.node.quantity,
-        customAttributes: i.node.customAttributes.map((a) => ({
-          key: a.key,
-          value: a.value || ''
-        }))
-      }))
+      const lineItems: ShopifyCheckoutLineItemInput[] = getLineItemsFromCheckout(
+        checkout$
+      )
       // Find if the variant exists
       const fountLineItem = lineItems.find(
         (i) => i.variantId === currentVariant.id
@@ -163,6 +159,7 @@ const CheckoutButton = observer((props: IProps) => {
       >
         {!disabled ? 'Add To Cart' : 'Out Of Stock'}
       </Button>
+
       {/* <pre>
         <small>{JSON.stringify(checkout$, null, 2)}</small>
       </pre>

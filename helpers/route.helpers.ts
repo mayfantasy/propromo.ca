@@ -26,11 +26,16 @@ export const pageRoutes = {
     name: 'About',
     url: '/about'
   } as INavItem,
-  productDetailPage: (collectionHanadle: string, handle: string) =>
+  cartPage: {
+    key: 'cart',
+    name: 'Cart',
+    url: '/cart'
+  } as INavItem,
+  productDetailPage: (handle: string) =>
     ({
       key: 'product-detail-page',
       name: 'Product Detail',
-      url: `/products/${collectionHanadle}/${handle}`,
+      url: `/product/${handle}`,
       dynamicUrl: '/products/[collectionHandle]/[productHandle]'
     } as INavItem),
   productListPage: (handle: string) =>

@@ -1,7 +1,9 @@
 import { ShoppingCartOutlined } from '@ant-design/icons'
 import { observer } from 'mobx-react'
 import { useStores } from 'stores'
-import { Badge } from 'antd'
+import { Badge, Popover, Empty } from 'antd'
+import Link from 'next/link'
+import { pageRoutes } from 'helpers/route.helpers'
 
 interface IProps {}
 const ShoppingCartIcon = observer((props: IProps) => {
@@ -14,14 +16,30 @@ const ShoppingCartIcon = observer((props: IProps) => {
     (a, c) => a + c.node.quantity,
     0
   )
+
+  /**
+   * ||===========
+   * || Render
+   */
   return (
-    <Badge count={count || 0}>
-      <ShoppingCartOutlined
-        style={{
-          fontSize: '25px'
-        }}
-      />
-    </Badge>
+    <>
+      <style jsx global>{`
+        .shopping-cart-icon {
+          max-width: 400px;
+        }
+      `}</style>
+      <Link href={pageRoutes.cartPage.url!}>
+        <div style={{ cursor: 'pointer' }}>
+          <Badge count={count || 0}>
+            <ShoppingCartOutlined
+              style={{
+                fontSize: '25px'
+              }}
+            />
+          </Badge>
+        </div>
+      </Link>
+    </>
   )
 })
 
