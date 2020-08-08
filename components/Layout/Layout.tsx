@@ -66,7 +66,7 @@ const Layout = observer((props: IProps) => {
             {
               NEXT________: '1',
               '1': 'Real Nav Items',
-              
+              '2': 'Edit welcome email template (or do redirection to the real store)',
               '3': 'Real Filters',
 
               '5':
