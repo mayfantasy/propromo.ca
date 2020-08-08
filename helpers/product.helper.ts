@@ -5,7 +5,8 @@ import {
 } from 'graphql/generated'
 import {
   ICustomerDesign,
-  IProductDesignTemplateCustomerField
+  IProductDesignTemplateCustomerField,
+  ICreateOrUpdateCustomerDesignPayload
 } from 'types/monfent.types'
 import { ICustomerDesignMethod } from 'types/design.types'
 
@@ -86,18 +87,33 @@ export const sortProducts = (
 }
 
 export const getCustomAttributes = (
-  customerDesign: ICustomerDesign | undefined
+  customerDesign:
+    | ICustomerDesign
+    | ICreateOrUpdateCustomerDesignPayload
+    | undefined
 ): ShopifyAttributeInput[] => {
   return customerDesign
     ? [
-        {
-          key: 'Design Type',
-          value: customerDesign.use_template
-            ? ICustomerDesignMethod.template
-            : ICustomerDesignMethod.upload
-        },
+        ...(!customerDesign.use_template && !customerDesign.file
+          ? []
+          : [
+              {
+                key: 'Design Type',
+                value: customerDesign.use_template
+                  ? ICustomerDesignMethod.template
+                  : ICustomerDesignMethod.upload
+              }
+            ]),
         ...(customerDesign.use_template
           ? [
+              ...(customerDesign.selected_template
+                ? [
+                    {
+                      key: 'Selected Template',
+                      value: customerDesign.selected_template
+                    }
+                  ]
+                : []),
               ...(customerDesign.info_name
                 ? [
                     {

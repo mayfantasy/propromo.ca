@@ -80,7 +80,11 @@ const Layout = observer((props: IProps) => {
               '10': 'Terms & policy page',
               '11': 'Connect to CRM',
               '12': 'Product Images & Category Images',
-              '13': 'Documentation for product tag machanism on product detail page'
+              '13': 'Documentation for product tag machanism on product detail page',
+              '14': 'Set 1 default product collection using tags for each product, this is important for navigation (SEO) and static generation',
+              '15': 'Shipping address (use default but changable) & Billing Address (Use shipping address but changable)',
+              '16': 'Payment step using webUrl',
+              '17': 'The note field'
             },
             null,
             2

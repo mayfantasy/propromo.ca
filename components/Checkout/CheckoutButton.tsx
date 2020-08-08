@@ -8,16 +8,16 @@ import {
   CheckoutLineItemsReplaceDocument,
   ShopifyCheckoutLineItemInput,
   ShopifyProductVariantFieldsFragment,
-  ShopifyAttributeInput
+  ShopifyAttributeInput,
+  ShopifyCheckoutFieldsFragment
 } from 'graphql/generated'
-import { Button, message, Popover } from 'antd'
+import { Button } from 'antd'
 import { observer } from 'mobx-react'
 import { useStores } from 'stores'
-import { ICustomerDesignMethod } from 'types/design.types'
-import { IProductDesignTemplateCustomerField } from 'types/monfent.types'
 import { getCustomAttributes } from 'helpers/product.helper'
 import { useEffect } from 'react'
 import { getLineItemsFromCheckout } from 'helpers/checkout.helpers'
+import { useReplaceCheckoutLineItems } from 'hooks/useReplaceCheckoutLineItems.hook'
 
 interface IProps {
   disabled?: boolean
@@ -32,8 +32,10 @@ const CheckoutButton = observer((props: IProps) => {
     CheckoutStore: { checkout$, setCheckout$ },
     ProductStore: { customerDesign$ }
   } = useStores()
+
   /**
-   * ||===============
+   * ||==============================
+   * ||==============================
    * || Create checkout
    */
   const [creatCheckoutResult, createCheckout] = useMutation<
@@ -50,28 +52,37 @@ const CheckoutButton = observer((props: IProps) => {
   }, [creatCheckoutResult.data])
 
   /**
-   * ||===============
+   * ||==============================
+   * ||==============================
    * || Update checkout line items
    */
-  const [
-    checkoutLineItemsReplaceResult,
-    checkoutLineItemsReplace
-  ] = useMutation<
-    ShopifyCheckoutLineItemsReplaceMutation,
-    ShopifyCheckoutLineItemsReplaceMutationVariables
-  >(CheckoutLineItemsReplaceDocument)
-
-  // Success & User error
-  useEffect(() => {
-    const checkout =
-      checkoutLineItemsReplaceResult.data?.checkoutLineItemsReplace?.checkout
-    if (checkout) {
-      setCheckout$(checkout)
-    }
-  }, [checkoutLineItemsReplaceResult.data])
+  const {
+    onReplaceCheckoutLineItems,
+    checkoutLineItemsReplaceResult
+  } = useReplaceCheckoutLineItems(currentVariant, quantity)
 
   /**
-   * ||===============
+   * ||==============================
+   * ||==============================
+   * || When customer design changes
+   * || update the checkout line items
+   */
+  // useEffect(() => {
+  //   if (customerDesign$) {
+  //     console.log('Setting customer design to checkout...')
+  //     // customer attributes (design data for checkout)
+  //     const customAttributes: ShopifyAttributeInput[] = getCustomAttributes(
+  //       customerDesign$
+  //     )
+  //     if (checkout$) {
+  //       onReplaceCheckoutLineItems(checkout$, customAttributes, true)
+  //     }
+  //   }
+  // }, [customerDesign$])
+
+  /**
+   * ||==============================
+   * ||==============================
    * || Add to cart
    */
   const onAddToCart = () => {
@@ -79,34 +90,11 @@ const CheckoutButton = observer((props: IProps) => {
     const customAttributes: ShopifyAttributeInput[] = getCustomAttributes(
       customerDesign$
     )
-    console.log(customAttributes)
+
     // ***************************
     // **** If the checkout exists
     if (checkout$) {
-      // Convert lineitem
-      const lineItems: ShopifyCheckoutLineItemInput[] = getLineItemsFromCheckout(
-        checkout$
-      )
-      // Find if the variant exists
-      const fountLineItem = lineItems.find(
-        (i) => i.variantId === currentVariant.id
-      )
-      // New lineitems
-      let newLineItems = lineItems
-      if (fountLineItem) {
-        fountLineItem.quantity += 1
-        fountLineItem.customAttributes = customAttributes
-      } else {
-        newLineItems = lineItems.concat({
-          variantId: currentVariant.id,
-          quantity,
-          customAttributes
-        })
-      }
-      checkoutLineItemsReplace({
-        checkoutId: checkout$.id,
-        lineItems: newLineItems
-      })
+      onReplaceCheckoutLineItems(checkout$, customAttributes)
     }
     // **********************************
     // **** If the checkout does not exist
@@ -143,7 +131,8 @@ const CheckoutButton = observer((props: IProps) => {
   }
 
   /**
-   * ||===============
+   * ||==============================
+   * ||==============================
    * || Render
    */
   return (

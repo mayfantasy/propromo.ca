@@ -6,7 +6,10 @@ import {
   ShopifyCheckoutFieldsFragment,
   ShopifyCheckoutCustomerAssociateMutation,
   ShopifyCheckoutCustomerAssociateMutationVariables,
-  CheckoutCustomerAssociateDocument
+  CheckoutCustomerAssociateDocument,
+  ShopifyCheckoutShippingAddressUpdateMutation,
+  ShopifyCheckoutShippingAddressUpdateMutationVariables,
+  CheckoutShippingAddressUpdateDocument
 } from 'graphql/generated'
 import { useEffect } from 'react'
 import { useStores } from 'stores'
@@ -17,6 +20,7 @@ export const useInitCheckout = () => {
     CheckoutStore: { setCheckout$, checkout$ }
   } = useStores()
 
+  // Checkout & Customer association
   const [
     checkoutCustomerAssociateResult,
     checkoutCustomerAssociate
@@ -24,6 +28,15 @@ export const useInitCheckout = () => {
     ShopifyCheckoutCustomerAssociateMutation,
     ShopifyCheckoutCustomerAssociateMutationVariables
   >(CheckoutCustomerAssociateDocument)
+
+  // Update shipping address
+  // const [
+  //   checkoutShippingAddressUpdateResult,
+  //   checkoutShippingAddressUpdate
+  // ] = useMutation<
+  //   ShopifyCheckoutShippingAddressUpdateMutation,
+  //   ShopifyCheckoutShippingAddressUpdateMutationVariables
+  // >(CheckoutShippingAddressUpdateDocument)
 
   // Initialize checkout
   useEffect(() => {
@@ -40,12 +53,12 @@ export const useInitCheckout = () => {
 
   useEffect(() => {
     const myCheckout = me$?.lastIncompleteCheckout
-
+    // Store the customer's checkout
     if (myCheckout) {
       console.log('Setting checkout...')
       setCheckout$(myCheckout)
     }
-
+    // Associate checkout
     if (token$ && !myCheckout && checkout$) {
       console.log('Associating...')
       checkoutCustomerAssociate({
@@ -53,5 +66,5 @@ export const useInitCheckout = () => {
         customerAccessToken: token$
       })
     }
-  }, [token$, me$, checkout$])
+  }, [me$, checkout$])
 }

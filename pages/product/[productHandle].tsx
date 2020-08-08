@@ -338,8 +338,10 @@ const ProductDetailPage = (props: IProps) => {
                         <>
                           <div className="product-detail__fileupload">
                             <ProductDesign
+                              globalSettingsData={globalSettingsData}
                               productHandle={product.handle}
-                              productVariantSku={currentVariant.sku}
+                              currentVariant={currentVariant}
+                              quantity={quantity}
                             />
                           </div>
                           <Divider />

@@ -34,8 +34,9 @@ import {
 } from 'graphql/generated'
 import { getLineItemsFromCheckout } from 'helpers/checkout.helpers'
 import Link from 'next/link'
+import { isLink } from 'helpers/file.helpers'
 
-const { Title, Text } = Typography
+const { Title, Text, Link: LinkText } = Typography
 
 const CartPage = observer(() => {
   const bp = useBreakpoint()
@@ -200,7 +201,17 @@ const CartPage = observer(() => {
 
                                 <Col xs={9}>
                                   {/* Title */}
-                                  <Text strong>{item.node.title}</Text>
+                                  <Link
+                                    href={
+                                      pageRoutes.productDetailPage(
+                                        variant?.product.handle!
+                                      ).url!
+                                    }
+                                  >
+                                    <LinkText strong>
+                                      {item.node.title}
+                                    </LinkText>
+                                  </Link>
 
                                   {/* Price */}
                                   <div>
@@ -290,6 +301,24 @@ const CartPage = observer(() => {
                                   </Col>
                                 )}
                               </Row>
+                              {!!item.node.customAttributes.length && (
+                                <Row>
+                                  {item.node.customAttributes.map((a) => (
+                                    <Col className="mr-15">
+                                      <small>
+                                        {a.key}:{' '}
+                                        <strong>
+                                          {isLink(a.value!) ? (
+                                            <a href={a.value!}>download link</a>
+                                          ) : (
+                                            a.value
+                                          )}
+                                        </strong>{' '}
+                                      </small>
+                                    </Col>
+                                  ))}
+                                </Row>
+                              )}
                               <Divider />
                             </>
                           )

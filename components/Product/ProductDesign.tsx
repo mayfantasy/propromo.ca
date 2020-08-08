@@ -1,4 +1,15 @@
-import { Row, Button, Modal, Space, Col, Spin, Radio, message } from 'antd'
+import {
+  Row,
+  Button,
+  Modal,
+  Space,
+  Col,
+  Spin,
+  Radio,
+  message,
+  Popover,
+  Typography
+} from 'antd'
 import { observer } from 'mobx-react'
 import { useStores } from 'stores'
 import Link from 'next/link'
@@ -17,7 +28,9 @@ import { IFetchers } from 'types/fetchers.types'
 import {
   ICustomerDesign,
   IProductDesignTemplate,
-  IProductDesignTemplateInfoFormValues
+  IProductDesignTemplateInfoFormValues,
+  IGlobalSettings,
+  ICreateOrUpdateCustomerDesignPayload
 } from 'types/monfent.types'
 import {
   createCustomerDesign,
@@ -30,14 +43,25 @@ import { RadioChangeEvent } from 'antd/lib/radio'
 import UploadDesignDrawer from './UploadDesignDrawer'
 import SelectTemplateDrawer from './SelectTemplateDrawer'
 import { useForm } from 'antd/lib/form/Form'
+import {
+  ShopifyAttributeInput,
+  ShopifyProductVariantFieldsFragment
+} from 'graphql/generated'
+import { getCustomAttributes } from 'helpers/product.helper'
+import { useReplaceCheckoutLineItems } from 'hooks/useReplaceCheckoutLineItems.hook'
+
+const { Text } = Typography
 
 interface IProps {
   productHandle: string
-  productVariantSku: string
+  currentVariant: ShopifyProductVariantFieldsFragment
+  quantity: number
+  globalSettingsData: IGlobalSettings
 }
 
 const ProductDesign = observer((props: IProps) => {
-  const { productHandle, productVariantSku } = props
+  const { productHandle, currentVariant, globalSettingsData, quantity } = props
+  const productVariantSku = currentVariant.sku
   const [loading, setLoading] = useState(false)
 
   // The uploaded file Url (set by upload event not the original design data)
@@ -70,7 +94,8 @@ const ProductDesign = observer((props: IProps) => {
    */
   const {
     AuthStore: { me$ },
-    ProductStore: { setCustomerDesign$ }
+    ProductStore: { setCustomerDesign$ },
+    CheckoutStore: { checkout$ }
   } = useStores()
 
   /**
@@ -112,7 +137,7 @@ const ProductDesign = observer((props: IProps) => {
 
   /**
    * ||=================
-   * || Set customer design
+   * || Get customer design
    */
   const {
     data: customerDesignData,
@@ -133,6 +158,7 @@ const ProductDesign = observer((props: IProps) => {
     if (customerDesignData) {
       // ======================
       // 1. Set method
+      console.log('1. Set method')
       setMethod(
         customerDesignData.use_template
           ? ICustomerDesignMethod.template
@@ -140,6 +166,7 @@ const ProductDesign = observer((props: IProps) => {
       )
       // ======================
       // 2. Set selected template
+      console.log('2. Set selected template')
       const url = customerDesignData.selected_template
       if (url) {
         setSelectedTemplateUrl(url)
@@ -148,6 +175,7 @@ const ProductDesign = observer((props: IProps) => {
       // ======================
       // 3. Set customer info
       //    for the template
+      console.log('3. Set customer info for the template')
       const values = {
         name: customerDesignData.info_name,
         logo: customerDesignData.info_logo,
@@ -165,12 +193,17 @@ const ProductDesign = observer((props: IProps) => {
   }, [customerDesignData])
 
   // Create or Update the design
+  const {
+    onReplaceCheckoutLineItems,
+    checkoutLineItemsReplaceResult
+  } = useReplaceCheckoutLineItems(currentVariant, quantity)
+
   const onCreateOrUpdateCustomerDesign = () => {
     if (me$) {
-      const payload = {
+      const payload: ICreateOrUpdateCustomerDesignPayload = {
         _handle: productHandle,
         product_handle: productHandle,
-        variant_sku: productVariantSku,
+        variant_sku: productVariantSku!,
         customer_id: me$.id,
         customer_email: me$.email || '',
         customer_name: me$.displayName,
@@ -188,7 +221,15 @@ const ProductDesign = observer((props: IProps) => {
       const successCallback = () => {
         setLoading(false)
         getCustomerDesign()
-        message.success('Your design is set.')
+
+        console.log('Setting customer design to checkout...')
+        // customer attributes (design data for checkout)
+        const customAttributes: ShopifyAttributeInput[] = getCustomAttributes(
+          payload
+        )
+        if (checkout$) {
+          onReplaceCheckoutLineItems(checkout$, customAttributes, true)
+        }
       }
 
       if (!customerDesignData) {
@@ -206,7 +247,9 @@ const ProductDesign = observer((props: IProps) => {
   // Automatically save the uploaded design
   // When a file is uploaded
   useEffect(() => {
-    onCreateOrUpdateCustomerDesign()
+    if (uploadedFileUrl) {
+      onCreateOrUpdateCustomerDesign()
+    }
   }, [uploadedFileUrl])
 
   // Remove the file url from the design
@@ -256,7 +299,7 @@ const ProductDesign = observer((props: IProps) => {
 
         <br />
 
-        <Row gutter={[4, 4]}>
+        <Row gutter={[4, 4]} align="middle">
           {/* Button for Selected Upload Custom Design */}
           {method === ICustomerDesignMethod.upload && (
             <Col>
@@ -301,7 +344,32 @@ const ProductDesign = observer((props: IProps) => {
               </Button>
             </Col>
           )}
+          <Popover
+            trigger="click"
+            title="Let Us Help"
+            placement="bottom"
+            content={
+              <div>
+                <div>
+                  Email:{' '}
+                  <a href={`mailto:${globalSettingsData.contact_email}`}>
+                    {globalSettingsData.contact_email}
+                  </a>
+                </div>
+                <div>Phone #: {globalSettingsData.contact_phone}</div>
+              </div>
+            }
+          >
+            <a className="ml-15">
+              <small>Have a question?</small>
+            </a>
+          </Popover>
         </Row>
+        {/* <div>
+          <Text type="secondary">
+            <small>Skip the upload process</small>
+          </Text>
+        </div> */}
       </div>
 
       {/* Un-Auth state Login Modal */}

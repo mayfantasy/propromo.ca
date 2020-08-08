@@ -136,13 +136,13 @@ const AccountPage = observer((props: IProps) => {
                 {/* ===================== */}
                 {/* Shipping Address Form */}
                 {/* ===================== */}
-                <TabPane tab="Shipping Address" key="2">
+                {/* <TabPane tab="Shipping Address" key="2">
                   <Row>
                     <Col xs={24}>
                       <CustomerAddressForm />
                     </Col>
                   </Row>
-                </TabPane>
+                </TabPane> */}
               </Tabs>
             </div>
           </Layout>

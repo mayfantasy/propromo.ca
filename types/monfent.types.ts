@@ -41,7 +41,7 @@ export interface ICustomerDesign {
   customer_id: string
   customer_name: string
   customer_email: string
-  file?: string
+  file?: string | null
   _handle: string
   use_template: boolean
   selected_template?: string
