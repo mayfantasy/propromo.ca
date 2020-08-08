@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
 import { ShopifyProduct, ShopifyProductFieldsFragment } from 'graphql/generated'
 import { useRouter } from 'next/dist/client/router'
+import PriceLine from 'components/PriceLine'
 
 const { Title, Text } = Typography
 interface IProps {
@@ -105,23 +106,7 @@ const ProductCard = (props: IProps) => {
           >
             <div className="product-card__pricing">
               {totalInventory ? (
-                <>
-                  <small
-                    style={{
-                      textDecoration: firstVariant?.compareAtPriceV2?.amount
-                        ? 'line-through'
-                        : ''
-                    }}
-                  >
-                    {CURRENCY_SYMBOL} {firstVariant?.priceV2.amount}
-                  </small>
-                  &nbsp;
-                  {firstVariant?.compareAtPriceV2?.amount && (
-                    <Text type="danger">
-                      {CURRENCY_SYMBOL} {firstVariant?.compareAtPriceV2.amount}
-                    </Text>
-                  )}
-                </>
+                <PriceLine variant={firstVariant} />
               ) : (
                 <Text type="secondary">
                   <small>Out Of Stock</small>

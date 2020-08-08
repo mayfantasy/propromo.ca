@@ -35,6 +35,7 @@ import {
 import { getLineItemsFromCheckout } from 'helpers/checkout.helpers'
 import Link from 'next/link'
 import { isLink } from 'helpers/file.helpers'
+import PriceLine from 'components/PriceLine'
 
 const { Title, Text, Link: LinkText } = Typography
 
@@ -135,6 +136,11 @@ const CartPage = observer(() => {
   const lineItems = checkout?.lineItems.edges
   const isEmpty = !lineItems?.length
 
+  const totalQuantity =
+    lineItems?.reduce((a, c) => {
+      return a + c.node.quantity
+    }, 0) || 0
+
   if (globalSettingsData) {
     return (
       <>
@@ -177,9 +183,8 @@ const CartPage = observer(() => {
                             variant?.selectedOptions[0].name === 'Title' &&
                             variant?.selectedOptions[0].value ===
                               'Default Title'
-                          const actualPrice =
-                            variant?.compareAtPriceV2?.amount ||
-                            variant?.priceV2.amount
+
+                          const actualPrice = variant?.priceV2.amount
                           const lineSubtotal = actualPrice * item.node.quantity
                           return (
                             <>
@@ -214,28 +219,7 @@ const CartPage = observer(() => {
                                   </Link>
 
                                   {/* Price */}
-                                  <div>
-                                    <Text type="secondary">
-                                      <small
-                                        style={{
-                                          textDecoration: variant
-                                            ?.compareAtPriceV2?.amount
-                                            ? 'line-through'
-                                            : ''
-                                        }}
-                                      >
-                                        {CURRENCY_SYMBOL}{' '}
-                                        {variant?.priceV2.amount}
-                                      </small>
-                                    </Text>
-                                    &nbsp;
-                                    {variant?.compareAtPriceV2?.amount && (
-                                      <Text type="danger">
-                                        {CURRENCY_SYMBOL}{' '}
-                                        {variant?.compareAtPriceV2.amount}
-                                      </Text>
-                                    )}
-                                  </div>
+                                  <PriceLine variant={variant} />
 
                                   {/* Selected Option */}
                                   {!isDefaultOption && (
@@ -330,6 +314,52 @@ const CartPage = observer(() => {
                     <Col xs={24} lg={6}>
                       <Title level={4}>Summary</Title>
                       <Divider />
+                      {/* Subtotal */}
+                      <Row justify="space-between" align="middle">
+                        <Col>
+                          {totalQuantity} Item{totalQuantity > 1 && 's'}
+                        </Col>
+                        <Col>${checkout?.subtotalPriceV2.amount}</Col>
+                      </Row>
+
+                      {/* Tax */}
+                      <Row justify="space-between" align="middle">
+                        <Col>Tax</Col>
+                        <Col>${checkout?.totalTaxV2.amount}</Col>
+                      </Row>
+
+                      <Divider />
+                      <Row justify="space-between" align="middle">
+                        <Col>Total</Col>
+                        <Col>${checkout?.totalPriceV2.amount}</Col>
+                      </Row>
+
+                      <br />
+                      {/* Shipping Notice */}
+                      <div>
+                        <Text type="secondary">
+                          Shipping rate will be counted during the checkout.
+                        </Text>
+                      </div>
+
+                      <Divider />
+
+                      {/* Checkout button */}
+                      {checkout?.webUrl && (
+                        <div>
+                          <a href={checkout.webUrl}>
+                            <Button
+                              className="btn-black w-100"
+                              size="large"
+                              type="primary"
+                            >
+                              Checkout Now
+                            </Button>
+                          </a>
+                        </div>
+                      )}
+
+                      {/* Customer Note */}
                     </Col>
                   )}
                 </Row>

@@ -222,6 +222,8 @@ const ProductDesign = observer((props: IProps) => {
         setLoading(false)
         getCustomerDesign()
 
+        // * || When customer design changes
+        // * || update the checkout line items
         console.log('Setting customer design to checkout...')
         // customer attributes (design data for checkout)
         const customAttributes: ShopifyAttributeInput[] = getCustomAttributes(

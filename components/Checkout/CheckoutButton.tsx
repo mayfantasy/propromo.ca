@@ -64,25 +64,6 @@ const CheckoutButton = observer((props: IProps) => {
   /**
    * ||==============================
    * ||==============================
-   * || When customer design changes
-   * || update the checkout line items
-   */
-  // useEffect(() => {
-  //   if (customerDesign$) {
-  //     console.log('Setting customer design to checkout...')
-  //     // customer attributes (design data for checkout)
-  //     const customAttributes: ShopifyAttributeInput[] = getCustomAttributes(
-  //       customerDesign$
-  //     )
-  //     if (checkout$) {
-  //       onReplaceCheckoutLineItems(checkout$, customAttributes, true)
-  //     }
-  //   }
-  // }, [customerDesign$])
-
-  /**
-   * ||==============================
-   * ||==============================
    * || Add to cart
    */
   const onAddToCart = () => {

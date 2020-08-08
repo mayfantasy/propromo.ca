@@ -43,6 +43,7 @@ import CollectionBlocks from 'components/HomePage/CollectionBlocks'
 import _ from 'lodash'
 import ProductDesign from 'components/Product/ProductDesign'
 import CheckoutButton from 'components/Checkout/CheckoutButton'
+import PriceLine from 'components/PriceLine'
 
 const { Title, Text } = Typography
 
@@ -263,25 +264,7 @@ const ProductDetailPage = (props: IProps) => {
                         {/* {hasVariants ? ` - ${currentVariant.title}` : ''} */}
                       </Title>
                       {/* Pricing */}
-                      <div className="product-detail__pricing">
-                        <span
-                          style={{
-                            textDecoration: currentVariant.compareAtPriceV2
-                              ?.amount
-                              ? 'line-through'
-                              : ''
-                          }}
-                        >
-                          {CURRENCY_SYMBOL} {currentVariant.priceV2.amount}
-                        </span>
-                        &nbsp;
-                        {currentVariant.compareAtPriceV2?.amount && (
-                          <Text type="danger">
-                            {CURRENCY_SYMBOL}{' '}
-                            {currentVariant.compareAtPriceV2.amount}
-                          </Text>
-                        )}
-                      </div>
+                      <PriceLine variant={firstVariant} />
                       <Divider />
                       {/* Description */}
                       <div className="product-detail__description">
