@@ -65,13 +65,13 @@ const Layout = observer((props: IProps) => {
           {JSON.stringify(
             {
               NEXT________: '1',
-              '1': 'Real Nav Items',
+              // '1': 'Real Nav Items',
               '2': 'Edit welcome email template (or do redirection to the real store)',
               '3': 'Real Filters',
               '4': 'Add padding on mobile version'
               '5':
                 'Upload all products to shopify (Upload upload-design product first to do testing)',
-
+              '6': 'Contact Us Page'
               '8': 'Refund & Return Policy page',
               '9': 'About us page',
               '10': 'Terms & policy page',

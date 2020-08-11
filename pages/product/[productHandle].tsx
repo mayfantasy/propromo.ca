@@ -317,19 +317,21 @@ const ProductDetailPage = (props: IProps) => {
                       <Divider />
 
                       {/* Upload custom product design (for prints) */}
-                      {fileuploadEnabled && currentVariant.sku && (
-                        <>
-                          <div className="product-detail__fileupload">
-                            <ProductDesign
-                              globalSettingsData={globalSettingsData}
-                              productHandle={product.handle}
-                              currentVariant={currentVariant}
-                              quantity={quantity}
-                            />
-                          </div>
-                          <Divider />
-                        </>
-                      )}
+                      {fileuploadEnabled &&
+                        currentVariant.sku &&
+                        !!quantityAvailable && (
+                          <>
+                            <div className="product-detail__fileupload">
+                              <ProductDesign
+                                globalSettingsData={globalSettingsData}
+                                productHandle={product.handle}
+                                currentVariant={currentVariant}
+                                quantity={quantity}
+                              />
+                            </div>
+                            <Divider />
+                          </>
+                        )}
 
                       {/* Buy Button */}
                       <div className="product-detail__buy-button">
