@@ -124,20 +124,13 @@ export const sendContactUsEmailRequest = async (
   to_email: string,
   form: IContactUsEmailFormValues
 ) => {
-  return api
-    .post(`/email/send`, {
-      meta: {
-        collection_handle: 'propromo',
-        schema_handle: 'email_template',
-        id: '273578089126035987'
-      },
-      to_email: to_email,
-      data: form
-    })
-    .then((res) => {
-      return res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+  return api.post(`/email/send`, {
+    meta: {
+      collection_handle: 'propromo',
+      schema_handle: 'email_template',
+      id: '273578089126035987'
+    },
+    to_email: to_email,
+    data: form
+  })
 }
