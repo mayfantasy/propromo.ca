@@ -8,7 +8,8 @@ import {
   ICustomerDesign,
   IGetCustomerDesignPayload,
   ICreateOrUpdateCustomerDesignPayload,
-  IProductDesignTemplate
+  IProductDesignTemplate,
+  IContactUsEmailFormValues
 } from 'types/monfent.types'
 import { IMonfentData } from 'types/utils.types'
 
@@ -116,5 +117,27 @@ export const getProductDesignTemplatesFetcher = (
             d.product_handle === product_handle && d.variant_sku === variant_sku
         ) || null
       )
+    })
+}
+
+export const sendContactUsEmailRequest = async (
+  to_email: string,
+  form: IContactUsEmailFormValues
+) => {
+  return api
+    .post(`/email/send`, {
+      meta: {
+        collection_handle: 'propromo',
+        schema_handle: 'email_template',
+        id: '273578089126035987'
+      },
+      to_email: to_email,
+      data: form
+    })
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.log(err)
     })
 }

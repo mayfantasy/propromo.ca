@@ -69,8 +69,7 @@ const Layout = observer((props: IProps) => {
               '2': 'Edit welcome email template (or do redirection to the real store)',
               '3': 'Real Filters',
               '4': 'Add padding on mobile version'
-              '5':
-                'Upload all products to shopify (Upload upload-design product first to do testing)',
+              // '5': 'Upload all products to shopify (Upload upload-design product first to do testing)',
               '6': 'Contact Us Page'
               '8': 'Refund & Return Policy page',
               '9': 'About us page',
@@ -78,10 +77,8 @@ const Layout = observer((props: IProps) => {
               '11': 'Connect to CRM',
               '12': 'Product Images & Category Images',
               '13': 'Documentation for product tag machanism on product detail page',
-              
               '14': 'Setup shopify payment settings and proceed test orders.',
-              
-              '17': 'The note field'
+              // '17': 'The note field'
             },
             null,
             2

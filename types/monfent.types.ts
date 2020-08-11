@@ -5,6 +5,7 @@ export interface IGlobalSettings {
   contact_phone: string
   contact_email: string
   contact_address: string
+  email_receiver: string
 }
 
 export interface IHomePageContent {
@@ -84,4 +85,11 @@ export interface IProductDesignTemplateInfoFormValues {
   name?: string
   phone?: string
   website?: string
+}
+
+export interface IContactUsEmailFormValues {
+  name: string
+  email: string
+  title: string
+  content: string
 }
