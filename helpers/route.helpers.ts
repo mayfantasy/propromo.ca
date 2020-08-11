@@ -26,6 +26,11 @@ export const pageRoutes = {
     name: 'About',
     url: '/about'
   } as INavItem,
+  contactPage: {
+    key: 'contact',
+    name: 'Contact Us',
+    url: '/contact'
+  } as INavItem,
   cartPage: {
     key: 'cart',
     name: 'Cart',

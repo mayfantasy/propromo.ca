@@ -12,6 +12,7 @@ import { Grid } from 'antd'
 import Link from 'next/link'
 import { pageRoutes } from 'helpers/route.helpers'
 import ShoppingCartIcon from 'components/Checkout/ShoppingCartIcon'
+import { bottomHeaderItems } from 'helpers/nav.helpers'
 
 const { SubMenu } = Menu
 const { useBreakpoint } = Grid
@@ -64,107 +65,44 @@ const BottomHeader = (props: IProps) => {
           align="middle"
         >
           <Row className="bottom-header__nav" align="middle">
-            {/* Home */}
-            <div className="nav-button">
-              <Link href={pageRoutes.homePage.url!}>
-                <a>Home</a>
-              </Link>
-            </div>
-            {/* About */}
-            <div className="nav-button">
-              <Link href={pageRoutes.aboutPage.url!}>
-                <a>About</a>
-              </Link>
-            </div>
-            {/* All Products */}
-            <div className="nav-button">
-              <Link href={pageRoutes.productListPage('all').url!}>
-                <a>All Products</a>
-              </Link>
-            </div>
-            {/* Hardware */}
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://www.alipay.com/"
-                    >
-                      1st menu item
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://www.taobao.com/"
-                    >
-                      2nd menu item
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://www.tmall.com/"
-                    >
-                      3rd menu item
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item danger>a danger item</Menu.Item>
-                </Menu>
+            {bottomHeaderItems.map((item) => {
+              if (item.children) {
+                return (
+                  <Dropdown
+                    overlay={
+                      <Menu>
+                        {item.children.map((child) => (
+                          <Menu.Item key={child.key}>
+                            <Link
+                              href={child.dynamicUrl || child.url!}
+                              as={child.url}
+                            >
+                              <a>{child.name}</a>
+                            </Link>
+                          </Menu.Item>
+                        ))}
+                      </Menu>
+                    }
+                  >
+                    <div className="nav-button" key={item.key}>
+                      <Link href={item.dynamicUrl || item.url!} as={item.url}>
+                        <a>
+                          {item.name} <CaretDownFilled />
+                        </a>
+                      </Link>
+                    </div>
+                  </Dropdown>
+                )
+              } else {
+                return (
+                  <div className="nav-button" key={item.key}>
+                    <Link href={item.dynamicUrl || item.url!} as={item.url}>
+                      <a>{item.name}</a>
+                    </Link>
+                  </div>
+                )
               }
-            >
-              <div className="nav-button">
-                <a>
-                  Hardwares <CaretDownFilled />
-                </a>
-              </div>
-            </Dropdown>
-
-            {/* Prints */}
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://www.alipay.com/"
-                    >
-                      1st menu item
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://www.taobao.com/"
-                    >
-                      2nd menu item
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://www.tmall.com/"
-                    >
-                      3rd menu item
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item danger>a danger item</Menu.Item>
-                </Menu>
-              }
-            >
-              <div className="nav-button">
-                <a>
-                  Prints <CaretDownFilled />
-                </a>
-              </div>
-            </Dropdown>
+            })}
           </Row>
           <div className="bottom-header__shopping-cart">
             <ShoppingCartIcon />
