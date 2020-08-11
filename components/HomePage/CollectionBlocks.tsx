@@ -14,6 +14,7 @@ import {
 import { PAGE_SIZE } from 'helpers/utils.helper'
 import { pageRoutes } from 'helpers/route.helpers'
 import { ICollectionCardInfo } from 'types/collection.types'
+import { IProductCollectionHandles } from 'helpers/collection.helpers'
 
 const { Text } = Typography
 
@@ -39,27 +40,27 @@ const CollectionBlocks = (props: IProps) => {
     // },
     {
       name: 'Banner Stands',
-      handle: 'banner-stands',
+      handle: IProductCollectionHandles.banner_stands,
       imgSrc: '/square-placeholder.jpg'
     },
     {
       name: 'Brochure and Newspaper Holders',
-      handle: 'brochure-and-newspaper-holders',
+      handle: IProductCollectionHandles.brochure_and_newspaper_holders,
       imgSrc: '/square-placeholder.jpg'
     },
     {
       name: 'Crowd Control Systems',
-      handle: 'crowd-control-systems',
+      handle: IProductCollectionHandles.crowd_control_systems,
       imgSrc: '/square-placeholder.jpg'
     },
     {
       name: 'Flags and Accessories',
-      handle: 'flags',
+      handle: IProductCollectionHandles.flags,
       imgSrc: '/square-placeholder.jpg'
     },
     {
-      name: 'All Products',
-      handle: 'all',
+      name: 'Prints',
+      handle: IProductCollectionHandles.prints,
       imgSrc: '/square-placeholder.jpg'
     }
   ]
