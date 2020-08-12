@@ -2,84 +2,70 @@ import { Row, Col, Input, Button, Typography, Space, Divider } from 'antd'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
 import { INavItem } from 'types/utils.types'
 import Link from 'next/link'
+import { pageRoutes } from 'helpers/route.helpers'
+import { observer } from 'mobx-react'
+import { useStores } from 'stores'
+import { IProductCollectionHandles } from 'helpers/collection.helpers'
 
 const { Title } = Typography
 
 interface IProps {}
 
-const footerItems: INavItem[] = [
-  {
-    name: 'Information',
-    key: 'information',
-    children: [
-      {
-        name: 'About us',
-        key: 'about-us',
-        url: '/about-us'
-      },
-      {
-        name: 'Return & Refund Policy',
-        key: 'return-and-refund-policy',
-        url: '/return-and-refund-policy'
-      },
-      {
-        name: 'Term & Conditions',
-        key: 'terms-and-conditions',
-        url: '/terms'
-      },
-      {
-        name: 'Privacy Policy',
-        key: 'privacy-policy',
-        url: '/privacy-policy'
-      }
-    ]
-  },
-  {
-    name: 'Products',
-    key: 'products',
-    children: [
-      {
-        name: 'All Products',
-        key: 'all-products',
-        url: '/products'
-      },
-      {
-        name: 'Hardwares',
-        key: 'hardwares',
-        url: '/products/hardware'
-      },
-      {
-        name: 'Prints',
-        key: 'prints',
-        url: '/products/prints'
-      }
-    ]
-  },
-  {
-    name: 'Account',
-    key: 'account',
-    children: [
-      {
-        name: 'My Account',
-        key: 'my-account',
-        url: '/account'
-      },
-      {
-        name: 'Login',
-        key: 'login',
-        url: '/login'
-      },
-      {
-        name: 'Register',
-        key: 'register',
-        url: '/register'
-      }
-    ]
-  }
-]
-
-const Footer = (props: IProps) => {
+const Footer = observer((props: IProps) => {
   const {} = props
+
+  const {
+    AuthStore: { me$ }
+  } = useStores()
+
+  const footerItems: INavItem[] = [
+    {
+      name: 'Information',
+      key: 'information',
+      children: [
+        pageRoutes.aboutPage,
+        pageRoutes.shippingPolicyPage,
+        pageRoutes.returnAndRefundPage,
+        pageRoutes.termsOfUsePage,
+        pageRoutes.privacyPage
+      ]
+    },
+    {
+      name: 'Products',
+      key: 'products',
+      children: [
+        // {
+        //   name: 'All Products',
+        //   key: 'all-products',
+        //   url: '/products'
+        // },
+        {
+          name: 'Displays',
+          key: IProductCollectionHandles.displays,
+          url: pageRoutes.productListPage(IProductCollectionHandles.displays)
+            .url,
+          dynamicUrl: pageRoutes.productListPage(
+            IProductCollectionHandles.displays
+          ).dynamicUrl
+        },
+        {
+          name: 'Prints',
+          key: IProductCollectionHandles.prints,
+          url: pageRoutes.productListPage(IProductCollectionHandles.prints).url,
+          dynamicUrl: pageRoutes.productListPage(
+            IProductCollectionHandles.prints
+          ).dynamicUrl
+        }
+      ]
+    },
+    {
+      name: 'Account',
+      key: 'account',
+      children: me$
+        ? [pageRoutes.accountPage]
+        : [pageRoutes.loginPage, pageRoutes.registerPage]
+    }
+  ]
   return (
     <>
       <style jsx global>{`
@@ -118,8 +104,8 @@ const Footer = (props: IProps) => {
                     <div key={item.key}>
                       <Link
                         key={item.key}
-                        href={item.url!}
-                        as={item.dynamicUrl}
+                        href={item.dynamicUrl || item.url!}
+                        as={item.url}
                       >
                         <a>{item.name}</a>
                       </Link>
@@ -133,6 +119,6 @@ const Footer = (props: IProps) => {
       </Row>
     </>
   )
-}
+})
 
 export default Footer

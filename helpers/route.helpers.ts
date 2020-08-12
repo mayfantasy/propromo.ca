@@ -23,7 +23,7 @@ export const pageRoutes = {
   } as INavItem,
   aboutPage: {
     key: 'about',
-    name: 'About',
+    name: 'About Us',
     url: '/about'
   } as INavItem,
   contactPage: {
@@ -35,6 +35,26 @@ export const pageRoutes = {
     key: 'cart',
     name: 'Cart',
     url: '/cart'
+  } as INavItem,
+  privacyPage: {
+    key: 'privacy',
+    name: 'Privacy Statement',
+    url: '/privacy-statement'
+  } as INavItem,
+  termsOfUsePage: {
+    key: 'terms-of-use',
+    name: 'Terms of Use',
+    url: '/terms-of-use'
+  } as INavItem,
+  shippingPolicyPage: {
+    key: 'shipping-policy',
+    name: 'Shipping Policy',
+    url: '/shipping-policy'
+  } as INavItem,
+  returnAndRefundPage: {
+    key: 'return-and-refund-policy',
+    name: 'Return & Refund Policy',
+    url: '/return-and-refund-policy'
   } as INavItem,
   productDetailPage: (handle: string) =>
     ({

@@ -9,7 +9,9 @@ import {
   IGetCustomerDesignPayload,
   ICreateOrUpdateCustomerDesignPayload,
   IProductDesignTemplate,
-  IContactUsEmailFormValues
+  IContactUsEmailFormValues,
+  IPrivacyPageContent,
+  ITermsOfUsePageContent
 } from 'types/monfent.types'
 import { IMonfentData } from 'types/utils.types'
 
@@ -28,6 +30,20 @@ export const homePageContentFetcher = () =>
   api
     .get<IMonfentData<IHomePageContent>>(
       '/object/propromo/home-page/get/270997650880332307'
+    )
+    .then((res) => res.data.result)
+
+export const privacyPageContentFetcher = () =>
+  api
+    .get<IMonfentData<IPrivacyPageContent>>(
+      '/object/propromo/page_privacy/get/273657516864307712'
+    )
+    .then((res) => res.data.result)
+
+export const termsOfUsePageContentFetcher = () =>
+  api
+    .get<IMonfentData<ITermsOfUsePageContent>>(
+      '/object/propromo/page_term_of_use/get/273657465177899520'
     )
     .then((res) => res.data.result)
 

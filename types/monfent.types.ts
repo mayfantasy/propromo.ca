@@ -8,6 +8,13 @@ export interface IGlobalSettings {
   email_receiver: string
 }
 
+export interface IPrivacyPageContent {
+  page_article: string
+}
+export interface ITermsOfUsePageContent {
+  page_article: string
+}
+
 export interface IHomePageContent {
   title: string
   slider_images: string[]
