@@ -7,11 +7,21 @@ export interface IGlobalSettings {
   contact_address: string
   email_receiver: string
 }
-
+export interface IAboutUsPageContent {
+  page_article: string
+}
 export interface IPrivacyPageContent {
   page_article: string
 }
 export interface ITermsOfUsePageContent {
+  page_article: string
+}
+
+export interface IShippingPolicyPageContent {
+  page_article: string
+}
+
+export interface IReturnAndRefundPageContent {
   page_article: string
 }
 

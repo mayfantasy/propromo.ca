@@ -11,7 +11,10 @@ import {
   IProductDesignTemplate,
   IContactUsEmailFormValues,
   IPrivacyPageContent,
-  ITermsOfUsePageContent
+  ITermsOfUsePageContent,
+  IShippingPolicyPageContent,
+  IReturnAndRefundPageContent,
+  IAboutUsPageContent
 } from 'types/monfent.types'
 import { IMonfentData } from 'types/utils.types'
 
@@ -33,6 +36,13 @@ export const homePageContentFetcher = () =>
     )
     .then((res) => res.data.result)
 
+export const aboutUsPageContentFetcher = () =>
+  api
+    .get<IMonfentData<IAboutUsPageContent>>(
+      '/object/propromo/page_about_us/get/273705340342632979'
+    )
+    .then((res) => res.data.result)
+
 export const privacyPageContentFetcher = () =>
   api
     .get<IMonfentData<IPrivacyPageContent>>(
@@ -44,6 +54,20 @@ export const termsOfUsePageContentFetcher = () =>
   api
     .get<IMonfentData<ITermsOfUsePageContent>>(
       '/object/propromo/page_term_of_use/get/273657465177899520'
+    )
+    .then((res) => res.data.result)
+
+export const shippingPolicyPageContentFetcher = () =>
+  api
+    .get<IMonfentData<IShippingPolicyPageContent>>(
+      '/object/propromo/shipping_policy/get/273658538377609747'
+    )
+    .then((res) => res.data.result)
+
+export const returnAndRefundPageContentFetcher = () =>
+  api
+    .get<IMonfentData<IReturnAndRefundPageContent>>(
+      '/object/propromo/return_and_refund_policy/get/273658670705803795'
     )
     .then((res) => res.data.result)
 

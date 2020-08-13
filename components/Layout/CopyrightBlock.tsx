@@ -12,9 +12,18 @@ const CopyrightBlock = (props: IProps) => {
           background-color: #f5f6f7;
         }
       `}</style>
-      <Row className="copyright-block" justify="center">
-        <small>Copyright@ ProPromo Inc. All Rights Reserved.</small>
-      </Row>
+      <div className="copyright-block center">
+        <small className="mr-8">
+          Copyright@ ProPromo Inc. All Rights Reserved.
+        </small>
+        <br />
+        <small>
+          Site Powered by{' '}
+          <a target="_blank" href="https://www.mayfantasy.com">
+            Mayfantasy
+          </a>
+        </small>
+      </div>
     </>
   )
 }

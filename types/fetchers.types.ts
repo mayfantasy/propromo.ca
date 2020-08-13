@@ -16,7 +16,10 @@ export enum IFetchers {
    */
   GlobalSettings = 'GlobalSettings',
   HomePageContent = 'HomePageContent',
+  AboutUsPageContent = 'AboutUsPageContent',
   PrivacyPageContent = 'PrivacyPageContent',
+  ShippingPolicyPageContent = 'ShippingPolicyPageContent',
+  ReturnAndRefundPageContent = 'ReturnAndRefundPageContent',
   TermsOfUsePageContent = 'TermsOfUsePageContent',
   ProductListPageContent = 'ProductListPageContent',
   CustomerDesign = 'CustomerDesign',

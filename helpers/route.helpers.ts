@@ -24,7 +24,7 @@ export const pageRoutes = {
   aboutPage: {
     key: 'about',
     name: 'About Us',
-    url: '/about'
+    url: '/about-us'
   } as INavItem,
   contactPage: {
     key: 'contact',
@@ -54,7 +54,7 @@ export const pageRoutes = {
   returnAndRefundPage: {
     key: 'return-and-refund-policy',
     name: 'Return & Refund Policy',
-    url: '/return-and-refund-policy'
+    url: '/return-and-refund'
   } as INavItem,
   productDetailPage: (handle: string) =>
     ({
