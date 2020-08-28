@@ -93,7 +93,20 @@ const CheckoutButton = observer((props: IProps) => {
         createCheckout({
           input: {
             allowPartialAddresses: true,
-            shippingAddress: me$.defaultAddress,
+            shippingAddress: me$.defaultAddress
+              ? {
+                  address1: me$.defaultAddress?.address1,
+                  address2: me$.defaultAddress?.address2,
+                  city: me$.defaultAddress?.city,
+                  company: me$.defaultAddress?.company,
+                  country: me$.defaultAddress?.country,
+                  firstName: me$.defaultAddress?.firstName,
+                  lastName: me$.defaultAddress?.lastName,
+                  phone: me$.defaultAddress?.phone,
+                  province: me$.defaultAddress?.province,
+                  zip: me$.defaultAddress?.zip
+                }
+              : undefined,
             email: me$.email,
             lineItems,
             customAttributes

@@ -69,6 +69,7 @@ const BottomHeader = (props: IProps) => {
               if (item.children) {
                 return (
                   <Dropdown
+                    key={item.key}
                     overlay={
                       <Menu>
                         {item.children.map((child) => (

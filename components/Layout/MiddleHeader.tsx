@@ -29,7 +29,7 @@ const MiddleHeader = (props: IProps) => {
             font-size: 0.8rem;
             .middle-header__logo {
               img {
-                width: 180px;
+                width: 100%;
               }
             }
             .middle-header__search {
