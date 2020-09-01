@@ -5511,7 +5511,7 @@ export type ShopifyImageFieldsFragment = (
 
 export type ShopifyProductVariantFieldsFragment = (
   { __typename?: 'ProductVariant' }
-  & Pick<ShopifyProductVariant, 'id' | 'sku' | 'title' | 'quantityAvailable' | 'weight' | 'weightUnit'>
+  & Pick<ShopifyProductVariant, 'id' | 'sku' | 'title' | 'availableForSale' | 'currentlyNotInStock' | 'quantityAvailable' | 'weight' | 'weightUnit'>
   & { product: (
     { __typename?: 'Product' }
     & Pick<ShopifyProduct, 'handle'>
@@ -5583,6 +5583,8 @@ export const ProductVariantFieldsFragmentDoc = gql`
   id
   sku
   title
+  availableForSale
+  currentlyNotInStock
   product {
     handle
   }

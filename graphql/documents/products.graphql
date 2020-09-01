@@ -99,6 +99,8 @@ fragment productVariantFields on ProductVariant {
   id
   sku
   title
+  availableForSale
+  currentlyNotInStock
   product {
     handle
   }

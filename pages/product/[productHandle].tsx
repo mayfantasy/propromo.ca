@@ -153,6 +153,8 @@ const ProductDetailPage = (props: IProps) => {
   const firstVariant = productVariants?.[0].node
   // ===== has more than 1 variant ?
   const hasVariants = productVariants && productVariants.length > 1
+  // ===== Don't track inventory
+  const dontCheckInventory = currentVariant?.availableForSale
   // ===== Available stock quantity
   const quantityAvailable = currentVariant?.quantityAvailable || 0
   // ===== find the collection that store this product's related products
@@ -276,7 +278,6 @@ const ProductDetailPage = (props: IProps) => {
                           />
                         </Text>
                       </div>
-
                       {/* Product Variants */}
                       {product.options.length &&
                         currentVariant.title !== 'Default Title' && (
@@ -315,7 +316,6 @@ const ProductDetailPage = (props: IProps) => {
                           </>
                         )}
                       <Divider />
-
                       {/* Upload custom product design (for prints) */}
                       {fileuploadEnabled &&
                         currentVariant.sku &&
@@ -332,12 +332,11 @@ const ProductDetailPage = (props: IProps) => {
                             <Divider />
                           </>
                         )}
-
                       {/* Buy Button */}
                       <div className="product-detail__buy-button">
                         <Space>
                           <InputNumber
-                            disabled={!quantityAvailable}
+                            disabled={!dontCheckInventory && !quantityAvailable}
                             value={quantity}
                             onChange={(v) => {
                               const value = v as number
@@ -351,25 +350,29 @@ const ProductDetailPage = (props: IProps) => {
                             }}
                           />
                           <CheckoutButton
-                            disabled={!quantityAvailable}
+                            disabled={!dontCheckInventory && !quantityAvailable}
                             currentVariant={currentVariant}
                             quantity={quantity}
                           />
                         </Space>
                       </div>
                       {/* Stock info */}
-                      {quantityAvailable < 10 && (
-                        <Text type="warning">
-                          {quantityAvailable ? (
-                            <small>
-                              Only {quantityAvailable} left in stock
-                            </small>
-                          ) : (
-                            <small>
-                              This product is currently out of stock
-                            </small>
+                      {!dontCheckInventory && (
+                        <>
+                          {quantityAvailable < 10 && (
+                            <Text type="warning">
+                              {quantityAvailable ? (
+                                <small>
+                                  Only {quantityAvailable} left in stock
+                                </small>
+                              ) : (
+                                <small>
+                                  This product is currently out of stock
+                                </small>
+                              )}
+                            </Text>
                           )}
-                        </Text>
+                        </>
                       )}
                     </Col>
                   </Row>
