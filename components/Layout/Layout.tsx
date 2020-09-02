@@ -61,29 +61,6 @@ const Layout = observer((props: IProps) => {
         }
       `}</style>
       <div className="propromo-layout">
-        {/* <pre>
-          {JSON.stringify(
-            {
-              NEXT________: '1',
-              // '1': 'Real Nav Items',
-              '2': 'Edit welcome email template (or do redirection to the real store)',
-              '3': 'Real Filters',
-              '4': 'Add padding on mobile version'
-              // '5': 'Upload all products to shopify (Upload upload-design product first to do testing)',
-              '6': 'Contact Us Page'
-              '8': 'Refund & Return Policy page',
-              '9': 'About us page',
-              '10': 'Terms & policy page',
-              '11': 'Connect to CRM',
-              '12': 'Product Images & Category Images',
-              '13': 'Documentation for product tag machanism on product detail page',
-              '14': 'Setup shopify payment settings and proceed test orders.',
-              // '17': 'The note field'
-            },
-            null,
-            2
-          )}
-        </pre> */}
         <TopHeader
           announcement={globalSettings.announcement}
           hideAnnouncement={globalSettings.hide_announcement}
@@ -105,8 +82,8 @@ const Layout = observer((props: IProps) => {
 
         <ContactBlock
           email={globalSettings.contact_email}
-          phone={globalSettings.contact_phone}
           address={globalSettings.contact_address}
+          // phone={globalSettings.contact_phone}
         />
         <Divider />
         <Footer />

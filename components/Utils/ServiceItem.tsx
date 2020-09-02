@@ -14,6 +14,13 @@ const ServiceItem = (props: IServiceItem) => {
           .service-item__icon-container {
             height: 100%;
           }
+          .service-item__title {
+            color: black;
+          }
+          .service-item__tagline {
+            line-height: 0.8rem;
+            margin-top: 5px;
+          }
         }
       `}</style>
       <Row className="service-item" gutter={2}>
@@ -23,8 +30,8 @@ const ServiceItem = (props: IServiceItem) => {
           </Row>
         </Col>
         <Col xs={18}>
-          <div>{title}</div>
-          <div>{tagline}</div>
+          <div className="service-item__title">{title}</div>
+          <div className="service-item__tagline">{tagline}</div>
         </Col>
       </Row>
     </>

@@ -1,6 +1,11 @@
 import { Row, Button, Input, Col } from 'antd'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
-import { SearchOutlined, PhoneOutlined } from '@ant-design/icons'
+import {
+  SearchOutlined,
+  PhoneOutlined,
+  MailOutlined,
+  TeamOutlined
+} from '@ant-design/icons'
 import { Grid } from 'antd'
 import ServiceItem from 'components/Utils/ServiceItem'
 import { pageRoutes } from 'helpers/route.helpers'
@@ -66,10 +71,10 @@ const MiddleHeader = (props: IProps) => {
           {bp.md && (
             <Col xs={24} md={4}>
               <ServiceItem
-                icon={<PhoneOutlined />}
+                icon={<TeamOutlined />}
                 title={
                   <span>
-                    <strong>Call us:</strong> {contactPhone}
+                    <strong>Contact us anytime</strong>
                   </span>
                 }
                 tagline={<a href={`mailto:${contactEmail}`}>{contactEmail}</a>}

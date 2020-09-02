@@ -11,15 +11,16 @@ import {
   CarOutlined,
   MailOutlined,
   PicCenterOutlined,
-  PushpinOutlined
+  PushpinOutlined,
+  TeamOutlined
 } from '@ant-design/icons'
 
 const { Text } = Typography
 
 interface IProps {
   email: string
-  phone: string
-  address: string
+  phone?: string
+  address?: string
 }
 
 const ContactBlock = (props: IProps) => {
@@ -36,28 +37,30 @@ const ContactBlock = (props: IProps) => {
         }
       `}</style>
       <div className="contact-block" style={{ maxWidth: CONTENT_WIDTH }}>
-        <Row justify="space-between">
-          <Col xs={24} md={6}>
-            {/* Email */}
-            <ServiceItem
-              icon={<PushpinOutlined />}
-              title={
-                <span>
-                  <strong>{address}</strong>
-                </span>
-              }
-              tagline={
-                <Text type="secondary">
-                  <small>Markam, ON</small>
-                </Text>
-              }
-            />
-          </Col>
+        <Row>
+          {address && (
+            <Col xs={24} md={6}>
+              {/* Address */}
+              <ServiceItem
+                icon={<PushpinOutlined />}
+                title={
+                  <span>
+                    <strong>Pick Up Available</strong>
+                  </span>
+                }
+                tagline={
+                  <Text type="secondary">
+                    <small>{address}</small>
+                  </Text>
+                }
+              />
+            </Col>
+          )}
 
           {/* Email */}
           <Col xs={24} md={6}>
             <ServiceItem
-              icon={<MailOutlined />}
+              icon={<TeamOutlined />}
               title={
                 <span>
                   <strong>
@@ -69,28 +72,30 @@ const ContactBlock = (props: IProps) => {
               }
               tagline={
                 <Text type="secondary">
-                  <small>Email us anytime!</small>
+                  <small>Contact us anytime!</small>
                 </Text>
               }
             />
           </Col>
 
           {/* Phone */}
-          <Col xs={12} md={6}>
-            <ServiceItem
-              icon={<PhoneOutlined />}
-              title={
-                <span>
-                  <strong>{phone}</strong>
-                </span>
-              }
-              tagline={
-                <Text type="secondary">
-                  <small>Contact us 24hrs a day</small>
-                </Text>
-              }
-            />
-          </Col>
+          {phone && (
+            <Col xs={12} md={6}>
+              <ServiceItem
+                icon={<PhoneOutlined />}
+                title={
+                  <span>
+                    <strong>{phone}</strong>
+                  </span>
+                }
+                tagline={
+                  <Text type="secondary">
+                    <small>Contact us 24hrs a day</small>
+                  </Text>
+                }
+              />
+            </Col>
+          )}
         </Row>
       </div>
     </>
