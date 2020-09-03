@@ -75,6 +75,8 @@ const SearchProducts = (props: IProps) => {
       (p) =>
         p.node.title.toLowerCase().includes(term) ||
         p.node.handle.toLowerCase().includes(term) ||
+        p.node.productType.toLowerCase().includes(term) ||
+        p.node.tags.some((t) => t.toLowerCase().includes(term)) ||
         p.node.variants.edges.some(
           (v) =>
             v.node.title.toLowerCase().includes(term) ||
