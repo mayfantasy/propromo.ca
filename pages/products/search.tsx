@@ -189,7 +189,7 @@ const SearchProducts = (props: IProps) => {
                     </Row>
                   ) : (
                     <Empty
-                      description={<span>No Result for term "{term}".</span>}
+                      description={<span>No result for term "{term}".</span>}
                     ></Empty>
                   )}
                 </Col>
