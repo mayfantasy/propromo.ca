@@ -37,6 +37,7 @@ const ProductCard = (props: IProps) => {
     <>
       <style jsx global>{`
         .product-card {
+          height: 100%;
           a {
             color: initial;
           }
