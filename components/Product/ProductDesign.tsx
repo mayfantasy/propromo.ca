@@ -57,10 +57,19 @@ interface IProps {
   currentVariant: ShopifyProductVariantFieldsFragment
   quantity: number
   globalSettingsData: IGlobalSettings
+  size: [number, number]
+  bleed: [number, number]
 }
 
 const ProductDesign = observer((props: IProps) => {
-  const { productHandle, currentVariant, globalSettingsData, quantity } = props
+  const {
+    productHandle,
+    currentVariant,
+    globalSettingsData,
+    quantity,
+    size,
+    bleed
+  } = props
   const productVariantSku = currentVariant.sku
   const [loading, setLoading] = useState(false)
 
@@ -307,6 +316,8 @@ const ProductDesign = observer((props: IProps) => {
             <Col>
               <Button
                 loading={gettingCustomerDesign}
+                // if size and bleed are not set, disable feature
+                disabled={!(size[0] && size[1] && bleed[0] && bleed[1])}
                 type="primary"
                 onClick={() => {
                   if (me$) {
@@ -406,7 +417,9 @@ const ProductDesign = observer((props: IProps) => {
           customerDesignData,
           uploadedFileUrl,
           setUploadedFileUrl,
-          onRemoveCustomerDesign
+          onRemoveCustomerDesign,
+          size,
+          bleed
         }}
       />
 

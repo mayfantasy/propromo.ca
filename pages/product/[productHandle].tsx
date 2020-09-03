@@ -33,7 +33,10 @@ import {
   CURRENCY_SYMBOL,
   RELATED_PRODUCT_TAG_PREFIX,
   FILEUPLOAD_ENABLED_TAG,
-  VARIANT_FILEUPLOAD_ENABLED_TAG_PREFIX
+  VARIANT_FILEUPLOAD_ENABLED_TAG_PREFIX,
+  VARIANT_FILEUPLOAD_SIZE_PREFIX,
+  VARIANT_FILEUPLOAD_BLEED_PREFIX,
+  getFileuploadSize
 } from 'helpers/utils.helper'
 import ImageDisplay from 'components/Product/ImageDisplay'
 import { useState, useEffect } from 'react'
@@ -181,6 +184,23 @@ const ProductDetailPage = (props: IProps) => {
       )
     : productTags?.find((t) => t === FILEUPLOAD_ENABLED_TAG)
 
+  const fileUploadSizeStr = fileuploadEnabled
+    ? productTags
+        ?.find((t) =>
+          t.includes(VARIANT_FILEUPLOAD_SIZE_PREFIX + currentVariant?.sku)
+        )
+        ?.split('|')[1]
+    : undefined
+  const fileUploadBleedStr = fileuploadEnabled
+    ? productTags
+        ?.find((t) =>
+          t.includes(VARIANT_FILEUPLOAD_BLEED_PREFIX + currentVariant?.sku)
+        )
+        ?.split('|')[1]
+    : undefined
+
+  console.log('++++++', fileUploadSizeStr, fileUploadBleedStr)
+
   // Set the first variant to the default variant
   useEffect(() => {
     setCurrentVariant(firstVariant)
@@ -319,7 +339,7 @@ const ProductDetailPage = (props: IProps) => {
                       {/* Upload custom product design (for prints) */}
                       {fileuploadEnabled &&
                         currentVariant.sku &&
-                        !!quantityAvailable && (
+                        (dontCheckInventory || !!quantityAvailable) && (
                           <>
                             <div className="product-detail__fileupload">
                               <ProductDesign
@@ -327,6 +347,8 @@ const ProductDetailPage = (props: IProps) => {
                                 productHandle={product.handle}
                                 currentVariant={currentVariant}
                                 quantity={quantity}
+                                size={getFileuploadSize(fileUploadSizeStr)}
+                                bleed={getFileuploadSize(fileUploadBleedStr)}
                               />
                             </div>
                             <Divider />

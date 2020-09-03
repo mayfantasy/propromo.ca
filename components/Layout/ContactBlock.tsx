@@ -1,4 +1,4 @@
-import { Row, Col, Typography } from 'antd'
+import { Row, Col, Typography, Popover } from 'antd'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
 import ServiceItem from 'components/Utils/ServiceItem'
 import {
@@ -12,7 +12,8 @@ import {
   MailOutlined,
   PicCenterOutlined,
   PushpinOutlined,
-  TeamOutlined
+  TeamOutlined,
+  WechatOutlined
 } from '@ant-design/icons'
 
 const { Text } = Typography
@@ -20,11 +21,12 @@ const { Text } = Typography
 interface IProps {
   email: string
   phone?: string
+  wechatQr?: string
   address?: string
 }
 
 const ContactBlock = (props: IProps) => {
-  const { email, phone, address } = props
+  const { email, phone, address, wechatQr } = props
   return (
     <>
       <style jsx global>{`
@@ -39,7 +41,7 @@ const ContactBlock = (props: IProps) => {
       <div className="contact-block" style={{ maxWidth: CONTENT_WIDTH }}>
         <Row>
           {address && (
-            <Col xs={24} md={6}>
+            <Col xs={24} md={8}>
               {/* Address */}
               <ServiceItem
                 icon={<PushpinOutlined />}
@@ -58,7 +60,7 @@ const ContactBlock = (props: IProps) => {
           )}
 
           {/* Email */}
-          <Col xs={24} md={6}>
+          <Col xs={24} md={8}>
             <ServiceItem
               icon={<TeamOutlined />}
               title={
@@ -73,6 +75,35 @@ const ContactBlock = (props: IProps) => {
               tagline={
                 <Text type="secondary">
                   <small>Contact us anytime!</small>
+                </Text>
+              }
+            />
+          </Col>
+
+          {/* Wechat */}
+          <Col xs={24} md={8}>
+            <ServiceItem
+              icon={<WechatOutlined />}
+              title={
+                <Popover
+                  title="Wechat QR code"
+                  trigger="click"
+                  content={
+                    <div>
+                      <img style={{ width: 200 }} src={wechatQr} />
+                    </div>
+                  }
+                >
+                  <span>
+                    <strong>
+                      <a>Click to see QR code</a>
+                    </strong>
+                  </span>
+                </Popover>
+              }
+              tagline={
+                <Text type="secondary">
+                  <small>Find us on Wechat</small>
                 </Text>
               }
             />

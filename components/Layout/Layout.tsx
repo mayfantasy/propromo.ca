@@ -83,6 +83,7 @@ const Layout = observer((props: IProps) => {
         <ContactBlock
           email={globalSettings.contact_email}
           address={globalSettings.contact_address}
+          wechatQr={globalSettings.contact_wechat_qr}
           // phone={globalSettings.contact_phone}
         />
         <Divider />

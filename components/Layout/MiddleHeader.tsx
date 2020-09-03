@@ -74,7 +74,7 @@ const MiddleHeader = (props: IProps) => {
                 icon={<TeamOutlined />}
                 title={
                   <span>
-                    <strong>Contact us anytime</strong>
+                    <strong>Contact us 24/7</strong>
                   </span>
                 }
                 tagline={<a href={`mailto:${contactEmail}`}>{contactEmail}</a>}

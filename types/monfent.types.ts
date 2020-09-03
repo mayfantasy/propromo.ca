@@ -5,6 +5,7 @@ export interface IGlobalSettings {
   contact_phone: string
   contact_email: string
   contact_address: string
+  contact_wechat_qr: string
   email_receiver: string
 }
 export interface IAboutUsPageContent {

@@ -7,7 +7,7 @@ const ServiceItem = (props: IServiceItem) => {
     <>
       <style jsx global>{`
         .service-item {
-          width: 200px;
+          width: 250px;
           .anticon {
             font-size: 35px;
           }
