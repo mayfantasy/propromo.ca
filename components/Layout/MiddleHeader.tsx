@@ -10,6 +10,7 @@ import { Grid } from 'antd'
 import ServiceItem from 'components/Utils/ServiceItem'
 import { pageRoutes } from 'helpers/route.helpers'
 import Link from 'next/link'
+import { useRouter } from 'next/dist/client/router'
 
 const { useBreakpoint } = Grid
 
@@ -21,6 +22,7 @@ interface IProps {
 
 const MiddleHeader = (props: IProps) => {
   const { logoUrl, contactPhone, contactEmail } = props
+  const router = useRouter()
 
   const bp = useBreakpoint()
   return (
@@ -65,6 +67,11 @@ const MiddleHeader = (props: IProps) => {
               <Input.Search
                 placeholder="Search products"
                 enterButton={<SearchOutlined />}
+                onSearch={(term) => {
+                  router.push(
+                    `${pageRoutes.productSearchPage.url}?term=${term}`
+                  )
+                }}
               />
             </div>
           </Col>

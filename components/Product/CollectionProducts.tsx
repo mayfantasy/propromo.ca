@@ -71,10 +71,7 @@ const CollectionProducts = (props: IProps) => {
             {productListData.fetching && <Skeleton active />}
             {products.slice(0, take || products.length).map((product) => (
               <Col key={product.node.id} {...(layout || defaultLayout)}>
-                <ProductCard
-                  collectionHandle={collectionHandle}
-                  product={product.node}
-                />
+                <ProductCard product={product.node} />
               </Col>
             ))}
           </Row>

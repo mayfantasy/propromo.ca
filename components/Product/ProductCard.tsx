@@ -19,12 +19,11 @@ import PriceLine from 'components/PriceLine'
 
 const { Title, Text } = Typography
 interface IProps {
-  collectionHandle: string
   product: ShopifyProductFieldsFragment
 }
 
 const ProductCard = (props: IProps) => {
-  const { product, collectionHandle } = props
+  const { product } = props
 
   const router = useRouter()
 

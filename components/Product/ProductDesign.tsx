@@ -369,7 +369,6 @@ const ProductDesign = observer((props: IProps) => {
                     {globalSettingsData.contact_email}
                   </a>
                 </div>
-                <div>Phone #: {globalSettingsData.contact_phone}</div>
               </div>
             }
           >

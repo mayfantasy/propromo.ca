@@ -8,7 +8,16 @@ import useSWR from 'swr'
 import Layout from 'components/Layout/Layout'
 import BreadCrumb from 'components/Utils/BreadCrumb'
 import { useRouter } from 'next/dist/client/router'
-import { Alert, Row, Col, Typography, Divider, Skeleton, Select } from 'antd'
+import {
+  Alert,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  Skeleton,
+  Select,
+  Empty
+} from 'antd'
 import { useQuery } from 'urql'
 import {
   ShopifyGetProductsByCollectionHandleQuery,
@@ -24,7 +33,7 @@ const { Title, Text } = Typography
 const { Option } = Select
 
 interface IProps {}
-const ProductList = (props: IProps) => {
+const SearchProducts = (props: IProps) => {
   const {} = props
   const bp = useBreakpoint()
   const [sortValue, setSortValue] = useState(productSortOptions.name_asc.value)
@@ -33,7 +42,7 @@ const ProductList = (props: IProps) => {
    * || Router
    */
   const router = useRouter()
-  const collectionHandle = router.query.collectionHandle as string
+  const term = ((router.query.term as string) || '').toLowerCase()
 
   /**
    * ||===============================
@@ -52,15 +61,26 @@ const ProductList = (props: IProps) => {
    * ||========================
    * || Get collection by handle
    */
-  const [collectionWithProducts] = useQuery<
-    ShopifyGetProductsByCollectionHandleQuery
-  >({
+  const [allProducts] = useQuery<ShopifyGetProductsByCollectionHandleQuery>({
     query: GetProductsByCollectionHandleDocument,
     variables: {
-      handle: collectionHandle,
-      pageSize: PAGE_SIZE
+      handle: 'all',
+      pageSize: 250
     }
   })
+
+  const productList = allProducts.data?.collectionByHandle?.products.edges || []
+  const filteredProducts =
+    productList?.filter(
+      (p) =>
+        p.node.title.toLowerCase().includes(term) ||
+        p.node.handle.toLowerCase().includes(term) ||
+        p.node.variants.edges.some(
+          (v) =>
+            v.node.title.toLowerCase().includes(term) ||
+            v.node.sku?.toLowerCase().includes(term)
+        )
+    ) || []
   /**
    * ||=======
    * || Render
@@ -82,12 +102,8 @@ const ProductList = (props: IProps) => {
       </>
     )
   }
-  const collectionTitle = collectionWithProducts.data?.collectionByHandle
-    ?.title!
-  const products =
-    collectionWithProducts.data?.collectionByHandle?.products.edges.map(
-      (p) => p.node
-    ) || []
+
+  const products = filteredProducts.map((p) => p.node) || []
   const sortedProducts = sortProducts(products, sortValue)
 
   if (globalSettingsData && pageContent) {
@@ -112,10 +128,10 @@ const ProductList = (props: IProps) => {
                 maxWidth: CONTENT_WIDTH
               }}
             >
-              {collectionWithProducts.error && (
+              {allProducts.error && (
                 <>
                   <Alert
-                    message={collectionWithProducts.error.message}
+                    message={allProducts.error.message}
                     type="error"
                     banner
                   />
@@ -126,8 +142,8 @@ const ProductList = (props: IProps) => {
                 items={[
                   pageRoutes.homePage,
                   {
-                    name: collectionTitle,
-                    key: collectionHandle
+                    name: 'Search Products',
+                    key: 'search'
                   }
                 ]}
               />
@@ -139,7 +155,7 @@ const ProductList = (props: IProps) => {
                 </Col>
                 <Col xs={24} lg={20}>
                   {/* Title */}
-                  <Title level={4}>{collectionTitle}</Title>
+                  <Title level={4}>Search Products</Title>
 
                   {/* SortBar */}
                   <Row
@@ -162,7 +178,8 @@ const ProductList = (props: IProps) => {
                   </Row>
 
                   {/* List Data */}
-                  {collectionWithProducts.data ? (
+                  {allProducts.fetching && <Skeleton active />}
+                  {filteredProducts.length ? (
                     <Row gutter={[4, 4]}>
                       {sortedProducts.map((product) => (
                         <Col key={product.id} sm={8} xs={12}>
@@ -171,7 +188,9 @@ const ProductList = (props: IProps) => {
                       ))}
                     </Row>
                   ) : (
-                    <Skeleton active />
+                    <Empty
+                      description={<span>No Result for term "{term}".</span>}
+                    ></Empty>
                   )}
                 </Col>
               </Row>
@@ -189,4 +208,4 @@ const ProductList = (props: IProps) => {
   }
 }
 
-export default ProductList
+export default SearchProducts

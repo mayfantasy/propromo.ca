@@ -56,6 +56,11 @@ export const pageRoutes = {
     name: 'Return & Refund Policy',
     url: '/return-and-refund'
   } as INavItem,
+  productSearchPage: {
+    key: 'search',
+    name: 'Search Products',
+    url: '/products/search'
+  },
   productDetailPage: (handle: string) =>
     ({
       key: 'product-detail-page',
