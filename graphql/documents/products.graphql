@@ -51,6 +51,18 @@ fragment productFields on Product {
   options {
     ...productOptionFields
   }
+  collections(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...collectionFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   images(first: $pageSize) {
     edges {
       cursor

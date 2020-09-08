@@ -9,6 +9,34 @@ import {
   ICreateOrUpdateCustomerDesignPayload
 } from 'types/monfent.types'
 import { ICustomerDesignMethod } from 'types/design.types'
+import { IProductFilterItem, IProductFilter } from 'types/product.types'
+
+export const productFilters: { [key: string]: IProductFilterItem } = {
+  [IProductFilter.event]: {
+    key: IProductFilter.event,
+    name: 'Event'
+  },
+  [IProductFilter['realtor-and-agent']]: {
+    key: IProductFilter['realtor-and-agent'],
+    name: 'Realtor & Agent'
+  },
+  [IProductFilter['retail-store-and-dealer']]: {
+    key: IProductFilter['retail-store-and-dealer'],
+    name: 'Retail Store & Dealer'
+  },
+  [IProductFilter['restaurant-and-cafe']]: {
+    key: IProductFilter['restaurant-and-cafe'],
+    name: 'Restaurant & Cafe'
+  },
+  [IProductFilter['service-facility']]: {
+    key: IProductFilter['service-facility'],
+    name: 'Service Facility'
+  },
+  [IProductFilter['grand-opening']]: {
+    key: IProductFilter['grand-opening'],
+    name: 'Grand Opening'
+  }
+}
 
 export const productSortOptions: {
   [key: string]: { value: string; name: string }

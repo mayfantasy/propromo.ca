@@ -5462,7 +5462,20 @@ export type ShopifyProductFieldsFragment = (
   & { options: Array<(
     { __typename?: 'ProductOption' }
     & ShopifyProductOptionFieldsFragment
-  )>, images: (
+  )>, collections: (
+    { __typename?: 'CollectionConnection' }
+    & { edges: Array<(
+      { __typename?: 'CollectionEdge' }
+      & Pick<ShopifyCollectionEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Collection' }
+        & ShopifyCollectionFieldsFragment
+      ) }
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<ShopifyPageInfo, 'hasNextPage' | 'hasPreviousPage'>
+    ) }
+  ), images: (
     { __typename?: 'ImageConnection' }
     & { edges: Array<(
       { __typename?: 'ImageEdge' }
@@ -5760,6 +5773,18 @@ export const ProductFieldsFragmentDoc = gql`
   options {
     ...productOptionFields
   }
+  collections(first: $pageSize) {
+    edges {
+      cursor
+      node {
+        ...collectionFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
   images(first: $pageSize) {
     edges {
       cursor
@@ -5798,6 +5823,7 @@ export const ProductFieldsFragmentDoc = gql`
   }
 }
     ${ProductOptionFieldsFragmentDoc}
+${CollectionFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
 ${ProducttMetaFieldsFragmentDoc}
 ${ProductVariantFieldsFragmentDoc}`;

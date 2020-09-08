@@ -28,6 +28,8 @@ import ProductCard from 'components/Product/ProductCard'
 import { pageRoutes } from 'helpers/route.helpers'
 import { productSortOptions, sortProducts } from 'helpers/product.helper'
 import { useState } from 'react'
+import Filters from 'components/Product/Filters'
+import { IProductFilterItem } from 'types/product.types'
 
 const { Title, Text } = Typography
 const { Option } = Select
@@ -37,6 +39,13 @@ const SearchProducts = (props: IProps) => {
   const {} = props
   const bp = useBreakpoint()
   const [sortValue, setSortValue] = useState(productSortOptions.name_asc.value)
+
+  /**
+   * ||===============================
+   * || Product Filters
+   */
+  const [filters, setFilters] = useState<IProductFilterItem[]>([])
+
   /**
    * ||===============================
    * || Router
@@ -106,7 +115,15 @@ const SearchProducts = (props: IProps) => {
   }
 
   const products = filteredProducts.map((p) => p.node) || []
+  // Sort Products
   const sortedProducts = sortProducts(products, sortValue)
+
+  // Filter Products
+  const filteredAndSortedProducts = sortedProducts.filter((p) =>
+    filters.every((f) =>
+      p.collections?.edges?.find((c) => c.node.handle === f.key)
+    )
+  )
 
   if (globalSettingsData && pageContent) {
     return (
@@ -153,7 +170,7 @@ const SearchProducts = (props: IProps) => {
                 <Col xs={24} lg={4} style={{ backgroundColor: 'white' }}>
                   <Text strong>Filter By</Text>
                   <Divider />
-                  <div>filters here</div>
+                  <Filters value={filters} onChange={setFilters} />
                 </Col>
                 <Col xs={24} lg={20}>
                   {/* Title */}
@@ -183,16 +200,22 @@ const SearchProducts = (props: IProps) => {
                   {allProducts.fetching && <Skeleton active />}
                   {filteredProducts.length ? (
                     <Row gutter={[4, 4]}>
-                      {sortedProducts.map((product) => (
-                        <Col key={product.id} sm={8} xs={12}>
-                          <ProductCard product={product} />
+                      {filteredAndSortedProducts.length ? (
+                        filteredAndSortedProducts.map((product) => (
+                          <Col key={product.id} sm={8} xs={12}>
+                            <ProductCard product={product} />
+                          </Col>
+                        ))
+                      ) : (
+                        <Col xs={24}>
+                          <Empty description={<span>No result.</span>} />
                         </Col>
-                      ))}
+                      )}
                     </Row>
                   ) : (
                     <Empty
                       description={<span>No result for term "{term}".</span>}
-                    ></Empty>
+                    />
                   )}
                 </Col>
               </Row>
