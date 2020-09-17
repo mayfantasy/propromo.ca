@@ -53,8 +53,12 @@ const MiddleHeader = (props: IProps) => {
           justify="space-between"
           align="middle"
         >
-          <Col xs={24} md={6}>
-            <div className="middle-header__logo center_md">
+          <Col xs={24} md={4} lg={6}>
+            <div
+              className={`middle-header__logo center_md ${
+                !bp.md ? 'mv-20' : ''
+              }`}
+            >
               <Link href={pageRoutes.homePage.url!}>
                 <a>
                   <img src={logoUrl} />
@@ -62,7 +66,7 @@ const MiddleHeader = (props: IProps) => {
               </Link>
             </div>
           </Col>
-          <Col xs={24} md={12}>
+          <Col xs={24} md={12} lg={12}>
             <div className="middle-header__search">
               <Input.Search
                 placeholder="Search products"
@@ -76,9 +80,8 @@ const MiddleHeader = (props: IProps) => {
             </div>
           </Col>
           {bp.md && (
-            <Col xs={24} md={4}>
+            <Col xs={24} md={6} lg={4}>
               <ServiceItem
-                icon={<TeamOutlined />}
                 title={
                   <span>
                     <strong>Contact us 24/7</strong>

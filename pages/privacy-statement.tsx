@@ -97,7 +97,7 @@ const PrivacyStatementPage = observer((props: IProps) => {
         {globalSettingsData && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="privacy-statement-page"
+              className="privacy-statement-page mobile-padding"
               style={{
                 maxWidth: CONTENT_WIDTH
               }}

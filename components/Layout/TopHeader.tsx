@@ -26,7 +26,8 @@ const TopHeader = observer((props: IProps) => {
   const router = useRouter()
 
   const {
-    AuthStore: { token$, setMe$, me$, setToken$ }
+    AuthStore: { token$, setMe$, me$, setToken$ },
+    SettingsStore: { headerCollapsed$, setHeaderCollapsed$ }
   } = useStores()
 
   const redirectUrl = router.query.redirect as string | undefined
@@ -126,7 +127,10 @@ const TopHeader = observer((props: IProps) => {
                 ))}
               {!bp.md && (
                 <>
-                  <Hamburger />
+                  <Hamburger
+                    toggled={headerCollapsed$}
+                    toggle={setHeaderCollapsed$ as any}
+                  />
                 </>
               )}
             </Row>

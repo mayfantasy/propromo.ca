@@ -134,7 +134,7 @@ const ProductList = (props: IProps) => {
         {globalSettingsData && pageContent && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="product-list"
+              className="product-list mobile-padding"
               style={{
                 maxWidth: CONTENT_WIDTH
               }}
@@ -193,7 +193,7 @@ const ProductList = (props: IProps) => {
                     <Row gutter={[4, 4]}>
                       {filteredAndSortedProducts.length ? (
                         filteredAndSortedProducts.map((product) => (
-                          <Col key={product.id} sm={8} xs={12}>
+                          <Col key={product.id} sm={8} xs={24}>
                             <ProductCard product={product} />
                           </Col>
                         ))

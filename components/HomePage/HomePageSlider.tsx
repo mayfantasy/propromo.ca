@@ -1,4 +1,5 @@
 import { Carousel, Button, Typography, Row, Alert } from 'antd'
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 import { ISliderContent } from 'types/home-page.types'
 
 interface IProps {
@@ -7,6 +8,7 @@ interface IProps {
 
 const HomePageSlider = (props: IProps) => {
   const { images } = props
+  const bp = useBreakpoint()
   const sliderContents: ISliderContent[] = [
     {
       title:
@@ -40,6 +42,15 @@ const HomePageSlider = (props: IProps) => {
               position: absolute;
               z-index: 1;
             }
+            .slider-image__content--mobile {
+              width: 80%;
+              top: 10%;
+              left: 50%;
+              text-align: center;
+              transform: translateX(-50%);
+              position: absolute;
+              z-index: 1;
+            }
           }
         }
       `}</style>
@@ -47,23 +58,43 @@ const HomePageSlider = (props: IProps) => {
         {images.map((img, i) => (
           <div className="slider-image" key={i}>
             <img src={img} />
-            <div className="slider-image__content">
-              {sliderContents.length !== images.length && (
-                <Alert
-                  style={{ width: '100%' }}
-                  banner
-                  message="Error: Slider Images and contents length not matched"
-                  type="error"
-                />
-              )}
-              {sliderContents.length === images.length && (
-                <div className="slider-image__wrapper">
-                  <h3>{sliderContents[i].title}</h3>
-                  <p>{sliderContents[i].tagline}</p>
-                  {sliderContents[i].button}
-                </div>
-              )}
-            </div>
+            {bp.md ? (
+              <div className="slider-image__content">
+                {sliderContents.length !== images.length && (
+                  <Alert
+                    style={{ width: '100%' }}
+                    banner
+                    message="Error: Slider Images and contents length not matched"
+                    type="error"
+                  />
+                )}
+                {sliderContents.length === images.length && (
+                  <div className="slider-image__wrapper">
+                    <h3>{sliderContents[i].title}</h3>
+                    <p>{sliderContents[i].tagline}</p>
+                    {sliderContents[i].button}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="slider-image__content--mobile">
+                {sliderContents.length !== images.length && (
+                  <Alert
+                    style={{ width: '100%' }}
+                    banner
+                    message="Error: Slider Images and contents length not matched"
+                    type="error"
+                  />
+                )}
+                {sliderContents.length === images.length && (
+                  <div className="slider-image__wrapper">
+                    <h3>{sliderContents[i].title}</h3>
+                    <p>{sliderContents[i].tagline}</p>
+                    {sliderContents[i].button}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </Carousel>

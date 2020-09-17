@@ -66,7 +66,13 @@ const HomePage = (props: IProps) => {
           <Layout globalSettings={globalSettingsData}>
             {/* <pre>{JSON.stringify(bp)}</pre> */}
 
-            <HomePageSlider images={pageContent.slider_images} />
+            <HomePageSlider
+              images={
+                bp.md
+                  ? pageContent.slider_images
+                  : pageContent.mobile_slider_images
+              }
+            />
 
             <br />
             <br />
@@ -75,8 +81,9 @@ const HomePage = (props: IProps) => {
 
             <br />
             <br />
-
-            <CollectionBlocks />
+            <div className="mobile-padding">
+              <CollectionBlocks />
+            </div>
 
             <br />
             {/* <br /> */}

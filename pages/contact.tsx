@@ -120,7 +120,7 @@ const ContactPage = observer((props: IProps) => {
         {globalSettingsData && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="contact-page"
+              className="contact-page mobile-padding"
               style={{
                 maxWidth: REGISTER_CONTENT_WIDTH
               }}

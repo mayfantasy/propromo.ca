@@ -97,7 +97,7 @@ const TermsOfUsePage = observer((props: IProps) => {
         {globalSettingsData && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="terms-of-use-page"
+              className="terms-of-use-page mobile-padding"
               style={{
                 maxWidth: CONTENT_WIDTH
               }}

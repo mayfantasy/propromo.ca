@@ -95,7 +95,7 @@ const ShippingPolicyPage = observer((props: IProps) => {
         {globalSettingsData && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="shipping-policy-page"
+              className="shipping-policy-page mobile-padding"
               style={{
                 maxWidth: CONTENT_WIDTH
               }}

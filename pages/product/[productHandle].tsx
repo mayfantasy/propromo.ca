@@ -222,7 +222,7 @@ const ProductDetailPage = (props: IProps) => {
         {globalSettingsData && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="product-detail"
+              className="product-detail mobile-padding"
               style={{
                 maxWidth: CONTENT_WIDTH
               }}

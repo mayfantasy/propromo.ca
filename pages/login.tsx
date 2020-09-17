@@ -139,7 +139,7 @@ const LoginPage = observer((props: IProps) => {
           <Layout globalSettings={globalSettingsData}>
             <Spin spinning={loginResult.fetching}>
               <div
-                className="login-page"
+                className="login-page mobile-padding"
                 style={{
                   maxWidth: LOGIN_CONTENT_WIDTH
                 }}

@@ -176,7 +176,7 @@ const CartPage = observer(() => {
         {globalSettingsData && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="cart-page"
+              className="cart-page mobile-padding"
               style={{
                 maxWidth: CONTENT_WIDTH
               }}
@@ -210,11 +210,11 @@ const CartPage = observer(() => {
                             <>
                               <Row
                                 className="cart-page__lineitem"
-                                gutter={16}
+                                gutter={[16, 16]}
                                 key={variant?.id}
                               >
                                 {/* Image */}
-                                <Col xs={3}>
+                                <Col xs={24} md={3}>
                                   <img
                                     src={
                                       item.node.variant?.image?.originalSrc ||
@@ -224,7 +224,7 @@ const CartPage = observer(() => {
                                   />
                                 </Col>
 
-                                <Col xs={9}>
+                                <Col xs={24} md={9}>
                                   {/* Title */}
                                   <Link
                                     href={
@@ -255,7 +255,7 @@ const CartPage = observer(() => {
 
                                 {/* Quantity */}
                                 {variant && (
-                                  <Col xs={3}>
+                                  <Col xs={24} md={3}>
                                     <InputNumber
                                       value={item.node.quantity}
                                       onChange={(v) => {
@@ -276,7 +276,7 @@ const CartPage = observer(() => {
                                 )}
 
                                 {/* Line subtotal */}
-                                <Col xs={4}>
+                                <Col xs={24} md={4}>
                                   <div className="right">
                                     <Text type="secondary">
                                       <small>
@@ -289,7 +289,7 @@ const CartPage = observer(() => {
 
                                 {/* Delete */}
                                 {variant && (
-                                  <Col xs={4}>
+                                  <Col xs={24} md={4}>
                                     <div className="right">
                                       <Tooltip title="Remove This Product">
                                         <DeleteFilled
@@ -400,7 +400,7 @@ const CartPage = observer(() => {
             >
               <Spin spinning={disassociateResult.fetching}>
                 <Row justify="center" gutter={[16, 16]}>
-                  <Space>
+                  <Space direction={bp.md ? 'horizontal' : 'vertical'}>
                     <Button
                       type="primary"
                       onClick={() => {

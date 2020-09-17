@@ -27,8 +27,8 @@ const ServiceBlock = (props: IProps) => {
         }
       `}</style>
       <div className="service-block" style={{ maxWidth: CONTENT_WIDTH }}>
-        <Row justify="space-between">
-          <Col xs={12} md={6}>
+        <Row justify="space-between" gutter={[6, 6]}>
+          <Col xs={24} md={12} lg={6}>
             {/* Free Shipping */}
             <ServiceItem
               icon={<CarOutlined />}
@@ -46,7 +46,7 @@ const ServiceBlock = (props: IProps) => {
           </Col>
 
           {/* Best Quality */}
-          <Col xs={12} md={6}>
+          <Col xs={24} md={12} lg={6}>
             <ServiceItem
               icon={<TrophyOutlined />}
               title={
@@ -63,7 +63,7 @@ const ServiceBlock = (props: IProps) => {
           </Col>
 
           {/* Payment Security */}
-          <Col xs={12} md={6}>
+          <Col xs={24} md={12} lg={6}>
             <ServiceItem
               icon={<SafetyOutlined />}
               title={
@@ -80,7 +80,7 @@ const ServiceBlock = (props: IProps) => {
           </Col>
 
           {/* Support 24/7 */}
-          <Col xs={12} md={6}>
+          <Col xs={24} md={12} lg={6}>
             <ServiceItem
               icon={<CommentOutlined />}
               title={

@@ -46,7 +46,7 @@ const CollectionProducts = (props: IProps) => {
 
   const products = productListData.data?.collectionByHandle?.products.edges
 
-  const defaultLayout: ColProps = { md: 6, sm: 8, xs: 12 }
+  const defaultLayout: ColProps = { md: 6, sm: 8, xs: 24 }
   return (
     <>
       {productListData.error && (

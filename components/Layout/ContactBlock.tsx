@@ -39,7 +39,7 @@ const ContactBlock = (props: IProps) => {
         }
       `}</style>
       <div className="contact-block" style={{ maxWidth: CONTENT_WIDTH }}>
-        <Row>
+        <Row gutter={[8, 8]}>
           {address && (
             <Col xs={24} md={8}>
               {/* Address */}

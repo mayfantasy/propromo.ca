@@ -27,7 +27,8 @@ const Footer = observer((props: IProps) => {
         pageRoutes.shippingPolicyPage,
         // pageRoutes.returnAndRefundPage,
         pageRoutes.termsOfUsePage,
-        pageRoutes.privacyPage
+        pageRoutes.privacyPage,
+        pageRoutes.contactPage
       ]
     },
     {

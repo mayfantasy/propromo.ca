@@ -92,7 +92,7 @@ const AboutUsPage = observer((props: IProps) => {
         {globalSettingsData && (
           <Layout globalSettings={globalSettingsData}>
             <div
-              className="about-us-page"
+              className="about-us-page mobile-padding"
               style={{
                 maxWidth: CONTENT_WIDTH
               }}

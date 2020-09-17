@@ -9,7 +9,7 @@ export interface IMonfentData<T> {
 }
 
 export interface IServiceItem {
-  icon: React.ReactNode
+  icon?: React.ReactNode
   title: string | React.ReactNode
   tagline: string | React.ReactNode
 }

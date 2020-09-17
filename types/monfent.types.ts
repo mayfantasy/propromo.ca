@@ -29,6 +29,7 @@ export interface IReturnAndRefundPageContent {
 export interface IHomePageContent {
   title: string
   slider_images: string[]
+  mobile_slider_images: string[]
 }
 
 export interface IProductListPageContent {

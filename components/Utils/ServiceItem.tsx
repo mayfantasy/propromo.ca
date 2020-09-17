@@ -24,11 +24,13 @@ const ServiceItem = (props: IServiceItem) => {
         }
       `}</style>
       <Row className="service-item" gutter={2}>
-        <Col xs={6}>
-          <Row className="service-item__icon-container" align="middle">
-            {icon}
-          </Row>
-        </Col>
+        {icon && (
+          <Col xs={6}>
+            <Row className="service-item__icon-container" align="middle">
+              {icon}
+            </Row>
+          </Col>
+        )}
         <Col xs={18}>
           <div className="service-item__title">{title}</div>
           <div className="service-item__tagline">{tagline}</div>

@@ -157,7 +157,7 @@ const RegisterPage = observer((props: IProps) => {
           <Layout globalSettings={globalSettingsData}>
             <Spin spinning={createCustomerResult.fetching}>
               <div
-                className="register-page"
+                className="register-page mobile-padding"
                 style={{ maxWidth: LOGIN_CONTENT_WIDTH }}
               >
                 <br />
