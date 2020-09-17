@@ -25,7 +25,7 @@ const Footer = observer((props: IProps) => {
       children: [
         pageRoutes.aboutPage,
         pageRoutes.shippingPolicyPage,
-        pageRoutes.returnAndRefundPage,
+        // pageRoutes.returnAndRefundPage,
         pageRoutes.termsOfUsePage,
         pageRoutes.privacyPage
       ]

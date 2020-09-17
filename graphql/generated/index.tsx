@@ -5025,6 +5025,25 @@ export type ShopifyCheckoutCustomerAssociateMutation = (
   )> }
 );
 
+export type ShopifyCheckoutCustomerDisassociateMutationVariables = {
+  checkoutId: Scalars['ID'];
+};
+
+
+export type ShopifyCheckoutCustomerDisassociateMutation = (
+  { __typename?: 'Mutation' }
+  & { checkoutCustomerDisassociateV2?: Maybe<(
+    { __typename?: 'CheckoutCustomerDisassociateV2Payload' }
+    & { checkout?: Maybe<(
+      { __typename?: 'Checkout' }
+      & ShopifyCheckoutFieldsFragment
+    )>, checkoutUserErrors: Array<(
+      { __typename?: 'CheckoutUserError' }
+      & Pick<ShopifyCheckoutUserError, 'code' | 'field' | 'message'>
+    )> }
+  )> }
+);
+
 export type ShopifyCheckoutCompleteWithTokenizedPaymentMutationVariables = {
   checkoutId: Scalars['ID'];
   payment: ShopifyTokenizedPaymentInputV3;
@@ -5884,6 +5903,25 @@ export const CheckoutCustomerAssociateDocument = gql`
 
 export const CheckoutCustomerAssociateComponent = (props: Omit<Urql.MutationProps<ShopifyCheckoutCustomerAssociateMutation, ShopifyCheckoutCustomerAssociateMutationVariables>, 'query'> & { variables?: ShopifyCheckoutCustomerAssociateMutationVariables }) => (
   <Urql.Mutation {...props} query={CheckoutCustomerAssociateDocument} />
+);
+
+export const CheckoutCustomerDisassociateDocument = gql`
+    mutation CheckoutCustomerDisassociate($checkoutId: ID!) {
+  checkoutCustomerDisassociateV2(checkoutId: $checkoutId) {
+    checkout {
+      ...checkoutFields
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+    ${CheckoutFieldsFragmentDoc}`;
+
+export const CheckoutCustomerDisassociateComponent = (props: Omit<Urql.MutationProps<ShopifyCheckoutCustomerDisassociateMutation, ShopifyCheckoutCustomerDisassociateMutationVariables>, 'query'> & { variables?: ShopifyCheckoutCustomerDisassociateMutationVariables }) => (
+  <Urql.Mutation {...props} query={CheckoutCustomerDisassociateDocument} />
 );
 
 export const CheckoutCompleteWithTokenizedPaymentDocument = gql`

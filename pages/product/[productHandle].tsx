@@ -156,10 +156,11 @@ const ProductDetailPage = (props: IProps) => {
   const firstVariant = productVariants?.[0].node
   // ===== has more than 1 variant ?
   const hasVariants = productVariants && productVariants.length > 1
-  // ===== Don't track inventory
-  const dontCheckInventory = currentVariant?.availableForSale
   // ===== Available stock quantity
   const quantityAvailable = currentVariant?.quantityAvailable || 0
+  // ===== Don't track inventory
+  const dontCheckInventory =
+    quantityAvailable <= 0 && currentVariant?.availableForSale
   // ===== find the collection that store this product's related products
   const relatedCollectionHandle = product?.tags.find((t) =>
     t.includes(RELATED_PRODUCT_TAG_PREFIX)
@@ -198,8 +199,6 @@ const ProductDetailPage = (props: IProps) => {
         )
         ?.split('|')[1]
     : undefined
-
-  console.log('++++++', fileUploadSizeStr, fileUploadBleedStr)
 
   // Set the first variant to the default variant
   useEffect(() => {
@@ -362,13 +361,18 @@ const ProductDetailPage = (props: IProps) => {
                             value={quantity}
                             onChange={(v) => {
                               const value = v as number
-                              setQuantity(
-                                value <= 1
-                                  ? 1
-                                  : value > quantityAvailable
-                                  ? quantityAvailable
-                                  : value
-                              )
+                              let quantity = 0
+                              if (dontCheckInventory) {
+                                quantity = value <= 1 ? 1 : value
+                              } else {
+                                quantity =
+                                  value <= 1
+                                    ? 1
+                                    : value > quantityAvailable
+                                    ? quantityAvailable
+                                    : value
+                              }
+                              setQuantity(quantity)
                             }}
                           />
                           <CheckoutButton

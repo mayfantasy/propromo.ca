@@ -78,7 +78,7 @@ const Layout = observer((props: IProps) => {
         <br />
         <br />
 
-        <SubscriptionBlock />
+        <SubscriptionBlock emailReceiver={globalSettings.email_receiver} />
 
         <ContactBlock
           email={globalSettings.contact_email}

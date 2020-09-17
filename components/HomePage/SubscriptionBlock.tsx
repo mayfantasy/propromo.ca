@@ -1,12 +1,43 @@
-import { Row, Col, Input, Button, Typography, Space } from 'antd'
+import { Row, Col, Input, Button, Typography, Space, Form, Alert } from 'antd'
+import { useForm } from 'antd/lib/form/Form'
+import { sendContactUsEmailRequest, sendSubscribeEmailRequest } from 'fetchers'
 import { CONTENT_WIDTH } from 'helpers/layout.helper'
+import { useState } from 'react'
 
 const { Title } = Typography
 
-interface IProps {}
+interface IProps {
+  emailReceiver: string
+}
 
 const SubscriptionBlock = (props: IProps) => {
-  const {} = props
+  const { emailReceiver } = props
+  const [subscribeForm] = useForm()
+  const [submitStatus, setSubmitStatus] = useState({
+    success: '',
+    loading: false,
+    error: ''
+  })
+  const onSubscribe = () => {
+    subscribeForm.validateFields().then((v) => {
+      setSubmitStatus({ success: '', loading: true, error: '' })
+      sendSubscribeEmailRequest(emailReceiver, v.email)
+        .then(() => {
+          setSubmitStatus({
+            success: 'Thanks for subsribing our newsletters.',
+            loading: false,
+            error: ''
+          })
+        })
+        .catch((err) => {
+          setSubmitStatus({
+            success: '',
+            loading: false,
+            error: err?.message || 'Internal error, please try again later.'
+          })
+        })
+    })
+  }
   return (
     <>
       <style jsx global>{`
@@ -42,14 +73,64 @@ const SubscriptionBlock = (props: IProps) => {
             </div>
           </Col>
           <Col xs={24} lg={15}>
-            <Row>
+            <Row gutter={2}>
               <Col flex="1">
-                <Input placeholder="Your email address" />
+                <Form form={subscribeForm}>
+                  <Form.Item
+                    name="email"
+                    className="mb-0"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter your email address'
+                      },
+                      {
+                        type: 'email',
+                        message: 'Please use a valid email address'
+                      }
+                    ]}
+                  >
+                    <Input placeholder="Your email address" />
+                  </Form.Item>
+                </Form>
+                {submitStatus.error && (
+                  <>
+                    <Alert
+                      closable
+                      className="mt-5"
+                      type="error"
+                      banner
+                      message={submitStatus.error}
+                    />
+                    <br />
+                  </>
+                )}
+                {submitStatus.success && (
+                  <>
+                    <Alert
+                      closable
+                      className="mt-5"
+                      type="success"
+                      banner
+                      message={submitStatus.success}
+                    />
+                    <br />
+                  </>
+                )}
               </Col>
               <Col>
-                <Button type="primary" style={{ backgroundColor: '#253237' }}>
-                  Subscribe
-                </Button>
+                {submitStatus.success ? (
+                  <Button>Thank You!</Button>
+                ) : (
+                  <Button
+                    loading={submitStatus.loading}
+                    onClick={onSubscribe}
+                    type="primary"
+                    style={{ backgroundColor: '#253237' }}
+                  >
+                    Subscribe
+                  </Button>
+                )}
               </Col>
             </Row>
           </Col>

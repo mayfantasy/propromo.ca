@@ -174,3 +174,18 @@ export const sendContactUsEmailRequest = async (
     data: form
   })
 }
+
+export const sendSubscribeEmailRequest = async (
+  to_email: string,
+  email: string
+) => {
+  return api.post(`/email/send`, {
+    meta: {
+      collection_handle: 'propromo',
+      schema_handle: 'email_template',
+      id: '276877395498107411'
+    },
+    to_email: to_email,
+    data: { email }
+  })
+}

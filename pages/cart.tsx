@@ -4,7 +4,7 @@ import Layout from 'components/Layout/Layout'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 import { useRouter } from 'next/dist/client/router'
 import { useStores } from 'stores'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { pageRoutes } from 'helpers/route.helpers'
 import useSWR from 'swr'
 import { IGlobalSettings } from 'types/monfent.types'
@@ -20,7 +20,9 @@ import {
   Button,
   InputNumber,
   Spin,
-  Tooltip
+  Tooltip,
+  Modal,
+  Space
 } from 'antd'
 import { observer } from 'mobx-react'
 import { ShoppingCartOutlined, DeleteFilled } from '@ant-design/icons'
@@ -30,12 +32,16 @@ import {
   ShopifyCheckoutLineItemsReplaceMutation,
   ShopifyCheckoutLineItemsReplaceMutationVariables,
   CheckoutLineItemsReplaceDocument,
-  ShopifyCheckoutLineItemInput
+  ShopifyCheckoutLineItemInput,
+  ShopifyCheckoutCustomerDisassociateMutation,
+  ShopifyCheckoutCustomerDisassociateMutationVariables,
+  CheckoutCustomerDisassociateDocument
 } from 'graphql/generated'
 import { getLineItemsFromCheckout } from 'helpers/checkout.helpers'
 import Link from 'next/link'
 import { isLink } from 'helpers/file.helpers'
 import PriceLine from 'components/PriceLine'
+import { route } from 'next/dist/next-server/server/router'
 
 const { Title, Text, Link: LinkText } = Typography
 
@@ -43,9 +49,23 @@ const CartPage = observer(() => {
   const bp = useBreakpoint()
   const router = useRouter()
 
+  const [
+    checkoutStatusSelectionModalOpen,
+    setCheckoutStatusSelectionModalOpen
+  ] = useState(false)
+
   const {
     CheckoutStore: { checkout$, setCheckout$ }
   } = useStores()
+
+  /**
+   * ||===============
+   * || Disassociate checkout
+   */
+  const [disassociateResult, disassociate] = useMutation<
+    ShopifyCheckoutCustomerDisassociateMutation,
+    ShopifyCheckoutCustomerDisassociateMutationVariables
+  >(CheckoutCustomerDisassociateDocument)
 
   /**
    * ||===============
@@ -347,8 +367,11 @@ const CartPage = observer(() => {
                       {/* Checkout button */}
                       {checkout?.webUrl && (
                         <div>
-                          <a href={checkout.webUrl}>
+                          <a href={checkout.webUrl} target="_blank">
                             <Button
+                              onClick={() =>
+                                setCheckoutStatusSelectionModalOpen(true)
+                              }
                               className="btn-black w-100"
                               size="large"
                               type="primary"
@@ -365,6 +388,44 @@ const CartPage = observer(() => {
                 </Row>
               </Spin>
             </div>
+
+            {/* Checkout status modal */}
+            <Modal
+              visible={checkoutStatusSelectionModalOpen}
+              closable={false}
+              title="Have you completed your order successfully?"
+              footer={false}
+              width="90%"
+              style={{ maxWidth: 800 }}
+            >
+              <Spin spinning={disassociateResult.fetching}>
+                <Row justify="center" gutter={[16, 16]}>
+                  <Space>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        if (checkout$) {
+                          disassociate({ checkoutId: checkout$?.id! }).then(
+                            () => {
+                              localStorage.removeItem('checkout')
+                              setCheckout$(undefined)
+                              router.push(pageRoutes.homePage.url!)
+                            }
+                          )
+                        }
+                      }}
+                    >
+                      Yes, my order was placed successfully
+                    </Button>
+                    <Button
+                      onClick={() => setCheckoutStatusSelectionModalOpen(false)}
+                    >
+                      No, keep my shopping cart.
+                    </Button>
+                  </Space>
+                </Row>
+              </Spin>
+            </Modal>
           </Layout>
         )}
         {/* <pre>{JSON.stringify(pageContent, null, 2)}</pre> */}

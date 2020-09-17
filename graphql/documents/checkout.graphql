@@ -32,6 +32,18 @@ mutation CheckoutCustomerAssociate(
     }
   }
 }
+mutation CheckoutCustomerDisassociate($checkoutId: ID!) {
+  checkoutCustomerDisassociateV2(checkoutId: $checkoutId) {
+    checkout {
+      ...checkoutFields
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
 
 mutation CheckoutCompleteWithTokenizedPayment(
   $checkoutId: ID!

@@ -32,6 +32,13 @@ const ProductCard = (props: IProps) => {
   const variantCount = productVariants?.edges.length
   const totalInventory = product.totalInventory || 0
 
+  // ===== Don't track inventory
+  const dontCheckInventory =
+    totalInventory <= 0 && firstVariant?.availableForSale
+  // ===== Available
+  const available =
+    (!dontCheckInventory && totalInventory) || dontCheckInventory
+
   return (
     <>
       <style jsx global>{`
@@ -105,7 +112,7 @@ const ProductCard = (props: IProps) => {
             align="middle"
           >
             <div className="product-card__pricing">
-              {totalInventory ? (
+              {available ? (
                 <PriceLine variant={firstVariant} />
               ) : (
                 <Text type="secondary">
@@ -117,7 +124,7 @@ const ProductCard = (props: IProps) => {
               {
                 <Button
                   type="link"
-                  disabled={!totalInventory}
+                  disabled={!available}
                   shape="circle"
                   icon={<ShoppingCartOutlined />}
                 />
