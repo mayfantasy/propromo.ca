@@ -316,8 +316,13 @@ const ProductDesign = observer((props: IProps) => {
             <Col>
               <Button
                 loading={gettingCustomerDesign}
-                // if size and bleed are not set, disable feature
-                disabled={!(size[0] && size[1] && bleed[0] && bleed[1])}
+                disabled={
+                  // if size and bleed are not set, disable feature
+                  !(size[0] && size[1] && bleed[0] && bleed[1]) ||
+                  // if size are larger than bleed, disable feature
+                  size[0] >= bleed[0] ||
+                  size[1] >= bleed[1]
+                }
                 type="primary"
                 onClick={() => {
                   if (me$) {

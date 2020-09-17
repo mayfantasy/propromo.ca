@@ -75,16 +75,15 @@ const UploadDesignDrawer = (props: IProps) => {
    */
   const fileUrl = uploadedFileUrl || customerDesignData?.file
 
-  const uploadDesignPreviewSizeStyle = {
-    height: UPLOAD_DESIGN_PREVIEW_WIDTH * (size[1] / size[0])
+  const uploadDesignSizeStyle = {
+    height: UPLOAD_DESIGN_PREVIEW_WIDTH * (bleed[1] / bleed[0])
   }
-  console.log(size, uploadDesignPreviewSizeStyle)
-  const uploadDesignPreviewBleedStyle = {
-    width: UPLOAD_DESIGN_PREVIEW_WIDTH * (bleed[0] / size[0]),
+
+  const actualDesignSizeStyle = {
+    width: UPLOAD_DESIGN_PREVIEW_WIDTH * (size[0] / bleed[0]),
     height:
-      UPLOAD_DESIGN_PREVIEW_WIDTH * (bleed[0] / size[0]) * (bleed[1] / bleed[0])
+      UPLOAD_DESIGN_PREVIEW_WIDTH * (size[0] / bleed[0]) * (size[1] / size[0])
   }
-  console.log(uploadDesignPreviewBleedStyle)
 
   /**
    * ||=====================
@@ -167,7 +166,7 @@ const UploadDesignDrawer = (props: IProps) => {
               ) : !isPdf(fileUrl || '') ? (
                 <Row
                   className="upload-design__size  overflow-hidden"
-                  style={uploadDesignPreviewSizeStyle}
+                  style={uploadDesignSizeStyle}
                   justify="center"
                   align="middle"
                 >
@@ -176,13 +175,13 @@ const UploadDesignDrawer = (props: IProps) => {
                   </div>
                   <div
                     className="upload-design__bleed overflow-hidden"
-                    style={uploadDesignPreviewBleedStyle}
+                    style={actualDesignSizeStyle}
                   />
                 </Row>
               ) : (
                 <Row
                   className="upload-design__size  overflow-hidden"
-                  style={uploadDesignPreviewSizeStyle}
+                  style={uploadDesignSizeStyle}
                   justify="center"
                   align="middle"
                 >
@@ -200,7 +199,7 @@ const UploadDesignDrawer = (props: IProps) => {
                   </div>
                   <div
                     className="upload-design__bleed overflow-hidden"
-                    style={uploadDesignPreviewBleedStyle}
+                    style={actualDesignSizeStyle}
                   />
                 </Row>
               )}
@@ -212,21 +211,22 @@ const UploadDesignDrawer = (props: IProps) => {
           <div>
             <Title level={4}>Upload Guide:</Title>
             <div>
-              1. Print Size: <strong>{size[0].toFixed(2)}</strong> x{' '}
-              <strong>{size[1].toFixed(2)}</strong> Inch --- The uploaded file
+              1. Uploaded File Size: <strong>{bleed[0].toFixed(2)}</strong> x{' '}
+              <strong>{bleed[1].toFixed(2)}</strong> Inch --- The uploaded file
               must be in this ratio.
             </div>
             <div>
-              2. Bleed Size: <strong>{bleed[0].toFixed(2)}</strong> x{' '}
-              <strong>{bleed[1].toFixed(2)}</strong> Inch
+              2. Actual Print Size: <strong>{size[0].toFixed(2)}</strong> x{' '}
+              <strong>{size[1].toFixed(2)}</strong> Inch --- The actual print
+              will be in this size.
             </div>
+
             <div>
               3. Please ensure{' '}
               <strong>
-                all background graphics are inside the bleed line (red dashed
-                line)
+                all background graphics are inside the red dashed line
               </strong>
-              , everything outside the bleed line will be trimmed. (Important)
+              , everything outside red dashed line will be trimmed. (Important)
             </div>
           </div>
         </div>
