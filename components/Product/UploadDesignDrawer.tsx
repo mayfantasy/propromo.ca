@@ -98,6 +98,7 @@ const UploadDesignDrawer = (props: IProps) => {
             border: 1px solid black;
             position: relative;
             .upload-design__preview {
+              background-color: #eee;
               width: 100%;
               height: 100%;
               position: absolute;

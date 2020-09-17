@@ -9,20 +9,23 @@ interface IProps {
 const HomePageSlider = (props: IProps) => {
   const { images } = props
   const bp = useBreakpoint()
-  const sliderContents: ISliderContent[] = [
-    {
-      title:
-        'Samsung Galaxy Note 8 Giveaway 16GB, Wi-Fi + Cellular for AT&T SHOP NOW',
-      tagline: 'Free Shipping On Order $250',
-      button: <Button type="primary">Shop Now</Button>
-    },
-    {
-      title:
-        'Samsung Galaxy Note 8 Giveaway 16GB, Wi-Fi + Cellular for AT&T SHOP NOW',
-      tagline: 'Free Shipping On Order $250',
-      button: <Button type="primary">Shop Now</Button>
-    }
-  ]
+  {
+    /* ===== Hidded Slider Image Content ===== */
+  }
+  // const sliderContents: ISliderContent[] = [
+  //   {
+  //     title:
+  //       'Samsung Galaxy Note 8 Giveaway 16GB, Wi-Fi + Cellular for AT&T SHOP NOW',
+  //     tagline: 'Free Shipping On Order $250',
+  //     button: <Button type="primary">Shop Now</Button>,
+  //   },
+  //   {
+  //     title:
+  //       'Samsung Galaxy Note 8 Giveaway 16GB, Wi-Fi + Cellular for AT&T SHOP NOW',
+  //     tagline: 'Free Shipping On Order $250',
+  //     button: <Button type="primary">Shop Now</Button>
+  //   }
+  // ]
   return (
     <div className="home-page-slider">
       <style jsx global>{`
@@ -58,7 +61,8 @@ const HomePageSlider = (props: IProps) => {
         {images.map((img, i) => (
           <div className="slider-image" key={i}>
             <img src={img} />
-            {bp.md ? (
+            {/* ===== Hidded Slider Image Content ==== */}
+            {/* {bp.md ? (
               <div className="slider-image__content">
                 {sliderContents.length !== images.length && (
                   <Alert
@@ -94,7 +98,7 @@ const HomePageSlider = (props: IProps) => {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
           </div>
         ))}
       </Carousel>
