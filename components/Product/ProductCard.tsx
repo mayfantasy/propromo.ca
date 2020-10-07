@@ -56,8 +56,18 @@ const ProductCard = (props: IProps) => {
             }
           }
           .product-card__image {
-            img {
-              width: 100%;
+            position: relative;
+            .product-card__image__container {
+              position: absolute;
+              top: 0;
+              left: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              overflow: hidden;
+              img {
+                width: 100%;
+              }
             }
             &:hover {
               text-decoration: underline;
@@ -89,13 +99,16 @@ const ProductCard = (props: IProps) => {
         <>
           {/* Image */}
           <div className="product-card__image">
-            <img
-              src={
-                firstVariant?.image?.originalSrc ||
-                product?.images?.edges?.[0]?.node?.originalSrc ||
-                '/square-placeholder.jpg'
-              }
-            />
+            <div className="product-card__image__placeholder responsive-square" />
+            <div className="product-card__image__container w-100 h-100">
+              <img
+                src={
+                  firstVariant?.image?.originalSrc ||
+                  product?.images?.edges?.[0]?.node?.originalSrc ||
+                  '/square-placeholder.jpg'
+                }
+              />
+            </div>
           </div>
 
           {/* Title */}

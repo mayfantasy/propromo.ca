@@ -104,3 +104,12 @@ body {
 .line-height-medium {
   line-height: 1rem;
 }
+
+.responsive-square {
+  width: 100%;
+  &:after {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+  }
+}
