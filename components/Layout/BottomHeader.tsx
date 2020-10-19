@@ -1,5 +1,6 @@
 import { Row, Button, Input, Col, Menu, Dropdown } from 'antd'
 import { CONTENT_WIDTH, BOTTOM_HEADER_BG } from 'helpers/layout.helper'
+import Navigation from 'components/libs/react-sticky-nav'
 import {
   SearchOutlined,
   PhoneOutlined,
@@ -48,68 +49,83 @@ const BottomHeader = (props: IProps) => {
           }
         }
       `}</style>
-      <Row
-        className="bottom-header"
-        justify="center"
-        align="middle"
-        style={{
-          backgroundColor: BOTTOM_HEADER_BG
-        }}
-      >
-        <Row
-          style={{
-            maxWidth: CONTENT_WIDTH
-          }}
-          className="bottom-header__content"
-          justify="space-between"
-          align="middle"
-        >
-          <Row className="bottom-header__nav" align="middle">
-            {bottomHeaderItems.map((item) => {
-              if (item.children) {
-                return (
-                  <Dropdown
-                    key={item.key}
-                    overlay={
-                      <Menu>
-                        {item.children.map((child) => (
-                          <Menu.Item key={child.key}>
+      <Navigation className="z-99" disabled={false}>
+        {(position) => {
+          console.log(position)
+          const isSticked = position === 'sticky-hidden'
+
+          return (
+            <Row
+              className="bottom-header"
+              justify="center"
+              align="middle"
+              style={{
+                backgroundColor: BOTTOM_HEADER_BG
+              }}
+            >
+              <Row
+                style={{
+                  maxWidth: CONTENT_WIDTH
+                }}
+                className="bottom-header__content"
+                justify="space-between"
+                align="middle"
+              >
+                <Row className="bottom-header__nav" align="middle">
+                  {bottomHeaderItems.map((item) => {
+                    if (item.children) {
+                      return (
+                        <Dropdown
+                          key={item.key}
+                          overlay={
+                            <Menu>
+                              {item.children.map((child) => (
+                                <Menu.Item key={child.key}>
+                                  <Link
+                                    href={child.dynamicUrl || child.url!}
+                                    as={child.url}
+                                  >
+                                    <a>{child.name}</a>
+                                  </Link>
+                                </Menu.Item>
+                              ))}
+                            </Menu>
+                          }
+                        >
+                          <div className="nav-button" key={item.key}>
                             <Link
-                              href={child.dynamicUrl || child.url!}
-                              as={child.url}
+                              href={item.dynamicUrl || item.url!}
+                              as={item.url}
                             >
-                              <a>{child.name}</a>
+                              <a>
+                                {item.name} <CaretDownFilled />
+                              </a>
                             </Link>
-                          </Menu.Item>
-                        ))}
-                      </Menu>
+                          </div>
+                        </Dropdown>
+                      )
+                    } else {
+                      return (
+                        <div className="nav-button" key={item.key}>
+                          <Link
+                            href={item.dynamicUrl || item.url!}
+                            as={item.url}
+                          >
+                            <a>{item.name}</a>
+                          </Link>
+                        </div>
+                      )
                     }
-                  >
-                    <div className="nav-button" key={item.key}>
-                      <Link href={item.dynamicUrl || item.url!} as={item.url}>
-                        <a>
-                          {item.name} <CaretDownFilled />
-                        </a>
-                      </Link>
-                    </div>
-                  </Dropdown>
-                )
-              } else {
-                return (
-                  <div className="nav-button" key={item.key}>
-                    <Link href={item.dynamicUrl || item.url!} as={item.url}>
-                      <a>{item.name}</a>
-                    </Link>
-                  </div>
-                )
-              }
-            })}
-          </Row>
-          <div className="bottom-header__shopping-cart">
-            <ShoppingCartIcon />
-          </div>
-        </Row>
-      </Row>
+                  })}
+                </Row>
+                <div className="bottom-header__shopping-cart">
+                  <ShoppingCartIcon />
+                </div>
+              </Row>
+            </Row>
+          )
+        }}
+      </Navigation>
     </>
   )
 }

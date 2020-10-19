@@ -68,7 +68,6 @@ const Layout = observer((props: IProps) => {
       <style jsx global>{`
         .propromo-layout {
           width: 100vw;
-          overflow: hidden;
           .propromo-layout__content {
             width: 100%;
           }
@@ -84,6 +83,7 @@ const Layout = observer((props: IProps) => {
           contactEmail={globalSettings.contact_email}
           contactPhone={globalSettings.contact_phone}
         />
+
         {bp.md ? <BottomHeader /> : <MobileCollapseNav />}
         <Row justify="center">
           <div className="propromo-layout__content">{children}</div>
