@@ -93,7 +93,10 @@ const ReturnAndRefundPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout
+            globalSettings={globalSettingsData}
+            htmlTitle="Return and Refund"
+          >
             <div
               className="return-and-refund-page"
               style={{

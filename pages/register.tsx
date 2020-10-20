@@ -154,7 +154,7 @@ const RegisterPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="Register">
             <Spin spinning={createCustomerResult.fetching}>
               <div
                 className="register-page mobile-padding"

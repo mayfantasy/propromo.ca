@@ -95,7 +95,7 @@ const TermsOfUsePage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="Terms of Use">
             <div
               className="terms-of-use-page mobile-padding"
               style={{

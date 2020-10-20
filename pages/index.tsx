@@ -63,7 +63,7 @@ const HomePage = (props: IProps) => {
     return (
       <>
         {globalSettingsData && pageContent && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="Home">
             {/* <pre>{JSON.stringify(bp)}</pre> */}
 
             <HomePageSlider

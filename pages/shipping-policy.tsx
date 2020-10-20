@@ -93,7 +93,10 @@ const ShippingPolicyPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout
+            globalSettings={globalSettingsData}
+            htmlTitle="Shipping Policy"
+          >
             <div
               className="shipping-policy-page mobile-padding"
               style={{

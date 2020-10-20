@@ -90,7 +90,7 @@ const AboutUsPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="About Us">
             <div
               className="about-us-page mobile-padding"
               style={{

@@ -108,7 +108,7 @@ const AccountPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="Account">
             <div
               className="account-page"
               style={{

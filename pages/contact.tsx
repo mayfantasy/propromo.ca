@@ -118,7 +118,7 @@ const ContactPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="Contact Us">
             <div
               className="contact-page mobile-padding"
               style={{

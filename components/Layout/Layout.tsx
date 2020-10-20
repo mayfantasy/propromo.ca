@@ -12,23 +12,19 @@ import { observer } from 'mobx-react'
 import { useStores } from 'stores'
 import { useEffect } from 'react'
 import { useRouter } from 'next/dist/client/router'
-import { pageRoutes } from 'helpers/route.helpers'
-import { useMutation } from 'urql'
-import {
-  ShopifyCreateCheckoutMutation,
-  ShopifyCreateCheckoutMutationVariables,
-  CreateCheckoutDocument
-} from 'graphql/generated'
 import { useInitCheckout } from 'hooks/useCheckout.hook'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 import MobileCollapseNav from './MobileCollapseNav'
+import Head from 'next/head'
 
 interface IProps {
   globalSettings: IGlobalSettings
   children: React.ReactNode
+  htmlTitle?: string
+  htmlDescription?: string
 }
 const Layout = observer((props: IProps) => {
-  const { globalSettings, children } = props
+  const { globalSettings, children, htmlTitle, htmlDescription } = props
 
   const {
     SettingsStore: { setHeaderCollapsed$ },
@@ -59,6 +55,11 @@ const Layout = observer((props: IProps) => {
 
   useInitCheckout()
 
+  const title = htmlTitle ? `${htmlTitle} | Pro Promo` : 'Pro Promo'
+  const description =
+    htmlDescription ||
+    'we are an e-commerce company that provides awesome experience in advertising and marketing displays by providing quality products ranging from acrylic displays, magazine holders, sidewalk signs, open house signs, and pos thermal papers among others to our various value and esteem customers.'
+
   /**
    * ||===============
    * || Render
@@ -73,6 +74,13 @@ const Layout = observer((props: IProps) => {
           }
         }
       `}</style>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta name="twitter:card" content={description}></meta>
+      </Head>
       <div className="propromo-layout">
         <TopHeader
           announcement={globalSettings.announcement}

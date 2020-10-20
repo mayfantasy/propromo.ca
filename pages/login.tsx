@@ -136,7 +136,7 @@ const LoginPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="Login">
             <Spin spinning={loginResult.fetching}>
               <div
                 className="login-page mobile-padding"

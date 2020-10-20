@@ -174,7 +174,7 @@ const CartPage = observer(() => {
         `}</style>
 
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout globalSettings={globalSettingsData} htmlTitle="Cart">
             <div
               className="cart-page mobile-padding"
               style={{

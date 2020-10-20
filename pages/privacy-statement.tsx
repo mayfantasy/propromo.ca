@@ -95,7 +95,10 @@ const PrivacyStatementPage = observer((props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout
+            globalSettings={globalSettingsData}
+            htmlTitle="Privacy Statement"
+          >
             <div
               className="privacy-statement-page mobile-padding"
               style={{

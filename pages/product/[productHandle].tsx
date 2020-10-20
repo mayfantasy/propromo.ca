@@ -220,7 +220,10 @@ const ProductDetailPage = (props: IProps) => {
           }
         `}</style>
         {globalSettingsData && (
-          <Layout globalSettings={globalSettingsData}>
+          <Layout
+            globalSettings={globalSettingsData}
+            htmlTitle={product?.title}
+          >
             <div
               className="product-detail mobile-padding"
               style={{
