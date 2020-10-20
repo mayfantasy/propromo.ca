@@ -112,7 +112,7 @@ const ProductList = (props: IProps) => {
 
   // Filter Products
   const filteredAndSortedProducts = sortedProducts.filter((p) =>
-    filters.every((f) =>
+    filters.some((f) =>
       p.collections?.edges?.find((c) => c.node.handle === f.key)
     )
   )
