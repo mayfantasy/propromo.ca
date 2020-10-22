@@ -112,9 +112,11 @@ const ProductList = (props: IProps) => {
 
   // Filter Products
   const filteredAndSortedProducts = sortedProducts.filter((p) =>
-    filters.some((f) =>
-      p.collections?.edges?.find((c) => c.node.handle === f.key)
-    )
+    filters.length
+      ? filters.some((f) =>
+          p.collections?.edges?.find((c) => c.node.handle === f.key)
+        )
+      : true
   )
 
   if (globalSettingsData && pageContent) {
