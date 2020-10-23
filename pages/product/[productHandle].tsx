@@ -36,7 +36,8 @@ import {
   VARIANT_FILEUPLOAD_ENABLED_TAG_PREFIX,
   VARIANT_FILEUPLOAD_SIZE_PREFIX,
   VARIANT_FILEUPLOAD_BLEED_PREFIX,
-  getFileuploadSize
+  getFileuploadSize,
+  COMPATIBLE_PRODUCT_TAG_PREFIX
 } from 'helpers/utils.helper'
 import ImageDisplay from 'components/Product/ImageDisplay'
 import { useState, useEffect } from 'react'
@@ -165,6 +166,10 @@ const ProductDetailPage = (props: IProps) => {
   const relatedCollectionHandle = product?.tags.find((t) =>
     t.includes(RELATED_PRODUCT_TAG_PREFIX)
   )
+  // ===== find the collection that store this product's compatible products
+  const compatibleCollectionHandle = product?.tags.find((t) =>
+    t.includes(COMPATIBLE_PRODUCT_TAG_PREFIX)
+  )
   // ===== Product Tags
   const productTags = product?.tags
 
@@ -288,7 +293,7 @@ const ProductDetailPage = (props: IProps) => {
                         {/* {hasVariants ? ` - ${currentVariant.title}` : ''} */}
                       </Title>
                       {/* Pricing */}
-                      <PriceLine variant={firstVariant} />
+                      <PriceLine variant={currentVariant} />
                       <Divider />
                       {/* Description */}
                       <div className="product-detail__description">
@@ -408,6 +413,26 @@ const ProductDetailPage = (props: IProps) => {
 
                   <br />
                   <br />
+
+                  {/* Compatible products */}
+                  {compatibleCollectionHandle && (
+                    <>
+                      <div className="product-detail__suggested">
+                        <CollectionProducts
+                          title={
+                            <SectionHeader
+                              title="Compatible with"
+                              tagline="Checkout the compatible products"
+                            />
+                          }
+                          take={8}
+                          collectionHandle={compatibleCollectionHandle}
+                        />
+                      </div>
+                      <br />
+                      <br />
+                    </>
+                  )}
 
                   {/* Suggested products */}
                   {relatedCollectionHandle && (

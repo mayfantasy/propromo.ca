@@ -198,7 +198,7 @@ const SearchProducts = (props: IProps) => {
 
                   {/* List Data */}
                   {allProducts.fetching && <Skeleton active />}
-                  {filteredProducts.length ? (
+                  {!!filteredProducts.length && !allProducts.fetching ? (
                     <Row gutter={[4, 4]}>
                       {filteredAndSortedProducts.length ? (
                         filteredAndSortedProducts.map((product) => (
@@ -213,9 +213,11 @@ const SearchProducts = (props: IProps) => {
                       )}
                     </Row>
                   ) : (
-                    <Empty
-                      description={<span>No result for term "{term}".</span>}
-                    />
+                    !allProducts.fetching && (
+                      <Empty
+                        description={<span>No result for term "{term}".</span>}
+                      />
+                    )
                   )}
                 </Col>
               </Row>

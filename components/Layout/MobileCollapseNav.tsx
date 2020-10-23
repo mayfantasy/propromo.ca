@@ -127,7 +127,8 @@ const MobileCollapseNav = observer((props: IProps) => {
                 <div key={item.key}>
                   <div key={item.key}>
                     <Link href={item.dynamicUrl || item.url!} as={item.url}>
-                      <a>
+                      {/* Set header nav closed on the same page (collection pages) */}
+                      <a onClick={() => setHeaderCollapsed$(false)}>
                         {item.name} <CaretDownFilled />
                       </a>
                     </Link>
@@ -139,7 +140,9 @@ const MobileCollapseNav = observer((props: IProps) => {
                           href={child.dynamicUrl || child.url!}
                           as={child.url}
                         >
-                          <a>{child.name}</a>
+                          <a onClick={() => setHeaderCollapsed$(false)}>
+                            {child.name}
+                          </a>
                         </Link>
                       </div>
                     ))}

@@ -349,7 +349,7 @@ export type ShopifyCheckout = ShopifyNode & {
   id: Scalars['ID'];
   /** A list of line item objects, each one containing information about an item in the checkout. */
   lineItems: ShopifyCheckoutLineItemConnection;
-  /** The sum of all the prices of all the items in the checkout. Taxes, shipping and discounts excluded. */
+  /** The sum of all the prices of all the items in the checkout. Duties, taxes, shipping and discounts excluded. */
   lineItemsSubtotalPrice: ShopifyMoneyV2;
   /** The note associated with the checkout. */
   note?: Maybe<Scalars['String']>;
@@ -362,7 +362,7 @@ export type ShopifyCheckout = ShopifyNode & {
    * @deprecated Use `paymentDueV2` instead
    */
   paymentDue: Scalars['Money'];
-  /** The amount left to be paid. This is equal to the cost of the line items, taxes and shipping minus discounts and gift cards. */
+  /** The amount left to be paid. This is equal to the cost of the line items, duties, taxes and shipping minus discounts and gift cards. */
   paymentDueV2: ShopifyMoneyV2;
   /**
    * Whether or not the Checkout is ready and can be completed. Checkouts may
@@ -384,7 +384,7 @@ export type ShopifyCheckout = ShopifyNode & {
    * @deprecated Use `subtotalPriceV2` instead
    */
   subtotalPrice: Scalars['Money'];
-  /** Price of the checkout before shipping and taxes. */
+  /** Price of the checkout before duties, shipping and taxes. */
   subtotalPriceV2: ShopifyMoneyV2;
   /** Specifies if the Checkout is tax exempt. */
   taxExempt: Scalars['Boolean'];
@@ -395,7 +395,7 @@ export type ShopifyCheckout = ShopifyNode & {
    * @deprecated Use `totalPriceV2` instead
    */
   totalPrice: Scalars['Money'];
-  /** The sum of all the prices of all the items in the checkout, taxes and discounts included. */
+  /** The sum of all the prices of all the items in the checkout, duties, taxes and discounts included. */
   totalPriceV2: ShopifyMoneyV2;
   /**
    * The sum of all the taxes applied to the line items and shipping lines in the checkout.
@@ -3517,9 +3517,9 @@ export type ShopifyOrder = ShopifyNode & {
   canceledAt?: Maybe<Scalars['DateTime']>;
   /** The code of the currency used for the payment. */
   currencyCode: ShopifyCurrencyCode;
-  /** The subtotal of line items and their discounts, excluding line items that have been removed. Does not contain order-level discounts, shipping costs, or shipping discounts. Taxes are not included unless the order is a taxes-included order. */
+  /** The subtotal of line items and their discounts, excluding line items that have been removed. Does not contain order-level discounts, duties, shipping costs, or shipping discounts. Taxes are not included unless the order is a taxes-included order. */
   currentSubtotalPrice: ShopifyMoneyV2;
-  /** The total amount of the order, including taxes and discounts, minus amounts for line items that have been removed. */
+  /** The total amount of the order, including duties, taxes and discounts, minus amounts for line items that have been removed. */
   currentTotalPrice: ShopifyMoneyV2;
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
   currentTotalTax: ShopifyMoneyV2;
@@ -3569,7 +3569,7 @@ export type ShopifyOrder = ShopifyNode & {
    * @deprecated Use `subtotalPriceV2` instead
    */
   subtotalPrice?: Maybe<Scalars['Money']>;
-  /** Price of the order before shipping and taxes. */
+  /** Price of the order before duties, shipping and taxes. */
   subtotalPriceV2?: Maybe<ShopifyMoneyV2>;
   /** List of the order’s successful fulfillments. */
   successfulFulfillments?: Maybe<Array<ShopifyFulfillment>>;
@@ -3578,7 +3578,7 @@ export type ShopifyOrder = ShopifyNode & {
    * @deprecated Use `totalPriceV2` instead
    */
   totalPrice: Scalars['Money'];
-  /** The sum of all the prices of all the items in the order, taxes and discounts included (must be positive). */
+  /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
   totalPriceV2: ShopifyMoneyV2;
   /**
    * The total amount that has been refunded.
@@ -5202,6 +5202,12 @@ export type ShopifyCheckoutLineItemFieldsFragment = (
   )>, customAttributes: Array<(
     { __typename?: 'Attribute' }
     & Pick<ShopifyAttribute, 'key' | 'value'>
+  )>, discountAllocations: Array<(
+    { __typename?: 'DiscountAllocation' }
+    & { allocatedAmount: (
+      { __typename?: 'MoneyV2' }
+      & Pick<ShopifyMoneyV2, 'amount' | 'currencyCode'>
+    ) }
   )> }
 );
 
@@ -5655,6 +5661,12 @@ export const CheckoutLineItemFieldsFragmentDoc = gql`
   customAttributes {
     key
     value
+  }
+  discountAllocations {
+    allocatedAmount {
+      amount
+      currencyCode
+    }
   }
 }
     ${ProductVariantFieldsFragmentDoc}`;

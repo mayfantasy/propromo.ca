@@ -48,6 +48,7 @@ const { Title, Text, Link: LinkText } = Typography
 const CartPage = observer(() => {
   const bp = useBreakpoint()
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   const [
     checkoutStatusSelectionModalOpen,
@@ -85,11 +86,13 @@ const CartPage = observer(() => {
       checkoutLineItemsReplaceResult.data?.checkoutLineItemsReplace?.checkout
     if (checkout) {
       setCheckout$(checkout)
+      setLoading(false)
     }
   }, [checkoutLineItemsReplaceResult.data])
 
   const onUpdateLineQuantity = (variantId: string, quantity: number) => {
     if (checkout$) {
+      setLoading(true)
       const lineItems: ShopifyCheckoutLineItemInput[] = getLineItemsFromCheckout(
         checkout$
       )
@@ -112,6 +115,7 @@ const CartPage = observer(() => {
 
   const onDeleteLineItem = (variantId: string) => {
     if (checkout$) {
+      setLoading(true)
       const lineItems: ShopifyCheckoutLineItemInput[] = getLineItemsFromCheckout(
         checkout$
       )
@@ -181,7 +185,7 @@ const CartPage = observer(() => {
                 maxWidth: CONTENT_WIDTH
               }}
             >
-              <Spin spinning={checkoutLineItemsReplaceResult.fetching}>
+              <Spin spinning={loading}>
                 <Row gutter={[16, 16]}>
                   <Col xs={24} lg={!isEmpty ? 18 : undefined}>
                     <Title level={4}>Shopping Cart</Title>

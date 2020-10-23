@@ -1,5 +1,8 @@
 import { Carousel, Button, Typography, Row, Alert } from 'antd'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { IProductCollectionHandles } from 'helpers/collection.helpers'
+import { pageRoutes } from 'helpers/route.helpers'
+import Link from 'next/link'
 import { ISliderContent } from 'types/home-page.types'
 
 interface IProps {
@@ -8,6 +11,10 @@ interface IProps {
 
 const HomePageSlider = (props: IProps) => {
   const { images } = props
+  const links = [
+    null,
+    pageRoutes.productListPage(IProductCollectionHandles.best_seller)
+  ]
   const bp = useBreakpoint()
   {
     /* ===== Hidded Slider Image Content ===== */
@@ -60,7 +67,16 @@ const HomePageSlider = (props: IProps) => {
       <Carousel style={{ width: '100%' }} autoplay>
         {images.map((img, i) => (
           <div className="slider-image" key={i}>
-            <img src={img} />
+            {links[i] ? (
+              <Link href={links[i]?.dynamicUrl!} as={links[i]?.url}>
+                <a>
+                  <img src={img} />
+                </a>
+              </Link>
+            ) : (
+              <img src={img} />
+            )}
+
             {/* ===== Hidded Slider Image Content ==== */}
             {/* {bp.md ? (
               <div className="slider-image__content">

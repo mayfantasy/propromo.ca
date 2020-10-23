@@ -12,6 +12,10 @@ import { ICustomerDesignMethod } from 'types/design.types'
 import { IProductFilterItem, IProductFilter } from 'types/product.types'
 
 export const productFilters: { [key: string]: IProductFilterItem } = {
+  [IProductFilter['best-seller']]: {
+    key: IProductFilter['best-seller'],
+    name: 'Best Sellers'
+  },
   [IProductFilter.event]: {
     key: IProductFilter.event,
     name: 'Event'
@@ -22,7 +26,7 @@ export const productFilters: { [key: string]: IProductFilterItem } = {
   },
   [IProductFilter['retail-store-and-dealer']]: {
     key: IProductFilter['retail-store-and-dealer'],
-    name: 'Retail Store & Dealer'
+    name: 'Retail Store'
   },
   [IProductFilter['restaurant-and-cafe']]: {
     key: IProductFilter['restaurant-and-cafe'],
@@ -61,7 +65,7 @@ export const productSortOptions: {
 
 export const sortProducts = (
   products: ShopifyProductFieldsFragment[],
-  sortValue: string
+  sortValue: string | null
 ) => {
   const getFirstVariant = (product: ShopifyProductFieldsFragment) => {
     return product.variants.edges[0].node

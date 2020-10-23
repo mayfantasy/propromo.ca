@@ -1,4 +1,5 @@
 export enum IProductFilter {
+  'best-seller' = 'best-seller',
   event = 'event',
   'realtor-and-agent' = 'realtor-and-agent',
   'retail-store-and-dealer' = 'retail-store-and-dealer',

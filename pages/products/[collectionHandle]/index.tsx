@@ -38,7 +38,7 @@ interface IProps {}
 const ProductList = (props: IProps) => {
   const {} = props
   const bp = useBreakpoint()
-  const [sortValue, setSortValue] = useState(productSortOptions.name_asc.value)
+  const [sortValue, setSortValue] = useState('')
 
   /**
    * ||===============================
@@ -178,10 +178,11 @@ const ProductList = (props: IProps) => {
                   >
                     <Select
                       placeholder="Sort By"
-                      value={sortValue}
+                      value={sortValue || ''}
                       onChange={(v: string) => setSortValue(v)}
                       style={{ width: '300px' }}
                     >
+                      <Option value={''}>Please Select</Option>
                       {Object.keys(productSortOptions).map((o) => (
                         <Option key={o} value={productSortOptions[o].value}>
                           {productSortOptions[o].name}

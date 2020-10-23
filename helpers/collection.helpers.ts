@@ -1,5 +1,6 @@
 export enum IProductCollectionHandles {
   all = 'all',
+  best_seller = 'best-seller',
   displays = 'displays',
   prints = 'prints',
   acrylic_sign = 'acrylic-sign',

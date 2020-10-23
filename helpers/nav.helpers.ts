@@ -14,6 +14,12 @@ export const productCollectionItems: INavItem[] = [
   //   dynamicUrl: c(IProductCollectionHandles.all).dynamicUrl
   // },
   {
+    name: 'Best Sellers',
+    key: IProductCollectionHandles.best_seller,
+    url: c(IProductCollectionHandles.best_seller).url,
+    dynamicUrl: c(IProductCollectionHandles.best_seller).dynamicUrl
+  },
+  {
     name: 'Displays',
     key: IProductCollectionHandles.displays,
     url: c(IProductCollectionHandles.displays).url,
@@ -49,12 +55,16 @@ export const productCollectionItems: INavItem[] = [
       //   dynamicUrl: c(IProductCollectionHandles.backdrop-stands-pop-up-display')
       //     .dynamicUrl
       // },
-      {
-        name: 'Flags',
-        key: IProductCollectionHandles.flags,
-        url: c(IProductCollectionHandles.flags).url,
-        dynamicUrl: c(IProductCollectionHandles.flags).dynamicUrl
-      },
+      /**
+       * ||================
+       * || Upcoming
+       */
+      // {
+      //   name: 'Flags',
+      //   key: IProductCollectionHandles.flags,
+      //   url: c(IProductCollectionHandles.flags).url,
+      //   dynamicUrl: c(IProductCollectionHandles.flags).dynamicUrl
+      // },
       {
         name: 'Brochure and Newspaper Holders',
         key: IProductCollectionHandles.brochure_and_newspaper_holders,
@@ -128,7 +138,40 @@ export const productCollectionItems: INavItem[] = [
     key: IProductCollectionHandles.prints,
     url: c(IProductCollectionHandles.prints).url,
     dynamicUrl: c(IProductCollectionHandles.prints).dynamicUrl,
+    groupSetting: [
+      { from: 0, to: 4, title: 'Display Prints' },
+      { from: 4, to: 11, title: 'Offset & Digital' }
+    ],
     children: [
+      // ===============
+      // ===============
+      // Offset & Digital
+      {
+        name: 'For Sale Sign',
+        key: IProductCollectionHandles.for_sale_sign,
+        url: c(IProductCollectionHandles.for_sale_sign).url,
+        dynamicUrl: c(IProductCollectionHandles.for_sale_sign).dynamicUrl
+      },
+      {
+        name: 'Direction Sign',
+        key: IProductCollectionHandles.direction_sign,
+        url: c(IProductCollectionHandles.direction_sign).url,
+        dynamicUrl: c(IProductCollectionHandles.direction_sign).dynamicUrl
+      },
+      {
+        name: 'Floor Stand Insert',
+        key: IProductCollectionHandles.floor_stand_insert,
+        url: c(IProductCollectionHandles.floor_stand_insert).url,
+        dynamicUrl: c(IProductCollectionHandles.floor_stand_insert).dynamicUrl
+      },
+      {
+        name: 'Sidewalk Sign Insert',
+        key: IProductCollectionHandles.sidewalk_sign_insert,
+        url: c(IProductCollectionHandles.sidewalk_sign_insert).url,
+        dynamicUrl: c(IProductCollectionHandles.sidewalk_sign_insert).dynamicUrl
+      },
+      // ===============
+      // ===============
       {
         name: 'Business Card',
         key: IProductCollectionHandles.business_card,
@@ -170,37 +213,17 @@ export const productCollectionItems: INavItem[] = [
         key: IProductCollectionHandles.presentation_folder,
         url: c(IProductCollectionHandles.presentation_folder).url,
         dynamicUrl: c(IProductCollectionHandles.presentation_folder).dynamicUrl
-      },
-      {
-        name: 'Flag Print',
-        key: IProductCollectionHandles.flag_print,
-        url: c(IProductCollectionHandles.flag_print).url,
-        dynamicUrl: c(IProductCollectionHandles.flag_print).dynamicUrl
-      },
-      {
-        name: 'For Sale Sign',
-        key: IProductCollectionHandles.for_sale_sign,
-        url: c(IProductCollectionHandles.for_sale_sign).url,
-        dynamicUrl: c(IProductCollectionHandles.for_sale_sign).dynamicUrl
-      },
-      {
-        name: 'Direction Sign',
-        key: IProductCollectionHandles.direction_sign,
-        url: c(IProductCollectionHandles.direction_sign).url,
-        dynamicUrl: c(IProductCollectionHandles.direction_sign).dynamicUrl
-      },
-      {
-        name: 'Floor Stand Insert',
-        key: IProductCollectionHandles.floor_stand_insert,
-        url: c(IProductCollectionHandles.floor_stand_insert).url,
-        dynamicUrl: c(IProductCollectionHandles.floor_stand_insert).dynamicUrl
-      },
-      {
-        name: 'Sidewalk Sign Insert',
-        key: IProductCollectionHandles.sidewalk_sign_insert,
-        url: c(IProductCollectionHandles.sidewalk_sign_insert).url,
-        dynamicUrl: c(IProductCollectionHandles.sidewalk_sign_insert).dynamicUrl
       }
+      /**
+       * ||================
+       * || Upcoming
+       */
+      // {
+      //   name: 'Flag Print',
+      //   key: IProductCollectionHandles.flag_print,
+      //   url: c(IProductCollectionHandles.flag_print).url,
+      //   dynamicUrl: c(IProductCollectionHandles.flag_print).dynamicUrl
+      // },
     ]
   }
 ]

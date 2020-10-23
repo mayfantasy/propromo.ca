@@ -74,21 +74,46 @@ const BottomHeader = (props: IProps) => {
                 <Row className="bottom-header__nav" align="middle">
                   {bottomHeaderItems.map((item) => {
                     if (item.children) {
+                      const groupedItems = item.groupSetting?.map((g) => ({
+                        title: g.title,
+                        items: item.children?.slice(g.from, g.to) || []
+                      }))
+                      console.log(groupedItems)
                       return (
                         <Dropdown
                           key={item.key}
                           overlay={
                             <Menu>
-                              {item.children.map((child) => (
-                                <Menu.Item key={child.key}>
-                                  <Link
-                                    href={child.dynamicUrl || child.url!}
-                                    as={child.url}
-                                  >
-                                    <a>{child.name}</a>
-                                  </Link>
-                                </Menu.Item>
-                              ))}
+                              {groupedItems
+                                ? groupedItems.map((g) => (
+                                    <Menu.ItemGroup
+                                      title={g.title}
+                                      key={g.title}
+                                    >
+                                      {g.items.map((child) => (
+                                        <Menu.Item key={child.key}>
+                                          <Link
+                                            href={
+                                              child.dynamicUrl || child.url!
+                                            }
+                                            as={child.url}
+                                          >
+                                            <a>{child.name}</a>
+                                          </Link>
+                                        </Menu.Item>
+                                      ))}
+                                    </Menu.ItemGroup>
+                                  ))
+                                : item.children.map((child) => (
+                                    <Menu.Item key={child.key}>
+                                      <Link
+                                        href={child.dynamicUrl || child.url!}
+                                        as={child.url}
+                                      >
+                                        <a>{child.name}</a>
+                                      </Link>
+                                    </Menu.Item>
+                                  ))}
                             </Menu>
                           }
                         >

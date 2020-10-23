@@ -21,4 +21,5 @@ export interface INavItem {
   dynamicUrl?: string
   icon?: React.ReactNode
   children?: INavItem[]
+  groupSetting?: Array<{ from: number; to: number; title: string }>
 }

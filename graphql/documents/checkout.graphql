@@ -223,4 +223,10 @@ fragment checkoutLineItemFields on CheckoutLineItem {
     key
     value
   }
+  discountAllocations {
+    allocatedAmount {
+      amount
+      currencyCode
+    }
+  }
 }
