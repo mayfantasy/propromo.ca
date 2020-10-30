@@ -139,7 +139,7 @@ export const productCollectionItems: INavItem[] = [
     url: c(IProductCollectionHandles.prints).url,
     dynamicUrl: c(IProductCollectionHandles.prints).dynamicUrl,
     groupSetting: [
-      { from: 0, to: 4, title: 'Display Prints' },
+      { from: 0, to: 4, title: 'Signs' },
       { from: 4, to: 11, title: 'Offset & Digital' }
     ],
     children: [
