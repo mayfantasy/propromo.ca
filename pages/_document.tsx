@@ -22,7 +22,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Galada&display=swap"
             rel="stylesheet"
           ></link>
-          {/* Global site tag (gtag.js) - Google Analytics */}
+          {/* Global site tag (gtag.js) - Google Analytics  */}
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-RW6GYXXS92"
